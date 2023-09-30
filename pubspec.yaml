@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   hexcolor: ^3.0.1
   google_fonts: ^6.1.0
+  flutter_native_splash: ^2.3.2
 
 dev_dependencies:
   flutter_test:
@@ -87,3 +88,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_native_splash:
+  color: "#6D4A09"
+  image: "assets/logo/rubber-duck.png"
+
+  android_12:

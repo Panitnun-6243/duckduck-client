@@ -1,8 +1,12 @@
 import 'package:duckduck/pages/pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await Future.delayed(const Duration(seconds: 1));
+  FlutterNativeSplash.remove();
   runApp(const MyApp());
 }
 
@@ -12,10 +16,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // temp user value
+    const user = null;
     return MaterialApp(
         title: 'DuckDuck',
         debugShowCheckedModeBanner: false,
-        home: const SplashScreen(),
+        initialRoute: user == null ? '/login' : '/home',
         routes: {
           '/login': (context) => const LoginPage(),
           '/register': (context) => const RegisterPage(),
