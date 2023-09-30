@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:duckduck/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    Timer(const Duration(seconds: 1),
+        () => Navigator.pushNamed(context, '/login'));
   }
 
   @override
