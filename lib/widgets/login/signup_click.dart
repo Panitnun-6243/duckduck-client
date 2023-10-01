@@ -12,11 +12,11 @@ class SignUpClick extends StatelessWidget {
       children: [
         RichText(
           text: TextSpan(
-            text: "Don't have account? ",
+            text: "Don't have account?",
             style: GoogleFonts.rubik(
               color: DuckDuckColors.cocoa,
               fontWeight: FontWeight.normal,
-              fontSize: 16,
+              fontSize: 14,
             ),
           ),
         ),
@@ -26,10 +26,11 @@ class SignUpClick extends StatelessWidget {
           },
           child: Text(
             'Register',
-            style: GoogleFonts.inter(
+            style: GoogleFonts.rubik(
               color: DuckDuckColors.skyBlue,
               fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontSize: 14,
+              decoration: TextDecoration.underline,
             ),
           ),
         )
