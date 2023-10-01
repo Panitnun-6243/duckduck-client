@@ -1,4 +1,5 @@
 import 'package:duckduck/utils/colors.dart';
+import 'package:duckduck/widgets/login/signup_click.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -37,13 +38,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const Text('textfield'),
-                Text(
-                  "Don't have an account? Register",
-                  style: GoogleFonts.rubik(
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                      color: DuckDuckColors.cocoa),
-                )
+                const SignUpClick()
               ],
             ),
           )),
