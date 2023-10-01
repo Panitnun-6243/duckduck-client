@@ -1,6 +1,6 @@
 # duckduck
 
-A new Flutter project.
+Smart Sunrise Alarm Clock Application (Mobile + IoT)
 
 ## Getting Started
 
