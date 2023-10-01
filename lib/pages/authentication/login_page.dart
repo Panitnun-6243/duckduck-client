@@ -13,6 +13,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    double topPadding = MediaQuery.of(context).size.height * 0.16;
+    double bottomPadding = MediaQuery.of(context).size.height * 0.04;
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -21,8 +23,8 @@ class _LoginPageState extends State<LoginPage> {
       child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Padding(
-            padding: const EdgeInsets.only(
-                top: 155, left: 39, right: 39, bottom: 40),
+            padding: EdgeInsets.only(
+                top: topPadding, left: 36, right: 36, bottom: bottomPadding),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -32,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text(
                     'Welcome\nBack',
                     style: GoogleFonts.rubik(
-                        fontSize: 46,
+                        fontSize: 44,
                         fontWeight: FontWeight.w600,
                         color: DuckDuckColors.cocoa),
                   ),
