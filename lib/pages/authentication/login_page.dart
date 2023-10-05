@@ -1,4 +1,5 @@
 import 'package:duckduck/utils/colors.dart';
+import 'package:duckduck/widgets/authen_button.dart';
 import 'package:duckduck/widgets/login/custom_textform.dart';
 import 'package:duckduck/widgets/login/signup_click.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,8 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> handleLogin() async {
     setState(() => isSubmitted = true);
-    Navigator.pushNamed(context, '/home_page');
+    FocusScope.of(context).unfocus();
+    Navigator.pushNamed(context, '/home');
   }
 
   @override
@@ -48,23 +50,15 @@ class _LoginPageState extends State<LoginPage> {
                 top: topPadding, left: 36, right: 36, bottom: bottomPadding),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Welcome\nBack',
-                    style: GoogleFonts.rubik(
-                        fontSize: 44,
-                        fontWeight: FontWeight.w600,
-                        color: DuckDuckColors.cocoa),
-                  ),
-                ),
+                loginTitle(),
                 SizedBox(
                   width: double.infinity,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      loginTitle(),
+                      loginSubTitle(),
                       const SizedBox(
                         height: 30,
                       ),
@@ -86,7 +80,11 @@ class _LoginPageState extends State<LoginPage> {
                         obscureText: true,
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 30,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: AuthenButton(onPressed: handleLogin),
                       ),
                     ],
                   ),
@@ -100,17 +98,22 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 Widget loginTitle() {
+  return Text(
+    'Welcome\nBack',
+    style: GoogleFonts.rubik(
+        fontSize: 44, fontWeight: FontWeight.w600, color: DuckDuckColors.cocoa),
+  );
+}
+
+Widget loginSubTitle() {
   return Padding(
     padding: const EdgeInsets.only(left: 3),
-    child: Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        'Login',
-        style: GoogleFonts.rubik(
-            fontSize: 26,
-            fontWeight: FontWeight.w600,
-            color: DuckDuckColors.cocoa),
-      ),
+    child: Text(
+      'Login',
+      style: GoogleFonts.rubik(
+          fontSize: 26,
+          fontWeight: FontWeight.w600,
+          color: DuckDuckColors.cocoa),
     ),
   );
 }
