@@ -41,68 +41,67 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/images/login_bg.png'), fit: BoxFit.cover),
+            image: AssetImage('assets/images/login-bg.png'), fit: BoxFit.cover),
       ),
       child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Padding(
-            padding: EdgeInsets.only(
-                top: topPadding, left: 36, right: 36, bottom: bottomPadding),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            padding: const EdgeInsets.only(
+              left: 36,
+              right: 36,
+            ),
+            child: Stack(
               children: <Widget>[
-                loginTitle(),
-                SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      loginSubTitle(),
-                      const SizedBox(
-                        height: 30,
+                Padding(
+                  padding: EdgeInsets.only(top: topPadding),
+                  child: Center(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          loginSubTitle(),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          CustomTextForm(
+                              controller: _emailController,
+                              focusNode: _emailNode,
+                              hintText: 'Email',
+                              textInputAction: TextInputAction.next,
+                              onSubmitted: (_) => FocusScope.of(context)
+                                  .requestFocus(_passwordNode)),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          CustomTextForm(
+                            controller: _passwordController,
+                            focusNode: _passwordNode,
+                            hintText: 'Password',
+                            icon: Icons.lock_rounded,
+                            obscureText: true,
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: AuthenButton(onPressed: handleLogin),
+                          ),
+                        ],
                       ),
-                      CustomTextForm(
-                          controller: _emailController,
-                          focusNode: _emailNode,
-                          hintText: 'Email',
-                          textInputAction: TextInputAction.next,
-                          onSubmitted: (_) => FocusScope.of(context)
-                              .requestFocus(_passwordNode)),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      CustomTextForm(
-                        controller: _passwordController,
-                        focusNode: _passwordNode,
-                        hintText: 'Password',
-                        icon: Icons.lock_rounded,
-                        obscureText: true,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: AuthenButton(onPressed: handleLogin),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-                const SignUpClick()
+                Positioned(
+                    bottom: bottomPadding,
+                    right: 0,
+                    left: 0,
+                    child: const SignUpClick())
               ],
             ),
           )),
     );
   }
-}
-
-Widget loginTitle() {
-  return Text(
-    'Welcome\nBack',
-    style: GoogleFonts.rubik(
-        fontSize: 44, fontWeight: FontWeight.w600, color: DuckDuckColors.cocoa),
-  );
 }
 
 Widget loginSubTitle() {
