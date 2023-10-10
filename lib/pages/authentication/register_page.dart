@@ -43,6 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     double topPadding = MediaQuery.of(context).size.height * 0.18;
+    double topButtonPadding = MediaQuery.of(context).size.height * 0.055;
 
     return Container(
       decoration: const BoxDecoration(
@@ -55,7 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
         body: Stack(
           children: <Widget>[
             Positioned(
-              top: 60,
+              top: topButtonPadding,
               left: 23,
               child: BackLoginButton(
                 text: 'Login',
