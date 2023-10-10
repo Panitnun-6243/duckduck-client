@@ -42,8 +42,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    double topPadding = MediaQuery.of(context).size.height * 0.16;
-    double bottomPadding = MediaQuery.of(context).size.height * 0.04;
+    //double topPadding = MediaQuery.of(context).size.height * 0.16;
+    // double bottomPadding = MediaQuery.of(context).size.height * 0.04;
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -53,8 +53,7 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Padding(
-          padding: EdgeInsets.only(
-              top: topPadding, left: 36, right: 36, bottom: bottomPadding),
+          padding: EdgeInsets.fromLTRB(20, 80, 10, 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +98,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       obscureText: true,
                     ),
                     const SizedBox(
-                      height: 30,
+                      height: 15,
                     ),
                     Align(
                       alignment: Alignment.centerRight,
@@ -111,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       icon: Icons.account_circle_rounded,
                     ),
                     const SizedBox(
-                      height: 30,
+                      height: 15,
                     ),
                     Align(
                       alignment: Alignment.centerRight,
@@ -123,7 +122,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       icon: Icons.qr_code,
                     ),
                     const SizedBox(
-                      height: 30,
+                      height: 15,
                     ),
                     Align(
                       alignment: Alignment.centerRight,
