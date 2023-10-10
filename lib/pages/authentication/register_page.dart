@@ -42,8 +42,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    //double topPadding = MediaQuery.of(context).size.height * 0.16;
-    // double bottomPadding = MediaQuery.of(context).size.height * 0.04;
+    double topPadding = MediaQuery.of(context).size.height * 0.16;
+    double bottomPadding = MediaQuery.of(context).size.height * 0.04;
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -53,83 +53,100 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Padding(
-          padding: EdgeInsets.fromLTRB(20, 80, 10, 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          padding: const EdgeInsets.only(
+            left: 36,
+            right: 36,
+          ),
+          child: Stack(
             children: <Widget>[
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-                icon: Icon(
-                  Icons.arrow_back_ios_new,
-                  size: 24.0,
+              Padding(
+                padding: EdgeInsets.only(top: topPadding),
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/login');
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(67.0)),
+                            backgroundColor: DuckDuckColors.metalBlue,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.arrow_back_ios_new,
+                                color: DuckDuckColors.frostWhite,
+                                size: 16,
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                'Login',
+                                style: GoogleFonts.rubik(
+                                  color: DuckDuckColors.frostWhite,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        CustomTextForm(
+                            controller: _emailController,
+                            focusNode: _emailNode,
+                            hintText: 'Email',
+                            textInputAction: TextInputAction.next,
+                            onSubmitted: (_) => FocusScope.of(context)
+                                .requestFocus(_passwordNode)),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        CustomTextForm(
+                          controller: _passwordController,
+                          focusNode: _passwordNode,
+                          hintText: 'Password',
+                          icon: Icons.lock_rounded,
+                          obscureText: true,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        CustomTextForm(
+                          controller: _nameController,
+                          focusNode: _nameNode,
+                          hintText: 'Name',
+                          icon: Icons.account_circle_rounded,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        CustomTextForm(
+                          controller: _deviceCodeController,
+                          focusNode: _deviceCodeNode,
+                          hintText: 'Device Code',
+                          icon: Icons.qr_code,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: AuthenButton(onPressed: handleLogin),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                label: Text('Login'),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: DuckDuckColors.metalBlue,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(67.0))),
               ),
-              SizedBox(
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    CustomTextForm(
-                        controller: _emailController,
-                        focusNode: _emailNode,
-                        hintText: 'Email',
-                        textInputAction: TextInputAction.next,
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(_passwordNode)),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    CustomTextForm(
-                      controller: _passwordController,
-                      focusNode: _passwordNode,
-                      hintText: 'Password',
-                      icon: Icons.lock_rounded,
-                      obscureText: true,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                    ),
-                    CustomTextForm(
-                      controller: _nameController,
-                      focusNode: _nameNode,
-                      hintText: 'Name',
-                      icon: Icons.account_circle_rounded,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                    ),
-                    CustomTextForm(
-                      controller: _deviceCodeController,
-                      focusNode: _deviceCodeNode,
-                      hintText: 'Device Node',
-                      icon: Icons.qr_code,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                    ),
-                  ],
-                ),
-              )
             ],
           ),
         ),
