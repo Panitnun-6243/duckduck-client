@@ -1,9 +1,7 @@
 import 'package:duckduck/widgets/login/custom_textform.dart';
+import 'package:duckduck/widgets/register/back_login_button.dart';
 import 'package:flutter/material.dart';
-import 'package:duckduck/utils/colors.dart';
 import 'package:duckduck/widgets/authen_button.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -29,7 +27,9 @@ class _RegisterPageState extends State<RegisterPage> {
     Navigator.pushNamed(context, '/login');
   }
 
+  @override
   void dispose() {
+    super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _nameController.dispose();
@@ -43,7 +43,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     double topPadding = MediaQuery.of(context).size.height * 0.16;
-    double bottomPadding = MediaQuery.of(context).size.height * 0.04;
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -52,103 +51,75 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Padding(
-          padding: const EdgeInsets.only(
-            left: 36,
-            right: 36,
-          ),
-          child: Stack(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: topPadding),
-                child: Center(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/login');
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(67.0)),
-                            backgroundColor: DuckDuckColors.metalBlue,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.arrow_back_ios_new,
-                                color: DuckDuckColors.frostWhite,
-                                size: 16,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                'Login',
-                                style: GoogleFonts.rubik(
-                                  color: DuckDuckColors.frostWhite,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        CustomTextForm(
-                            controller: _emailController,
-                            focusNode: _emailNode,
-                            hintText: 'Email',
-                            textInputAction: TextInputAction.next,
-                            onSubmitted: (_) => FocusScope.of(context)
-                                .requestFocus(_passwordNode)),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        CustomTextForm(
-                          controller: _passwordController,
-                          focusNode: _passwordNode,
-                          hintText: 'Password',
-                          icon: Icons.lock_rounded,
-                          obscureText: true,
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        CustomTextForm(
-                          controller: _nameController,
-                          focusNode: _nameNode,
-                          hintText: 'Name',
-                          icon: Icons.account_circle_rounded,
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        CustomTextForm(
-                          controller: _deviceCodeController,
-                          focusNode: _deviceCodeNode,
-                          hintText: 'Device Code',
-                          icon: Icons.qr_code,
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: AuthenButton(onPressed: handleLogin),
-                        ),
-                      ],
-                    ),
+        body: Stack(
+          children: <Widget>[
+            Positioned(
+              top: 60,
+              left: 23,
+              child: BackLoginButton(
+                text: 'Login',
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: topPadding,
+                left: 36,
+                right: 36,
+              ),
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomTextForm(
+                          controller: _emailController,
+                          focusNode: _emailNode,
+                          hintText: 'Email',
+                          textInputAction: TextInputAction.next,
+                          onSubmitted: (_) => FocusScope.of(context)
+                              .requestFocus(_passwordNode)),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      CustomTextForm(
+                        controller: _passwordController,
+                        focusNode: _passwordNode,
+                        hintText: 'Password',
+                        icon: Icons.lock_rounded,
+                        obscureText: true,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      CustomTextForm(
+                        controller: _nameController,
+                        focusNode: _nameNode,
+                        hintText: 'Name',
+                        icon: Icons.account_circle_rounded,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      CustomTextForm(
+                        controller: _deviceCodeController,
+                        focusNode: _deviceCodeNode,
+                        hintText: 'Device Code',
+                        icon: Icons.qr_code,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: AuthenButton(onPressed: handleLogin),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
