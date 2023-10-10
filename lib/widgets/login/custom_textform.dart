@@ -71,7 +71,7 @@ class _CustomTextFormState extends State<CustomTextForm> {
         hintStyle: GoogleFonts.inter(
           fontSize: 14,
           fontWeight: FontWeight.normal,
-          color: DuckDuckStatus.disabledForeground,
+          color: DuckDuckColors.steelBlack.withOpacity(0.5),
         ),
         fillColor: DuckDuckColors.frostWhite,
         filled: true,

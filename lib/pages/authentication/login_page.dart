@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    double topPadding = MediaQuery.of(context).size.height * 0.16;
+    double topPadding = MediaQuery.of(context).size.height * 0.18;
     double bottomPadding = MediaQuery.of(context).size.height * 0.04;
     return Container(
       decoration: const BoxDecoration(

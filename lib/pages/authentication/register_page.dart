@@ -42,7 +42,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    double topPadding = MediaQuery.of(context).size.height * 0.16;
+    double topPadding = MediaQuery.of(context).size.height * 0.18;
+
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
