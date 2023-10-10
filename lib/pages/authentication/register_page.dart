@@ -5,7 +5,6 @@ import 'package:duckduck/widgets/authen_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -46,86 +45,96 @@ class _RegisterPageState extends State<RegisterPage> {
     double topPadding = MediaQuery.of(context).size.height * 0.16;
     double bottomPadding = MediaQuery.of(context).size.height * 0.04;
     return Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/images/register-bg.png'),
-              fit: BoxFit.cover),
-        ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Padding(
-           padding: EdgeInsets.only(
-            top: topPadding, left: 36, right: 36, bottom: bottomPadding),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                
-                SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      CustomTextForm(controller: _emailController,
-                      focusNode: _emailNode,
-                      hintText: 'Email',
-                      textInputAction: TextInputAction.next,
-                      onSubmitted: (_) => FocusScope.of(context).requestFocus(_passwordNode)),
-                      const SizedBox(
-                        height: 15 ,
-                      ),
-
-                      CustomTextForm(controller: _passwordController,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage('assets/images/register-bg.png'),
+            fit: BoxFit.cover),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Padding(
+          padding: EdgeInsets.only(
+              top: topPadding, left: 36, right: 36, bottom: bottomPadding),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/login');
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios_new,
+                  size: 24.0,
+                ),
+                label: Text('Login'),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: DuckDuckColors.metalBlue,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(67.0))),
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    CustomTextForm(
+                        controller: _emailController,
+                        focusNode: _emailNode,
+                        hintText: 'Email',
+                        textInputAction: TextInputAction.next,
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(_passwordNode)),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    CustomTextForm(
+                      controller: _passwordController,
                       focusNode: _passwordNode,
-                      hintText:  'Password',
+                      hintText: 'Password',
                       icon: Icons.lock_rounded,
                       obscureText: true,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        
-                      ),
-
-                      CustomTextForm(controller: _nameController,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                    ),
+                    CustomTextForm(
+                      controller: _nameController,
                       focusNode: _nameNode,
                       hintText: 'Name',
                       icon: Icons.account_circle_rounded,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                      ),
-
-                      CustomTextForm(controller: _deviceCodeController,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                    ),
+                    CustomTextForm(
+                      controller: _deviceCodeController,
                       focusNode: _deviceCodeNode,
                       hintText: 'Device Node',
                       icon: Icons.qr_code,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                      ),
-                      
-                    ],
-                  ),
-                )
-                ],
-
-               
-              ),
-            ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
-        );
+        ),
+      ),
+    );
   }
 }
