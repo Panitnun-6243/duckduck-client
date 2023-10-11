@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:duckduck/widgets/home/profile_card.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/home/bubble.dart';
 import '../../widgets/home/water_wave.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,11 +26,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late AnimationController fourthController;
   late Animation<double> fourthAnimation;
 
+  late AnimationController bubbleOneController;
+  late Animation<double> bubbleOneAnimation;
+
+  late AnimationController bubbleTwoController;
+  late Animation<double> bubbleTwoAnimation;
+
   @override
   void initState() {
     super.initState();
 
-    // animation
+    // water wave animation
     firstController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 1500));
     firstAnimation = Tween<double>(begin: 1.9, end: 2.1).animate(
@@ -103,7 +110,42 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
 
     fourthController.forward();
-    // animation
+    // water wave animation
+
+    // bubble animation
+    bubbleOneController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1900));
+    bubbleOneAnimation = Tween<double>(begin: 1.0, end: 5.0).animate(
+        CurvedAnimation(parent: bubbleOneController, curve: Curves.easeInOut))
+      ..addListener(() {
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          bubbleOneController.reverse();
+        } else if (status == AnimationStatus.dismissed) {
+          bubbleOneController.forward();
+        }
+      });
+    bubbleOneController.forward();
+
+    bubbleTwoController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 2200));
+    bubbleTwoAnimation = Tween<double>(begin: 1.0, end: 4.0).animate(
+        CurvedAnimation(parent: bubbleTwoController, curve: Curves.easeInOut))
+      ..addListener(() {
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          bubbleTwoController.reverse();
+        } else if (status == AnimationStatus.dismissed) {
+          bubbleTwoController.forward();
+        }
+      });
+    bubbleTwoController.forward();
+
+    // bubble animation
   }
 
   @override
@@ -112,6 +154,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     secondController.dispose();
     thirdController.dispose();
     fourthController.dispose();
+    bubbleOneController.dispose();
+    bubbleTwoController.dispose();
+
     super.dispose();
   }
 
@@ -127,7 +172,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         4.0;
 
     // Position of the duck on the wave
-    double duckBottomPosition = avgWaveHeight - 50;
+    double duckBottomPosition = avgWaveHeight - 42;
 
     // Duck up-down movement
     double floatEffect = 12 * (secondAnimation.value - 2);
@@ -172,6 +217,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     left: (size.width / 2) - 80,
                     child: Image.asset('assets/images/float-duck1.png',
                         height: 150),
+                  ),
+                  Positioned(
+                    bottom: avgWaveHeight - 300 + bubbleOneAnimation.value,
+                    left: size.width * 0.1, // Adjust as per need
+                    child: const BubbleWidget(
+                      child: Text('Bubble 1'),
+                      width: 120.81219,
+                      height: 125,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: avgWaveHeight - 256 + bubbleTwoAnimation.value,
+                    left: size.width * 0.5, // Adjust as per need
+                    child: const BubbleWidget(
+                      child: Text('Bubble 2'),
+                      width: 150.05077,
+                      height: 155,
+                    ),
                   ),
                 ],
               ),
