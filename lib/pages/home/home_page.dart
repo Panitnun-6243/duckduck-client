@@ -172,10 +172,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         4.0;
 
     // Position of the duck on the wave
-    double duckBottomPosition = avgWaveHeight - 42;
+    double duckBottomPosition = avgWaveHeight - 35;
 
     // Duck up-down movement
-    double floatEffect = 12 * (secondAnimation.value - 2);
+    double floatEffect = 100 * (secondAnimation.value - 2);
 
     return Scaffold(
       body: SafeArea(
@@ -200,6 +200,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               flex: 5,
               child: Stack(
                 children: [
+                  Positioned(
+                    bottom: duckBottomPosition + floatEffect,
+                    left: (size.width / 2) - 80,
+                    child: Image.asset('assets/images/float-duck1.png',
+                        height: 170),
+                  ),
                   CustomPaint(
                     painter: WaterWave(
                       firstAnimation.value,
@@ -213,18 +219,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                   ),
                   Positioned(
-                    bottom: duckBottomPosition + floatEffect,
-                    left: (size.width / 2) - 80,
-                    child: Image.asset('assets/images/float-duck1.png',
-                        height: 150),
-                  ),
-                  Positioned(
                     bottom: avgWaveHeight - 300 + bubbleOneAnimation.value,
                     left: size.width * 0.1, // Adjust as per need
                     child: const BubbleWidget(
                       child: Text('Bubble 1'),
-                      width: 120.81219,
-                      height: 125,
+                      width: 125.81219,
+                      height: 130,
                     ),
                   ),
                   Positioned(
@@ -232,8 +232,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     left: size.width * 0.5, // Adjust as per need
                     child: const BubbleWidget(
                       child: Text('Bubble 2'),
-                      width: 150.05077,
-                      height: 155,
+                      width: 155.05077,
+                      height: 160,
                     ),
                   ),
                 ],
