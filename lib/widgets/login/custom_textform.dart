@@ -59,10 +59,10 @@ class _CustomTextFormState extends State<CustomTextForm> {
           widget.icon,
           color: DuckDuckColors.cocoa,
         ),
-        enabledBorder: OutlineInputBorder(
+        enabledBorder: const OutlineInputBorder(
           borderSide:
               BorderSide(color: DuckDuckColors.caramelCheese, width: 1.0),
-          borderRadius: const BorderRadius.all(
+          borderRadius: BorderRadius.all(
             Radius.circular(10),
           ),
         ),

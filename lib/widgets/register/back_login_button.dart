@@ -4,9 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../utils/colors.dart';
 
 class BackLoginButton extends StatelessWidget {
+  final Color bgColor;
   final String text;
   final Function()? onPressed;
-  const BackLoginButton({super.key, required this.text, this.onPressed});
+  const BackLoginButton(
+      {super.key,
+      required this.text,
+      this.onPressed,
+      this.bgColor = DuckDuckColors.metalBlue});
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +20,13 @@ class BackLoginButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(67.0)),
-        backgroundColor: DuckDuckColors.metalBlue,
+        backgroundColor: bgColor,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(
+          const Icon(
             Icons.arrow_back_ios_new,
             color: DuckDuckColors.frostWhite,
             size: 16,

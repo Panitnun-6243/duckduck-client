@@ -1,3 +1,4 @@
+import 'package:duckduck/utils/colors.dart';
 import 'package:duckduck/widgets/login/custom_textform.dart';
 import 'package:duckduck/widgets/register/back_login_button.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
               child: BackLoginButton(
                 text: 'Login',
                 onPressed: () => Navigator.pop(context),
+                bgColor: DuckDuckColors.metalBlue,
               ),
             ),
             Padding(
