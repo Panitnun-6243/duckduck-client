@@ -19,10 +19,15 @@ class ProfileCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CircleAvatar(
-            radius: 42.0,
-            backgroundImage: NetworkImage(profileImageUrl),
-            backgroundColor: Colors.transparent,
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/profile');
+            },
+            child: CircleAvatar(
+              radius: 42.0,
+              backgroundImage: NetworkImage(profileImageUrl),
+              backgroundColor: Colors.transparent,
+            ),
           ),
           const SizedBox(
             width: 20,

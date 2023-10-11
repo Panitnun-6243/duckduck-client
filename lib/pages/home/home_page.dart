@@ -144,7 +144,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         }
       });
     bubbleTwoController.forward();
-
     // bubble animation
   }
 
@@ -221,20 +220,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   Positioned(
                     bottom: avgWaveHeight - 300 + bubbleOneAnimation.value,
                     left: size.width * 0.1, // Adjust as per need
-                    child: const BubbleWidget(
-                      child: Text('Bubble 1'),
-                      width: 125.81219,
-                      height: 130,
-                    ),
+                    child: BubbleWidget(
+                        child: Text('Bubble 1'),
+                        width: 125.81219,
+                        height: 130,
+                        onTap: () => Navigator.pushNamed(context, '/alarm')),
                   ),
                   Positioned(
                     bottom: avgWaveHeight - 256 + bubbleTwoAnimation.value,
                     left: size.width * 0.5, // Adjust as per need
-                    child: const BubbleWidget(
-                      child: Text('Bubble 2'),
-                      width: 155.05077,
-                      height: 160,
-                    ),
+                    child: BubbleWidget(
+                        child: Text('Bubble 2'),
+                        width: 155.05077,
+                        height: 160,
+                        onTap: () =>
+                            Navigator.pushNamed(context, '/light-control')),
                   ),
                 ],
               ),

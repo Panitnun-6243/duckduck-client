@@ -4,23 +4,31 @@ class BubbleWidget extends StatelessWidget {
   final Widget child;
   final double width;
   final double height;
+  final void Function()? onTap;
 
   const BubbleWidget(
-      {required this.child, required this.width, required this.height});
+      {super.key,
+      required this.child,
+      required this.width,
+      required this.height,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width, // Adjust as per bubble size
-      height: height, // Adjust as per bubble size
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        image: DecorationImage(
-          image: AssetImage('assets/images/bubble.png'),
-          fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: width, // Adjust as per bubble size
+        height: height, // Adjust as per bubble size
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(
+            image: AssetImage('assets/images/bubble.png'),
+            fit: BoxFit.cover,
+          ),
         ),
+        child: Center(child: child),
       ),
-      child: Center(child: child),
     );
   }
 }
