@@ -135,7 +135,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             borderRadius: BorderRadius.circular(100.0),
                           ),
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: DuckDuckColors.frostWhite),
                             child: Text(

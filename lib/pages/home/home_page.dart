@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.initState();
 
     // water wave animation
+    // intialize
     firstController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 1500));
     firstAnimation = Tween<double>(begin: 1.9, end: 2.1).animate(
@@ -97,6 +98,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         }
       });
 
+    // start animation
     Timer(const Duration(seconds: 2), () {
       firstController.forward();
     });
@@ -110,9 +112,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
 
     fourthController.forward();
-    // water wave animation
 
     // bubble animation
+    // intialize
     bubbleOneController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 1900));
     bubbleOneAnimation = Tween<double>(begin: 1.0, end: 5.0).animate(
@@ -127,6 +129,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           bubbleOneController.forward();
         }
       });
+    // start animation
     bubbleOneController.forward();
 
     bubbleTwoController = AnimationController(
@@ -143,8 +146,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           bubbleTwoController.forward();
         }
       });
+    // start animation
     bubbleTwoController.forward();
-    // bubble animation
   }
 
   @override
