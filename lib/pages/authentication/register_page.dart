@@ -43,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    double topPadding = MediaQuery.of(context).size.height * 0.18;
+    double topPadding = MediaQuery.of(context).size.height * 0.20;
     double topButtonPadding = MediaQuery.of(context).size.height * 0.055;
 
     return Container(
@@ -112,7 +112,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         icon: Icons.qr_code,
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 30,
                       ),
                       Align(
                         alignment: Alignment.centerRight,
