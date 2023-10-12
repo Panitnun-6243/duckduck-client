@@ -67,8 +67,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       width: 130,
                       height: 130,
                       decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 2, color: DuckDuckColors.metalBlue),
+                        border:
+                            Border.all(width: 2, color: DuckDuckColors.skyBlue),
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           fit: BoxFit.cover,
@@ -78,8 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment
-                          .end, // Align the Row to the end (right)
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Container(
                           height: 40,
@@ -110,10 +109,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: const EdgeInsets.only(left: 20),
                     child: Text(
                       'Email',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
+                      style: GoogleFonts.rubik(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: DuckDuckColors.steelBlack),
                     ),
                   ),
                   Padding(
@@ -122,6 +121,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Email',
+                        hintText: 'email',
+                        prefixIcon: Icon(Icons.email_rounded),
                       ),
                     ),
                   ),
