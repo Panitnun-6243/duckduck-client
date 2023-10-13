@@ -37,6 +37,7 @@ dependencies:
   google_fonts: ^6.1.0
   flutter_native_splash: ^2.3.2
   syncfusion_flutter_gauges: ^23.1.40
+  flutter_colorpicker: ^1.0.3
 
 dev_dependencies:
   flutter_test:

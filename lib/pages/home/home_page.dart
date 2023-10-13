@@ -177,7 +177,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     double duckBottomPosition = avgWaveHeight - 35;
 
     // Duck up-down movement
-    double floatEffect = 100 * (secondAnimation.value - 2);
+    double floatEffect = 50 * (secondAnimation.value - 2);
 
     return Scaffold(
       body: SafeArea(

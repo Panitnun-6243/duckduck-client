@@ -1,10 +1,126 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../utils/colors.dart';
 
-class LightColorPicker extends StatelessWidget {
+class LightColorPicker extends StatefulWidget {
   const LightColorPicker({super.key});
+
+  @override
+  State<LightColorPicker> createState() => _LightColorPickerState();
+}
+
+class _LightColorPickerState extends State<LightColorPicker> {
+  // create some values
+  Color pickerColor = const Color(0xff443a49);
+  Color currentColor = const Color(0xff443a49);
+
+  TextEditingController textColorController = TextEditingController();
+// ValueChanged<Color> callback
+  void changeColor(Color color) {
+    setState(() => pickerColor = color);
+  }
+
+  void saveColor() {
+    setState(() => currentColor = pickerColor);
+    Navigator.of(context).pop();
+  }
+
+  void copyToClipboard(String input) {
+    String textToCopy = input.replaceFirst('#', '').toUpperCase();
+    if (textToCopy.startsWith('FF') && textToCopy.length == 8) {
+      textToCopy = textToCopy.replaceFirst('FF', '');
+    }
+    Clipboard.setData(ClipboardData(text: '#$textToCopy'));
+  }
+
+  void callDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          title: Text(
+            'Pick a color!',
+            style: GoogleFonts.rubik(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: DuckDuckColors.mandarinOrange),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                ColorPicker(
+                  enableAlpha: true,
+                  displayThumbColor: true,
+                  pickerColor: pickerColor,
+                  onColorChanged: changeColor,
+                  pickerAreaHeightPercent: 0.8,
+                  paletteType: PaletteType.hsl,
+                  labelTypes: const [
+                    ColorLabelType.hex,
+                    ColorLabelType.rgb,
+                    ColorLabelType.hsl,
+                    ColorLabelType.hsv
+                  ],
+                  pickerAreaBorderRadius: const BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                  hexInputController: textColorController,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  child: CupertinoTextField(
+                    controller: textColorController,
+                    prefix: const Padding(
+                        padding: EdgeInsets.only(left: 8),
+                        child: Icon(Icons.tag)),
+                    suffix: IconButton(
+                      icon: const Icon(Icons.content_paste_rounded),
+                      onPressed: () =>
+                          copyToClipboard(textColorController.text),
+                    ),
+                    autofocus: true,
+                    maxLength: 9,
+                    inputFormatters: [
+                      UpperCaseTextFormatter(),
+                      FilteringTextInputFormatter.allow(
+                          RegExp(kValidHexPattern)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'Save',
+                style: GoogleFonts.rubik(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: DuckDuckColors.mandarinOrange),
+              ),
+              onPressed: () {
+                saveColor();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    textColorController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +128,7 @@ class LightColorPicker extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            print('object');
+            callDialog();
           },
           child: Container(
             decoration: BoxDecoration(
@@ -25,7 +141,7 @@ class LightColorPicker extends StatelessWidget {
               height: 30,
               decoration: BoxDecoration(
                 border: Border.all(color: DuckDuckColors.frostWhite, width: 2),
-                color: DuckDuckStatus.success,
+                color: currentColor,
                 shape: BoxShape.circle,
               ),
             ),
