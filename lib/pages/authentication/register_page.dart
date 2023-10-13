@@ -3,6 +3,7 @@ import 'package:duckduck/widgets/login/custom_textform.dart';
 import 'package:duckduck/widgets/register/back_login_button.dart';
 import 'package:flutter/material.dart';
 import 'package:duckduck/widgets/authen_button.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -114,9 +115,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       const SizedBox(
                         height: 30,
                       ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: AuthenButton(onPressed: handleLogin),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: AuthenButton(
+                              onPressed: () => _dialogBuilder(context),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -126,6 +133,29 @@ class _RegisterPageState extends State<RegisterPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _dialogBuilder(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('SUCCESSFUL!!'),
+          content: const Text('You are register successful'),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
