@@ -224,20 +224,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     bottom: avgWaveHeight - 300 + bubbleOneAnimation.value,
                     left: size.width * 0.1, // Adjust as per need
                     child: BubbleWidget(
-                        child: Text('Bubble 1'),
                         width: 125.81219,
                         height: 130,
-                        onTap: () => Navigator.pushNamed(context, '/alarm')),
+                        onTap: () => Navigator.pushNamed(context, '/alarm'),
+                        child: const Text('Bubble 1')),
                   ),
                   Positioned(
                     bottom: avgWaveHeight - 256 + bubbleTwoAnimation.value,
                     left: size.width * 0.5, // Adjust as per need
                     child: BubbleWidget(
-                        child: Text('Bubble 2'),
                         width: 155.05077,
                         height: 160,
                         onTap: () =>
-                            Navigator.pushNamed(context, '/light-control')),
+                            Navigator.pushNamed(context, '/light-control'),
+                        child: const Text('Bubble 2')),
                   ),
                 ],
               ),

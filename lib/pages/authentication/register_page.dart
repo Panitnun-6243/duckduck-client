@@ -3,7 +3,6 @@ import 'package:duckduck/widgets/login/custom_textform.dart';
 import 'package:duckduck/widgets/register/back_login_button.dart';
 import 'package:flutter/material.dart';
 import 'package:duckduck/widgets/authen_button.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

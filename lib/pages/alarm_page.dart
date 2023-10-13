@@ -16,7 +16,7 @@ class _AlarmPageState extends State<AlarmPage> {
     return Scaffold(
       body: SafeArea(
           child: Padding(
-        padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
         child: Column(
           children: [
             Text(
@@ -26,7 +26,7 @@ class _AlarmPageState extends State<AlarmPage> {
                   fontWeight: FontWeight.w600,
                   color: DuckDuckColors.steelBlack),
             ),
-            Expanded(
+            const Expanded(
                 child: SingleChildScrollView(
                     child: Column(
               children: [
