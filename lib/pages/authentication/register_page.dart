@@ -141,14 +141,24 @@ class _RegisterPageState extends State<RegisterPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('SUCCESSFUL!!'),
-          content: const Text('You are register successful'),
+          title: const Text(
+            'SUCCESSFUL!!',
+            style: TextStyle(
+                color: DuckDuckColors.cocoa, fontWeight: FontWeight.bold),
+          ),
+          content: const Text(
+            'You are register successful',
+            style: TextStyle(color: DuckDuckColors.cocoa),
+          ),
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
-              child: const Text('OK'),
+              child: const Text(
+                'OK',
+                style: TextStyle(color: DuckDuckColors.cocoa),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
