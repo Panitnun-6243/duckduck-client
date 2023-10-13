@@ -15,8 +15,8 @@ class LightColorPicker extends StatefulWidget {
 
 class _LightColorPickerState extends State<LightColorPicker> {
   // create some values
-  Color pickerColor = const Color(0xff443a49);
-  Color currentColor = const Color(0xff443a49);
+  Color pickerColor = const Color(0xfff2DB6F);
+  Color currentColor = const Color(0xfff2DB6F);
 
   TextEditingController textColorController = TextEditingController();
 // ValueChanged<Color> callback

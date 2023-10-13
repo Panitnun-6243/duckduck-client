@@ -12,7 +12,7 @@ class LightControlPage extends StatefulWidget {
 class _LightControlPageState extends State<LightControlPage> {
   @override
   Widget build(BuildContext context) {
-    double _bottomPadding = MediaQuery.of(context).size.height * 0.055;
+    double bottomLightPadding = MediaQuery.of(context).size.height * 0.055;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -46,7 +46,7 @@ class _LightControlPageState extends State<LightControlPage> {
                 children: [
                   const BrightnessGauge(),
                   Positioned(
-                    bottom: _bottomPadding,
+                    bottom: bottomLightPadding,
                     child: const LightColorPicker(),
                   )
                 ],

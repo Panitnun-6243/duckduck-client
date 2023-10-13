@@ -17,9 +17,9 @@ class _BrightnessGaugeState extends State<BrightnessGauge> {
 
   void onVolumeChanged(double value) {
     setState(() {
-      final int _value = value.toInt();
+      final int gaugeValue = value.toInt();
       _valueRange = value.toDouble();
-      _volumeValue = '$_value';
+      _volumeValue = '$gaugeValue';
     });
   }
 
