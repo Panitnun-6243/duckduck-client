@@ -1,6 +1,8 @@
 import 'package:duckduck/pages/pages.dart';
+import 'package:duckduck/providers/light_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -18,26 +20,29 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // temp user value
     const user = null;
-    return MaterialApp(
-        title: 'DuckDuck',
-        debugShowCheckedModeBanner: false,
-        initialRoute: user == null ? '/login' : '/home',
-        routes: {
-          '/login': (context) => const LoginPage(),
-          '/register': (context) => const RegisterPage(),
-          '/dashboard': (context) => const DashboardPage(),
-          '/calendar': (context) => const CalendarPage(),
-          '/live-score': (context) => const LiveScorePage(),
-          '/weather': (context) => const WeatherPage(),
-          '/traffic': (context) => const TrafficPage(),
-          '/time-zone': (context) => const TimeZonePage(),
-          '/stock': (context) => const StockPage(),
-          '/sleep-analysis': (context) => const SleepAnalysisPage(),
-          '/lullaby-song': (context) => const LullabySongPage(),
-          '/light-control': (context) => const LightControlPage(),
-          '/alarm': (context) => const AlarmPage(),
-          '/home': (context) => const HomePage(),
-          '/profile': (context) => const ProfilePage(),
-        });
+    return ChangeNotifierProvider(
+      create: (context) => LightProvider(),
+      child: MaterialApp(
+          title: 'DuckDuck',
+          debugShowCheckedModeBanner: false,
+          initialRoute: user == null ? '/login' : '/home',
+          routes: {
+            '/login': (context) => const LoginPage(),
+            '/register': (context) => const RegisterPage(),
+            '/dashboard': (context) => const DashboardPage(),
+            '/calendar': (context) => const CalendarPage(),
+            '/live-score': (context) => const LiveScorePage(),
+            '/weather': (context) => const WeatherPage(),
+            '/traffic': (context) => const TrafficPage(),
+            '/time-zone': (context) => const TimeZonePage(),
+            '/stock': (context) => const StockPage(),
+            '/sleep-analysis': (context) => const SleepAnalysisPage(),
+            '/lullaby-song': (context) => const LullabySongPage(),
+            '/light-control': (context) => const LightControlPage(),
+            '/alarm': (context) => const AlarmPage(),
+            '/home': (context) => const HomePage(),
+            '/profile': (context) => const ProfilePage(),
+          }),
+    );
   }
 }

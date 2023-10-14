@@ -38,6 +38,8 @@ dependencies:
   flutter_native_splash: ^2.3.2
   syncfusion_flutter_gauges: ^23.1.40
   flutter_colorpicker: ^1.0.3
+  flutter_svg: ^2.0.7
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:

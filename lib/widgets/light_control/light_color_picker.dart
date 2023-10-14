@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/light_provider.dart';
 import '../../utils/colors.dart';
 
 class LightColorPicker extends StatefulWidget {
@@ -37,6 +39,7 @@ class _LightColorPickerState extends State<LightColorPicker> {
 
   void saveColor() {
     setState(() => currentColor = pickerColor);
+    Provider.of<LightProvider>(context, listen: false).setColor(pickerColor);
     Navigator.of(context).pop();
   }
 

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
+import '../../providers/light_provider.dart';
 import '../../utils/colors.dart';
 
 class BrightnessGauge extends StatefulWidget {
@@ -12,8 +14,8 @@ class BrightnessGauge extends StatefulWidget {
 }
 
 class _BrightnessGaugeState extends State<BrightnessGauge> {
-  String _volumeValue = '0';
-  double _valueRange = 0;
+  String _volumeValue = '50';
+  double _valueRange = 50;
 
   void onVolumeChanged(double value) {
     setState(() {
@@ -21,6 +23,7 @@ class _BrightnessGaugeState extends State<BrightnessGauge> {
       _valueRange = value.toDouble();
       _volumeValue = '$gaugeValue';
     });
+    Provider.of<LightProvider>(context, listen: false).setBrightness(value);
   }
 
   @override

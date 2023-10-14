@@ -1,6 +1,10 @@
+import 'package:duckduck/providers/light_provider.dart';
 import 'package:duckduck/widgets/light_control/brightness_gauge.dart';
 import 'package:duckduck/widgets/light_control/light_color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../widgets/light_control/svg_bulb.dart';
 
 class LightControlPage extends StatefulWidget {
   const LightControlPage({super.key});
@@ -12,6 +16,7 @@ class LightControlPage extends StatefulWidget {
 class _LightControlPageState extends State<LightControlPage> {
   @override
   Widget build(BuildContext context) {
+    final lightProvider = context.watch<LightProvider>();
     double bottomLightPadding = MediaQuery.of(context).size.height * 0.055;
     return Scaffold(
       body: SafeArea(
@@ -23,24 +28,10 @@ class _LightControlPageState extends State<LightControlPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
-              const Text('SVG Bulb'),
+              SvgBulb(
+                color: lightProvider.currentColor,
+                brightness: lightProvider.brightness,
+              ),
               Stack(
                 alignment: Alignment.center,
                 children: [
