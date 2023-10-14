@@ -32,7 +32,7 @@ class _BrightnessGaugeState extends State<BrightnessGauge> {
       axes: <RadialAxis>[
         RadialAxis(
           // canScaleToFit: true,
-          centerY: 0.7,
+          centerY: 0.6,
           minimum: 0,
           maximum: 100,
           startAngle: 180,

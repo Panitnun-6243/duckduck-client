@@ -17,7 +17,7 @@ class _LightControlPageState extends State<LightControlPage> {
   @override
   Widget build(BuildContext context) {
     final lightProvider = context.watch<LightProvider>();
-    double bottomLightPadding = MediaQuery.of(context).size.height * 0.055;
+    double bottomLightPadding = MediaQuery.of(context).size.height * 0.095;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -31,6 +31,7 @@ class _LightControlPageState extends State<LightControlPage> {
               SvgBulb(
                 color: lightProvider.currentColor,
                 brightness: lightProvider.brightness,
+                levelOfBrightness: lightProvider.levelOfBrightness,
               ),
               Stack(
                 alignment: Alignment.center,

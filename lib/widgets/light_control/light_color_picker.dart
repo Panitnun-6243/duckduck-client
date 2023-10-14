@@ -16,30 +16,36 @@ class LightColorPicker extends StatefulWidget {
 }
 
 class _LightColorPickerState extends State<LightColorPicker> {
-  // create some values
-  Color pickerColor = const Color(0xfff2DB6F);
   Color currentColor = const Color(0xfff2DB6F);
-  Color tempColor = const Color(0xfff2DB6F);
+  Color pickerColor = const Color(0xfff2DB6F);
+  Color pickerTempColor = const Color(0xECE8A951);
 
   TextEditingController textColorController = TextEditingController();
-// ValueChanged<Color> callback
+
   void changeColor(Color color) {
     setState(() {
-      changeTempColor(color);
       pickerColor = color;
+      Provider.of<LightProvider>(context, listen: false).setColor(pickerColor);
     });
   }
 
   void changeTempColor(Color color) {
     setState(() {
-      // changeColor(color);
-      tempColor = color;
+      pickerTempColor = color;
+      Provider.of<LightProvider>(context, listen: false)
+          .setColor(pickerTempColor);
     });
   }
 
   void saveColor() {
     setState(() => currentColor = pickerColor);
-    Provider.of<LightProvider>(context, listen: false).setColor(pickerColor);
+    Provider.of<LightProvider>(context, listen: false).setColor(currentColor);
+    Navigator.of(context).pop();
+  }
+
+  void saveTempColor() {
+    setState(() => currentColor = pickerTempColor);
+    Provider.of<LightProvider>(context, listen: false).setColor(currentColor);
     Navigator.of(context).pop();
   }
 
@@ -142,7 +148,7 @@ class _LightColorPickerState extends State<LightColorPicker> {
                           height: 18,
                         ),
                         SlidePicker(
-                          pickerColor: tempColor,
+                          pickerColor: pickerTempColor,
                           enableAlpha: false,
                           onColorChanged: changeColor,
                           displayThumbColor: true,
