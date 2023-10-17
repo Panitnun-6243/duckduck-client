@@ -29,7 +29,7 @@ class _LightControlPageState extends State<LightControlPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SvgBulb(
-                color: lightProvider.currentColor,
+                color: lightProvider.rgbColor,
                 brightness: lightProvider.brightness,
                 levelOfBrightness: lightProvider.levelOfBrightness,
               ),

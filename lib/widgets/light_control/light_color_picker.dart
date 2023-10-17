@@ -4,9 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
+import '../../models/light.dart';
 import '../../providers/light_provider.dart';
 import '../../utils/colors.dart';
+import '../../utils/kelvin_to_rgb.dart';
 
 class LightColorPicker extends StatefulWidget {
   const LightColorPicker({super.key});
@@ -16,9 +19,10 @@ class LightColorPicker extends StatefulWidget {
 }
 
 class _LightColorPickerState extends State<LightColorPicker> {
-  Color currentColor = const Color(0xfff2DB6F);
+  Color rgbColor = const Color(0xfff2DB6F);
   Color pickerColor = const Color(0xfff2DB6F);
-  Color pickerTempColor = const Color(0xECE8A951);
+  late int tempKelvin;
+  int pickerTempKelvin = 4000;
 
   TextEditingController textColorController = TextEditingController();
 
@@ -29,23 +33,24 @@ class _LightColorPickerState extends State<LightColorPicker> {
     });
   }
 
-  void changeTempColor(Color color) {
-    setState(() {
-      pickerTempColor = color;
-      Provider.of<LightProvider>(context, listen: false)
-          .setColor(pickerTempColor);
-    });
-  }
+  // void changeTempKelvin(double kelvin) {
+  //   setState(() {
+  //     pickerTempKelvin = kelvin.toInt();
+  //     Provider.of<LightProvider>(context, listen: false)
+  //         .setTemperature(pickerTempKelvin);
+  //   });
+  // }
 
   void saveColor() {
-    setState(() => currentColor = pickerColor);
-    Provider.of<LightProvider>(context, listen: false).setColor(currentColor);
+    setState(() => rgbColor = pickerColor);
+    Provider.of<LightProvider>(context, listen: false).setColor(rgbColor);
     Navigator.of(context).pop();
   }
 
-  void saveTempColor() {
-    setState(() => currentColor = pickerTempColor);
-    Provider.of<LightProvider>(context, listen: false).setColor(currentColor);
+  void saveTempKelvin() {
+    setState(() => tempKelvin = pickerTempKelvin);
+    Provider.of<LightProvider>(context, listen: false)
+        .setTemperature(pickerTempKelvin);
     Navigator.of(context).pop();
   }
 
@@ -61,126 +66,199 @@ class _LightColorPickerState extends State<LightColorPicker> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 22,
-              right: 22,
-              top: 22,
-              bottom: 10,
+        return DefaultTabController(
+          length: 2,
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
             ),
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 22,
+                right: 22,
+                top: 12,
+                bottom: 10,
+              ),
+              child: Column(
+                children: [
+                  const TabBar(
+                    indicatorSize: TabBarIndicatorSize.label,
+                    labelStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    labelColor: DuckDuckColors.mandarinOrange,
+                    indicatorColor: DuckDuckColors.mandarinOrange,
+                    tabs: [
+                      Tab(text: 'RGB'),
+                      Tab(text: 'CCT'),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(
                       children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Pick a color',
-                            style: GoogleFonts.rubik(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: DuckDuckColors.mandarinOrange),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 18,
-                        ),
-                        ColorPicker(
-                          enableAlpha: true,
-                          displayThumbColor: true,
-                          pickerColor: pickerColor,
-                          onColorChanged: changeColor,
-                          pickerAreaHeightPercent: 0.8,
-                          paletteType: PaletteType.hsl,
-                          labelTypes: const [
-                            ColorLabelType.hex,
-                            ColorLabelType.rgb,
-                            ColorLabelType.hsl,
-                            ColorLabelType.hsv
-                          ],
-                          pickerAreaBorderRadius: const BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                          hexInputController: textColorController,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                          child: CupertinoTextField(
-                            controller: textColorController,
-                            prefix: const Padding(
-                                padding: EdgeInsets.only(left: 8),
-                                child: Icon(Icons.tag)),
-                            suffix: IconButton(
-                              icon: const Icon(Icons.content_paste_rounded),
-                              onPressed: () =>
-                                  copyToClipboard(textColorController.text),
-                            ),
-                            autofocus: true,
-                            maxLength: 9,
-                            inputFormatters: [
-                              UpperCaseTextFormatter(),
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(kValidHexPattern)),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Temperature',
-                            style: GoogleFonts.rubik(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: DuckDuckColors.mandarinOrange),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 18,
-                        ),
-                        SlidePicker(
-                          pickerColor: pickerTempColor,
-                          enableAlpha: false,
-                          onColorChanged: changeColor,
-                          displayThumbColor: true,
-                          showParams: true,
-                          showIndicator: true,
-                          indicatorBorderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(20)),
-                        )
+                        _buildRGBPicker(),
+                        _buildTemperaturePicker(),
                       ],
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    child: Text(
-                      'Save',
-                      style: GoogleFonts.rubik(
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      child: Text(
+                        'Save',
+                        style: GoogleFonts.rubik(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: DuckDuckColors.mandarinOrange),
+                          color: DuckDuckColors.mandarinOrange,
+                        ),
+                      ),
+                      onPressed: () {
+                        if (Provider.of<LightProvider>(context, listen: false)
+                                .currentMode ==
+                            LightMode.rgb) {
+                          saveColor();
+                        } else {
+                          saveTempKelvin();
+                        }
+                      },
                     ),
-                    onPressed: () {
-                      saveColor();
-                    },
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildRGBPicker() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(
+            height: 30,
+          ),
+          ColorPicker(
+            enableAlpha: true,
+            displayThumbColor: true,
+            pickerColor: pickerColor,
+            onColorChanged: changeColor,
+            pickerAreaHeightPercent: 0.8,
+            paletteType: PaletteType.hsl,
+            labelTypes: const [
+              ColorLabelType.hex,
+              ColorLabelType.rgb,
+              ColorLabelType.hsl,
+              ColorLabelType.hsv
+            ],
+            pickerAreaBorderRadius: const BorderRadius.all(
+              Radius.circular(10),
+            ),
+            hexInputController: textColorController,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: CupertinoTextField(
+              style: TextStyle(
+                  fontFamily: GoogleFonts.rubik(
+                fontWeight: FontWeight.normal,
+              ).fontFamily),
+              controller: textColorController,
+              prefix: const Padding(
+                  padding: EdgeInsets.only(left: 8), child: Icon(Icons.tag)),
+              suffix: IconButton(
+                icon: const Icon(Icons.content_paste_rounded),
+                onPressed: () => copyToClipboard(textColorController.text),
+              ),
+              autofocus: true,
+              maxLength: 9,
+              inputFormatters: [
+                UpperCaseTextFormatter(),
+                FilteringTextInputFormatter.allow(RegExp(kValidHexPattern)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTemperaturePicker() {
+    // Extract Kelvin values and their corresponding RGB colors
+    List<double> kelvinKeys =
+        kelvinTable.keys.map((k) => k.toDouble()).toList();
+    List<Color> kelvinColors = kelvinTable.values.toList();
+
+    // Create a gradient based on Kelvin table values
+    LinearGradient createKelvinGradient() {
+      return LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: kelvinColors,
+        stops: kelvinKeys
+            .map((k) =>
+                (k - kelvinKeys.first) / (kelvinKeys.last - kelvinKeys.first))
+            .toList(),
+      );
+    }
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Adjust Temperature (K)',
+            style: GoogleFonts.rubik(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: DuckDuckColors.steelBlack,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          StatefulBuilder(builder: (context, state) {
+            return SfLinearGauge(
+              minimum: kelvinTable.keys.first.toDouble(),
+              maximum: kelvinTable.keys.last.toDouble(),
+              orientation: LinearGaugeOrientation.vertical,
+              barPointers: [
+                LinearBarPointer(value: pickerTempKelvin.toDouble())
+              ],
+              markerPointers: [
+                LinearShapePointer(
+                  dragBehavior: LinearMarkerDragBehavior.free,
+                  value: pickerTempKelvin.toDouble(),
+                  color: DuckDuckColors.steelBlack,
+                  onChanged: (kelvin) {
+                    state(
+                      () {
+                        pickerTempKelvin = kelvin.toInt();
+                        Provider.of<LightProvider>(context, listen: false)
+                            .setTemperature(pickerTempKelvin);
+                      },
+                    );
+                  },
+                )
+              ],
+              ranges: <LinearGaugeRange>[
+                LinearGaugeRange(
+                  startValue: kelvinTable.keys.first.toDouble(),
+                  endValue: kelvinTable.keys.last.toDouble(),
+                  startWidth: 50,
+                  shaderCallback: (bounds) =>
+                      createKelvinGradient().createShader(bounds),
+                )
+              ],
+            );
+          }),
+        ],
+      ),
     );
   }
 
@@ -209,7 +287,7 @@ class _LightColorPickerState extends State<LightColorPicker> {
               height: 30,
               decoration: BoxDecoration(
                 border: Border.all(color: DuckDuckColors.frostWhite, width: 2),
-                color: currentColor,
+                color: rgbColor,
                 shape: BoxShape.circle,
               ),
             ),

@@ -16,11 +16,14 @@ class SvgBulb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: brightness / 100, // Convert the brightness value from 0 to 1.
+      opacity: brightness / 100,
       child: SvgPicture.asset(
         assetName,
         semanticsLabel: 'Light bulb',
-        color: color,
+        colorFilter: ColorFilter.mode(
+          color,
+          BlendMode.srcIn,
+        ),
       ),
     );
   }
