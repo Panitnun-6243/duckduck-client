@@ -39,7 +39,8 @@ class _LightControlPageState extends State<LightControlPage> {
                   const BrightnessGauge(),
                   Positioned(
                     bottom: bottomLightPadding,
-                    child: const LightColorPicker(),
+                    child: LightColorPicker(
+                        activeColor: lightProvider.activeColor),
                   )
                 ],
               ),
