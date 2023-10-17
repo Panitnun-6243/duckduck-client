@@ -2,8 +2,12 @@ import 'dart:async';
 
 import 'package:duckduck/widgets/home/profile_card.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/light_provider.dart';
 import '../../widgets/home/bubble.dart';
+import '../../widgets/home/svg_mini_bulb.dart';
 import '../../widgets/home/water_wave.dart';
 
 class HomePage extends StatefulWidget {
@@ -164,6 +168,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final lightProvider = context.watch<LightProvider>();
     Size size = MediaQuery.of(context).size;
 
     // Calculate the average height of the wave at its peak
@@ -227,7 +232,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         width: 125.81219,
                         height: 130,
                         onTap: () => Navigator.pushNamed(context, '/alarm'),
-                        child: const Text('Bubble 1')),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Next Alarm',
+                              style: GoogleFonts.rubik(fontSize: 14),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        )),
                   ),
                   Positioned(
                     bottom: avgWaveHeight - 256 + bubbleTwoAnimation.value,
@@ -237,7 +253,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         height: 160,
                         onTap: () =>
                             Navigator.pushNamed(context, '/light-control'),
-                        child: const Text('Bubble 2')),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Light',
+                              style: GoogleFonts.rubik(fontSize: 14),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            SvgMiniBulb(
+                              color: lightProvider.activeColor,
+                              brightness: lightProvider.brightness,
+                              levelOfBrightness:
+                                  lightProvider.levelOfBrightness,
+                              assetName: 'assets/images/light-bulb-mini.svg',
+                            )
+                          ],
+                        )),
                   ),
                 ],
               ),
