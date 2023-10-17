@@ -19,11 +19,16 @@ class LightColorPicker extends StatefulWidget {
 }
 
 class _LightColorPickerState extends State<LightColorPicker> {
-  Color rgbColor = const Color(0xfff2DB6F);
-  Color pickerColor = const Color(0xfff2DB6F);
-  late int tempKelvin;
-  int pickerTempKelvin = 4000;
+  late Color rgbColor =
+      Provider.of<LightProvider>(context, listen: false).rgbColor;
 
+  late int pickerTempKelvin =
+      Provider.of<LightProvider>(context, listen: false).temperature;
+
+  late Color pickerColor =
+      Provider.of<LightProvider>(context, listen: false).rgbColor;
+
+  late int tempKelvin;
   TextEditingController textColorController = TextEditingController();
 
   void changeColor(Color color) {
@@ -32,14 +37,6 @@ class _LightColorPickerState extends State<LightColorPicker> {
       Provider.of<LightProvider>(context, listen: false).setColor(pickerColor);
     });
   }
-
-  // void changeTempKelvin(double kelvin) {
-  //   setState(() {
-  //     pickerTempKelvin = kelvin.toInt();
-  //     Provider.of<LightProvider>(context, listen: false)
-  //         .setTemperature(pickerTempKelvin);
-  //   });
-  // }
 
   void saveColor() {
     setState(() => rgbColor = pickerColor);
@@ -54,7 +51,7 @@ class _LightColorPickerState extends State<LightColorPicker> {
     Provider.of<LightProvider>(context, listen: false)
         .setMode(LightMode.temperature); // set mode to CCT
     Provider.of<LightProvider>(context, listen: false)
-        .setTemperature(pickerTempKelvin);
+        .setTemperature(tempKelvin);
     Navigator.of(context).pop();
   }
 
@@ -308,7 +305,8 @@ class _LightColorPickerState extends State<LightColorPicker> {
               height: 30,
               decoration: BoxDecoration(
                 border: Border.all(color: DuckDuckColors.frostWhite, width: 2),
-                color: rgbColor,
+                color: Provider.of<LightProvider>(context, listen: false)
+                    .activeColor,
                 shape: BoxShape.circle,
               ),
             ),

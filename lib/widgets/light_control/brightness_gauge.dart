@@ -14,8 +14,12 @@ class BrightnessGauge extends StatefulWidget {
 }
 
 class _BrightnessGaugeState extends State<BrightnessGauge> {
-  String _volumeValue = '50';
-  double _valueRange = 50;
+  late String _volumeValue = Provider.of<LightProvider>(context, listen: false)
+      .brightness
+      .toInt()
+      .toString();
+  late double _valueRange =
+      Provider.of<LightProvider>(context, listen: false).brightness;
 
   void onVolumeChanged(double value) {
     setState(() {
