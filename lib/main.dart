@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           title: 'DuckDuck',
           debugShowCheckedModeBanner: false,
-          initialRoute: user == null ? '/login' : '/home',
+          initialRoute: user == null ? '/dashboard' : '/home',
           routes: {
             '/login': (context) => const LoginPage(),
             '/register': (context) => const RegisterPage(),
