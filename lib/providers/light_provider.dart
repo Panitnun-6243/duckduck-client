@@ -6,15 +6,22 @@ import '../utils/kelvin_to_rgb.dart';
 class LightProvider with ChangeNotifier {
   final Light _light = Light();
 
-  Color get rgbColor => _light.color;
+  Color get activeColor => _light.activeColor;
+  // Color get rgbColor => _light.color;
   double get brightness => _light.brightness;
   int get levelOfBrightness => _light.levelOfBrightness;
   LightMode get currentMode => _light.mode;
   int get temperature => _light.temperature;
+  int currentModeTab = 0;
+
   // Color get temperatureColor => getColorFromTemperature(_light.temperature);
 
   void setColor(Color newColor) {
-    _light.color = newColor;
+    if (_light.mode == LightMode.rgb) {
+      _light.rgbColor = newColor;
+    } else {
+      _light.cctColor = newColor;
+    }
     notifyListeners();
   }
 
@@ -41,14 +48,18 @@ class LightProvider with ChangeNotifier {
 
   void setMode(LightMode mode) {
     _light.mode = mode;
+    if (_light.mode == LightMode.rgb) {
+      currentModeTab = 0;
+    } else {
+      currentModeTab = 1;
+    }
     notifyListeners();
   }
 
   void setTemperature(int temperature) {
-    print(temperature);
     _light.temperature = temperature;
     // Convert temperature to RGB here and set _light.color
-    _light.color = getColorFromTemperature(temperature);
+    _light.cctColor = getColorFromTemperature(temperature);
 
     notifyListeners();
   }

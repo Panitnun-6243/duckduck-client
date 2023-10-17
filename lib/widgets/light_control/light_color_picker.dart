@@ -43,12 +43,16 @@ class _LightColorPickerState extends State<LightColorPicker> {
 
   void saveColor() {
     setState(() => rgbColor = pickerColor);
+    Provider.of<LightProvider>(context, listen: false)
+        .setMode(LightMode.rgb); // set mode to RGB
     Provider.of<LightProvider>(context, listen: false).setColor(rgbColor);
     Navigator.of(context).pop();
   }
 
   void saveTempKelvin() {
     setState(() => tempKelvin = pickerTempKelvin);
+    Provider.of<LightProvider>(context, listen: false)
+        .setMode(LightMode.temperature); // set mode to CCT
     Provider.of<LightProvider>(context, listen: false)
         .setTemperature(pickerTempKelvin);
     Navigator.of(context).pop();
@@ -67,68 +71,84 @@ class _LightColorPickerState extends State<LightColorPicker> {
       context: context,
       builder: (BuildContext context) {
         return DefaultTabController(
-          length: 2,
-          child: Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                left: 22,
-                right: 22,
-                top: 12,
-                bottom: 10,
-              ),
-              child: Column(
-                children: [
-                  const TabBar(
-                    indicatorSize: TabBarIndicatorSize.label,
-                    labelStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    labelColor: DuckDuckColors.mandarinOrange,
-                    indicatorColor: DuckDuckColors.mandarinOrange,
-                    tabs: [
-                      Tab(text: 'RGB'),
-                      Tab(text: 'CCT'),
-                    ],
+            initialIndex: Provider.of<LightProvider>(context, listen: false)
+                .currentModeTab,
+            length: 2,
+            child: Builder(builder: (BuildContext innerContext) {
+              final TabController tabController =
+                  DefaultTabController.of(innerContext);
+              tabController.addListener(() {
+                // ตรวจจับการทำงาน
+                if (tabController.index == 0) {
+                  Provider.of<LightProvider>(context, listen: false)
+                      .setMode(LightMode.rgb);
+                } else {
+                  Provider.of<LightProvider>(context, listen: false)
+                      .setMode(LightMode.temperature);
+                }
+              });
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 22,
+                    right: 22,
+                    top: 12,
+                    bottom: 10,
                   ),
-                  Expanded(
-                    child: TabBarView(
-                      children: [
-                        _buildRGBPicker(),
-                        _buildTemperaturePicker(),
-                      ],
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      child: Text(
-                        'Save',
-                        style: GoogleFonts.rubik(
+                  child: Column(
+                    children: [
+                      const TabBar(
+                        indicatorSize: TabBarIndicatorSize.label,
+                        labelStyle: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: DuckDuckColors.mandarinOrange,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        labelColor: DuckDuckColors.mandarinOrange,
+                        indicatorColor: DuckDuckColors.mandarinOrange,
+                        tabs: [
+                          Tab(text: 'RGB'),
+                          Tab(text: 'CCT'),
+                        ],
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          children: [
+                            _buildRGBPicker(),
+                            _buildTemperaturePicker(),
+                          ],
                         ),
                       ),
-                      onPressed: () {
-                        if (Provider.of<LightProvider>(context, listen: false)
-                                .currentMode ==
-                            LightMode.rgb) {
-                          saveColor();
-                        } else {
-                          saveTempKelvin();
-                        }
-                      },
-                    ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          child: Text(
+                            'Save',
+                            style: GoogleFonts.rubik(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: DuckDuckColors.mandarinOrange,
+                            ),
+                          ),
+                          onPressed: () {
+                            if (Provider.of<LightProvider>(context,
+                                        listen: false)
+                                    .currentMode ==
+                                LightMode.rgb) {
+                              saveColor();
+                            } else {
+                              saveTempKelvin();
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          ),
-        );
+                ),
+              );
+            }));
       },
     );
   }
@@ -190,14 +210,15 @@ class _LightColorPickerState extends State<LightColorPicker> {
     // Extract Kelvin values and their corresponding RGB colors
     List<double> kelvinKeys =
         kelvinTable.keys.map((k) => k.toDouble()).toList();
-    List<Color> kelvinColors = kelvinTable.values.toList();
+// Reverse the colors
+    List<Color> reversedKelvinColors =
+        kelvinTable.values.toList().reversed.toList();
 
-    // Create a gradient based on Kelvin table values
     LinearGradient createKelvinGradient() {
       return LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: kelvinColors,
+        colors: reversedKelvinColors, // use the reversed colors here
         stops: kelvinKeys
             .map((k) =>
                 (k - kelvinKeys.first) / (kelvinKeys.last - kelvinKeys.first))
