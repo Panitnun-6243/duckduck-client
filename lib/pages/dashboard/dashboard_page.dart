@@ -59,7 +59,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     Column(
                       children: [
                         Text(
-                          'Tab on a tile to adjust setting',
+                          'Tab on a tile to adjust settings',
                           style: GoogleFonts.rubik(
                               textStyle: TextStyle(
                             color: DuckDuckColors.steelBlack,

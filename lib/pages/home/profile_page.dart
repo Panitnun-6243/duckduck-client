@@ -236,24 +236,48 @@ class _ProfilePageState extends State<ProfilePage> {
                           color: DuckDuckColors.steelBlack),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(15),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Email',
-                        hintText: 'email',
-                        prefixIcon: Icon(Icons.email_rounded),
-                      ),
-                    ),
+                  SizedBox(
+                    height: 10,
                   ),
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 410.0),
-                      child: ConfirmButton(
-                        confirmText: "Save",
-                        onConfirm: () {},
-                        onCancel: () {},
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          width: 353,
+                          height: 60,
+                          padding: const EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.00),
+                            color: DuckDuckStatus.disabled,
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.email_rounded,
+                                color: DuckDuckStatus.disabledForeground,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'nongtanny.kodack@gmail.com',
+                                style: GoogleFonts.rubik(
+                                    color: DuckDuckStatus.disabledForeground),
+                              )
+                            ],
+                          )),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 30),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: ConfirmButton(
+                          confirmText: 'Save',
+                          onConfirm: () {},
+                          onCancel: () {},
+                        ),
                       ),
                     ),
                   )
