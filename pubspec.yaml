@@ -40,6 +40,7 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   flutter_svg: ^2.0.7
   provider: ^6.0.5
+  mobkit_dashed_border: ^0.0.5
 
 dev_dependencies:
   flutter_test:

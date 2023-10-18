@@ -1,3 +1,5 @@
+import 'package:duckduck/widgets/alarm/alarm_add_button.dart';
+import 'package:duckduck/widgets/alarm/alarm_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,21 +21,34 @@ class _AlarmPageState extends State<AlarmPage> {
         padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
         child: Column(
           children: [
-            Text(
-              'Your alarm',
-              style: GoogleFonts.rubik(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w600,
-                  color: DuckDuckColors.steelBlack),
+            SizedBox(
+              width: double.infinity,
+              child: Text(
+                'Your alarm',
+                style: GoogleFonts.rubik(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w600,
+                    color: DuckDuckColors.steelBlack),
+              ),
             ),
             const SizedBox(
               height: 30,
             ),
-            Expanded(
+            const Expanded(
               child: SingleChildScrollView(
-                  child: Column(
-                children: [],
-              )),
+                child: Column(
+                  children: [
+                    Column(
+                      children: [
+                        AlarmCard(),
+                        AlarmCard(),
+                        AlarmCard(),
+                      ],
+                    ),
+                    AlarmAddButton()
+                  ],
+                ),
+              ),
             ),
           ],
         ),
