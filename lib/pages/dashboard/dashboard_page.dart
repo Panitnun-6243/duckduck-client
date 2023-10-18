@@ -3,7 +3,7 @@ import 'package:duckduck/pages/dashboard/stock_page.dart';
 import 'package:duckduck/pages/dashboard/traffic_page.dart';
 import 'package:duckduck/pages/dashboard/weather_page.dart';
 import 'package:duckduck/utils/colors.dart';
-import 'package:duckduck/widgets/alarm/alarm_widget.dart';
+import 'package:duckduck/widgets/dashboard/alarm_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
