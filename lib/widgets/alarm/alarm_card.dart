@@ -7,10 +7,12 @@ class AlarmCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
+        
           height: 120.00,
           width: 120.00,
           padding: EdgeInsets.all(16),

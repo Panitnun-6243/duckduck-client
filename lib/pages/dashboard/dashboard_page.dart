@@ -9,7 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DashboardPage extends StatefulWidget {
-  const DashboardPage({super.key});
+  final String assetName;
+  const DashboardPage({super.key, this.assetName = 'assets/images/widget.svg'});
 
   @override
   State<DashboardPage> createState() => _DashboardPageState();
@@ -96,10 +97,10 @@ class _DashboardPageState extends State<DashboardPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               WeatherPage(),
-                              SizedBox(
-                                width: 7,
-                              ),
                               CalendarPage(),
+                              SizedBox(
+                                width: 10,
+                              ),
                             ],
                           ),
                         )
@@ -165,10 +166,10 @@ class _DashboardPageState extends State<DashboardPage> {
                             ),
                           ],
                         ),
-                        SvgPicture.asset(
-                          'assets/images/widget.svg',
-                          width: 67,
-                          height: 67,
+                        Container(
+                          child: SvgPicture.asset(
+                            'assets/images/widget.svg',
+                          ),
                         ),
                       ],
                     ),

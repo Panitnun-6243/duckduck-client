@@ -247,11 +247,26 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 410.0),
-                    child: ConfirmButton(
-                        confirmText: "Save", onConfirm: () {}, onCancel: () {}),
-                  ),
+                  Expanded(
+                      child: SingleChildScrollView(
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: ConfirmButton(
+                            confirmText: 'Save',
+                            onConfirm: () {},
+                            onCancel: () {},
+                          ),
+                        )
+                      ],
+                    ),
+                  ))
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 410.0),
+                  //   child: ConfirmButton(
+                  //       confirmText: "Save", onConfirm: () {}, onCancel: () {}),
+                  // ),
                 ],
               ),
             ],
