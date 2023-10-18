@@ -11,7 +11,7 @@ class WidgetCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 355,
+          width: 357,
           height: 107,
           // padding: EdgeInsets.all(14),
           decoration: BoxDecoration(

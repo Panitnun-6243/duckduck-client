@@ -12,8 +12,8 @@ class _TrafficWidgetState extends State<TrafficWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 120.00,
-      height: 120.00,
+      width: 109.00,
+      height: 109.00,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: DuckDuckColors.caramelCheese,

@@ -95,16 +95,10 @@ class _DashboardPageState extends State<DashboardPage> {
                         Expanded(
                           flex: 10,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               WeatherWidget(),
-                              SizedBox(
-                                width: 10,
-                              ),
                               CalendarWidget(),
-                              SizedBox(
-                                width: 10,
-                              ),
                             ],
                           ),
                         )
@@ -121,9 +115,6 @@ class _DashboardPageState extends State<DashboardPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 StockWidget(),
-                                SizedBox(
-                                  height: 10,
-                                ),
                                 TrafficWidget(),
                               ],
                             ))

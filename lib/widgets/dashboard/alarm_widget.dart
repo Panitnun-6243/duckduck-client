@@ -7,26 +7,24 @@ class AlarmWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Container(
-        
-          height: 120.00,
-          width: 120.00,
+          height: 109.00,
+          width: 109.00,
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: DuckDuckColors.metalBlue,
             borderRadius: BorderRadius.circular(21.67),
           ),
         ),
-        SizedBox(
-          width: 10,
-        ),
+        // SizedBox(
+        //   width: 10,
+        // ),
         Container(
-          height: 120,
-          width: 232,
+          height: 109,
+          width: 234,
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: DuckDuckColors.frostWhite,

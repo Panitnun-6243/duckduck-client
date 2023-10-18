@@ -14,8 +14,8 @@ class _StockWidgetState extends State<StockWidget> {
     return Row(
       children: [
         Container(
-          width: 232,
-          height: 120,
+          width: 234.00,
+          height: 109.00,
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: DuckDuckColors.steelBlack,
