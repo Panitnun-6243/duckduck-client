@@ -1,16 +1,17 @@
-import 'package:duckduck/pages/dashboard/calendar_page.dart';
 import 'package:duckduck/pages/dashboard/stock_page.dart';
 import 'package:duckduck/pages/dashboard/traffic_page.dart';
-import 'package:duckduck/pages/dashboard/weather_page.dart';
 import 'package:duckduck/utils/colors.dart';
 import 'package:duckduck/widgets/dashboard/alarm_widget.dart';
+import 'package:duckduck/widgets/dashboard/calendar_widget.dart';
+import 'package:duckduck/widgets/dashboard/stock_widget.dart';
+import 'package:duckduck/widgets/dashboard/traffic_widget.dart';
+import 'package:duckduck/widgets/dashboard/weather_widget.dart';
+import 'package:duckduck/widgets/dashboard/widget_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class DashboardPage extends StatefulWidget {
-  final String assetName;
-  const DashboardPage({super.key, this.assetName = 'assets/images/widget.svg'});
+  const DashboardPage({super.key});
 
   @override
   State<DashboardPage> createState() => _DashboardPageState();
@@ -94,10 +95,13 @@ class _DashboardPageState extends State<DashboardPage> {
                         Expanded(
                           flex: 10,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              WeatherPage(),
-                              CalendarPage(),
+                              WeatherWidget(),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              CalendarWidget(),
                               SizedBox(
                                 width: 10,
                               ),
@@ -116,11 +120,11 @@ class _DashboardPageState extends State<DashboardPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                StockPage(),
+                                StockWidget(),
                                 SizedBox(
                                   height: 10,
                                 ),
-                                TrafficPage(),
+                                TrafficWidget(),
                               ],
                             ))
                       ],
@@ -131,51 +135,7 @@ class _DashboardPageState extends State<DashboardPage> {
               SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 355,
-                    height: 107,
-                    // padding: EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: DuckDuckColors.whippedCream,
-                      borderRadius: BorderRadius.circular(21.67),
-                      border: Border.all(
-                        color: DuckDuckColors.duckyYellow,
-                        width: 1.0,
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                  style: GoogleFonts.rubik(
-                                    fontSize: 21.62,
-                                    fontWeight: FontWeight.w600,
-                                    color: DuckDuckColors.cocoa,
-                                  ),
-                                  children: [
-                                    TextSpan(text: 'Customize\n'),
-                                    TextSpan(text: 'Widget'),
-                                  ]),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          child: SvgPicture.asset(
-                            'assets/images/widget.svg',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              WidgetCard(),
             ],
           ),
         ),
