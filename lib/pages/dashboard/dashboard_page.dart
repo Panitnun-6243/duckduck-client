@@ -27,46 +27,44 @@ class _DashboardPageState extends State<DashboardPage> {
           child: Column(
             children: [
               Container(
-                color: DuckDuckColors.frostWhite,
-                padding: EdgeInsets.only(left: 18, top: 15),
+                padding: EdgeInsets.only(left: 18, top: 15, bottom: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Column(
                       children: [
                         Text(
-                          'Configure Dashboard',
+                          'Configure Dashboard ',
+                          style: GoogleFonts.rubik(
+                            textStyle: TextStyle(
+                              color: DuckDuckColors.steelBlack,
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 18, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          'Tab on a tile to adjust setting',
                           style: GoogleFonts.rubik(
                               textStyle: TextStyle(
                             color: DuckDuckColors.steelBlack,
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
                           )),
-                        ),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(8),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'Tab on a tile to adjust setting',
-                                    style: GoogleFonts.rubik(
-                                      textStyle: TextStyle(
-                                        color: DuckDuckColors.steelBlack,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
                         )
                       ],
                     ),
@@ -74,7 +72,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
               SizedBox(
-                height: 15,
+                height: 10,
               ),
               Container(
                 child: Column(
