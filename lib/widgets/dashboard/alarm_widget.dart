@@ -2,8 +2,8 @@ import 'package:duckduck/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AlarmCard extends StatelessWidget {
-  const AlarmCard({super.key});
+class AlarmWidget extends StatelessWidget {
+  const AlarmWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

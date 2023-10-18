@@ -22,17 +22,19 @@ class _AlarmPageState extends State<AlarmPage> {
             Text(
               'Your alarm',
               style: GoogleFonts.rubik(
-                  fontSize: 26,
+                  fontSize: 28,
                   fontWeight: FontWeight.w600,
                   color: DuckDuckColors.steelBlack),
             ),
-            const Expanded(
-                child: SingleChildScrollView(
-                    child: Column(
-              children: [
-                Text('data'),
-              ],
-            ))),
+            const SizedBox(
+              height: 30,
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                  child: Column(
+                children: [],
+              )),
+            ),
           ],
         ),
       )),
