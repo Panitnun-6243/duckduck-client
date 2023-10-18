@@ -6,6 +6,7 @@ import 'package:duckduck/utils/colors.dart';
 import 'package:duckduck/widgets/alarm/alarm_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -144,21 +145,30 @@ class _DashboardPageState extends State<DashboardPage> {
                         width: 1.0,
                       ),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Row(
                       children: [
-                        RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                              style: GoogleFonts.rubik(
-                                fontSize: 21.62,
-                                fontWeight: FontWeight.w600,
-                                color: DuckDuckColors.cocoa,
-                              ),
-                              children: [
-                                TextSpan(text: 'Customize\n'),
-                                TextSpan(text: 'Widget'),
-                              ]),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                  style: GoogleFonts.rubik(
+                                    fontSize: 21.62,
+                                    fontWeight: FontWeight.w600,
+                                    color: DuckDuckColors.cocoa,
+                                  ),
+                                  children: [
+                                    TextSpan(text: 'Customize\n'),
+                                    TextSpan(text: 'Widget'),
+                                  ]),
+                            ),
+                          ],
+                        ),
+                        SvgPicture.asset(
+                          'assets/images/widget.svg',
+                          width: 67,
+                          height: 67,
                         ),
                       ],
                     ),
