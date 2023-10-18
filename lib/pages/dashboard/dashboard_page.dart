@@ -137,12 +137,31 @@ class _DashboardPageState extends State<DashboardPage> {
                     height: 107,
                     // padding: EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                        color: DuckDuckColors.whippedCream,
-                        borderRadius: BorderRadius.circular(21.67),
-                        border: Border.all(
-                          color: DuckDuckColors.duckyYellow,
-                          width: 1.0,
-                        )),
+                      color: DuckDuckColors.whippedCream,
+                      borderRadius: BorderRadius.circular(21.67),
+                      border: Border.all(
+                        color: DuckDuckColors.duckyYellow,
+                        width: 1.0,
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                              style: GoogleFonts.rubik(
+                                fontSize: 21.62,
+                                fontWeight: FontWeight.w600,
+                                color: DuckDuckColors.cocoa,
+                              ),
+                              children: [
+                                TextSpan(text: 'Customize\n'),
+                                TextSpan(text: 'Widget'),
+                              ]),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
