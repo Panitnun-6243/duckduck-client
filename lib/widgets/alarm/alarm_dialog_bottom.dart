@@ -14,18 +14,26 @@ class AlarmDialogBottom extends StatelessWidget {
         context: context,
         builder: (BuildContext dialogContext) {
           return AlertDialog(
+            shape: ShapeBorder.lerp(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              1,
+            ),
             title: Text(
               'Confirm Deletion',
               style: GoogleFonts.rubik(
-                color: DuckDuckColors.cocoa,
-                fontWeight: FontWeight.w400,
+                color: DuckDuckStatus.error,
+                fontWeight: FontWeight.w500,
               ),
             ),
             content: Text(
               'Are you sure you want to delete this alarm?',
               style: GoogleFonts.rubik(
-                color: DuckDuckColors.cocoa,
-                fontWeight: FontWeight.w400,
+                color: DuckDuckColors.steelBlack,
               ),
             ),
             actions: [
@@ -52,8 +60,7 @@ class AlarmDialogBottom extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  // Here you can call the method to delete the alarm
-                  // ...
+                  // Method to delete the alarm
 
                   // Close the confirmation dialog
                   Navigator.of(dialogContext).pop();

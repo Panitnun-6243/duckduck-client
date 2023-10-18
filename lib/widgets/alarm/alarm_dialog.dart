@@ -1,4 +1,6 @@
 import 'package:duckduck/widgets/alarm/alarm_dialog_bottom.dart';
+import 'package:duckduck/widgets/alarm/alarm_gauge.dart';
+import 'package:duckduck/widgets/alarm/alarm_header.dart';
 import 'package:flutter/material.dart';
 
 class AlarmDialog extends StatefulWidget {
@@ -22,66 +24,22 @@ class _AlarmDialogState extends State<AlarmDialog> {
           padding: const EdgeInsets.only(
             left: 20,
             right: 20,
-            top: 20,
           ),
           child: Container(
             width: double.infinity,
-            child: Column(
+            child: const Column(
               children: [
-                Text('dialog header'),
+                AlarmHeader(),
+                SizedBox(
+                  height: 20,
+                ),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
-                        Text('data'),
+                        AlarmGauge(),
+                        Text('alarm content'),
                       ],
                     ),
                   ),
