@@ -32,10 +32,12 @@ class _LightColorPickerState extends State<LightColorPicker> {
   }
 
   void _changeColor(Color color) {
-    setState(() {
-      pickerColor = color;
-      lightProvider.setColor(pickerColor);
-    });
+    setState(
+      () {
+        pickerColor = color;
+        lightProvider.setColor(pickerColor);
+      },
+    );
   }
 
   void _saveChanges() {

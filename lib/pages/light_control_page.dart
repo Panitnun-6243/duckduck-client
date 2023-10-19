@@ -1,4 +1,5 @@
 import 'package:duckduck/providers/light_provider.dart';
+import 'package:duckduck/utils/colors.dart';
 import 'package:duckduck/widgets/light_control/brightness_gauge.dart';
 import 'package:duckduck/widgets/light_control/light_color_picker.dart';
 import 'package:flutter/material.dart';
@@ -20,31 +21,34 @@ class _LightControlPageState extends State<LightControlPage> {
     double bottomLightPadding = MediaQuery.of(context).size.height * 0.095;
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 35,
-            right: 35,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SvgBulb(
-                color: lightProvider.activeColor,
-                brightness: lightProvider.brightness,
-                levelOfBrightness: lightProvider.levelOfBrightness,
-              ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  const BrightnessGauge(),
-                  Positioned(
-                    bottom: bottomLightPadding,
-                    child: LightColorPicker(
-                        activeColor: lightProvider.activeColor),
-                  )
-                ],
-              ),
-            ],
+        child: Container(
+          // color: DuckDuckColors.steelBlack,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 35,
+              right: 35,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SvgBulb(
+                  color: lightProvider.activeColor,
+                  brightness: lightProvider.brightness,
+                  levelOfBrightness: lightProvider.levelOfBrightness,
+                ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    const BrightnessGauge(),
+                    Positioned(
+                      bottom: bottomLightPadding,
+                      child: LightColorPicker(
+                          activeColor: lightProvider.activeColor),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
