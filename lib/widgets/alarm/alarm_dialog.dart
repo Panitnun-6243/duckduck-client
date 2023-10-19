@@ -1,6 +1,7 @@
 import 'package:duckduck/widgets/alarm/alarm_dialog_bottom.dart';
 import 'package:duckduck/widgets/alarm/alarm_gauge.dart';
 import 'package:duckduck/widgets/alarm/alarm_header.dart';
+import 'package:duckduck/widgets/alarm/test_dialog.dart';
 import 'package:flutter/material.dart';
 
 class AlarmDialog extends StatefulWidget {
@@ -39,6 +40,7 @@ class _AlarmDialogState extends State<AlarmDialog> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         AlarmGauge(),
+                        // TestDialog(),
                         Text('alarm content'),
                       ],
                     ),
