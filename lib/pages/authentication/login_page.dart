@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../models/login.dart';
 import '../../providers/authentication_provider.dart';
+import '../home/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -31,7 +32,8 @@ class _LoginPageState extends State<LoginPage> {
     if (result.isSuccess) {
       print(Provider.of<AuthenticationProvider>(context, listen: false)
           .firebaseToken);
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
     } else {
       _showErrorSnackBar(result.errorMessage);
     }

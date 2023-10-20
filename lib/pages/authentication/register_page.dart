@@ -1,3 +1,4 @@
+import 'package:duckduck/pages/pages.dart';
 import 'package:duckduck/utils/colors.dart';
 import 'package:duckduck/widgets/login/custom_textform.dart';
 import 'package:duckduck/widgets/register/back_login_button.dart';
@@ -75,7 +76,8 @@ class _RegisterPageState extends State<RegisterPage> {
         text: 'Registration successful!',
         // ... other snackbar properties
       ).show(context);
-      Navigator.pushNamed(context, '/login');
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => LoginPage()));
     } else {
       DuckDuckSnackbar(
         text: 'Registration failed.',
