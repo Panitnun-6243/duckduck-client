@@ -3,6 +3,10 @@ import 'package:duckduck/widgets/login/custom_textform.dart';
 import 'package:duckduck/widgets/register/back_login_button.dart';
 import 'package:flutter/material.dart';
 import 'package:duckduck/widgets/authen_button.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/authentication_provider.dart';
+import '../../widgets/snackbar.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -22,10 +26,68 @@ class _RegisterPageState extends State<RegisterPage> {
   final FocusNode _deviceCodeNode = FocusNode();
   bool isSubmitted = false;
 
-  Future<void> handleLogin() async {
+  String? _validateEmail(String? value) {
+    RegExp emailRegex = RegExp(r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$',
+        caseSensitive: false);
+    if (value == null || value.isEmpty) {
+      return 'Required';
+    } else if (!emailRegex.hasMatch(value)) {
+      return 'Invalid email address';
+    }
+    return null;
+  }
+
+  String? _validateName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Required';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Required';
+    } else if (value.length < 6) {
+      return 'At least 6 characters';
+    }
+    return null;
+  }
+
+  Future<void> handleRegistration() async {
     setState(() => isSubmitted = true);
-    FocusScope.of(context).unfocus();
-    Navigator.pushNamed(context, '/login');
+
+    if (!_validateForms()) {
+      return;
+    }
+
+    final authProvider =
+        Provider.of<AuthenticationProvider>(context, listen: false);
+
+    bool success = await authProvider.register(
+        _emailController.text,
+        _passwordController.text,
+        _nameController.text,
+        _deviceCodeController.text);
+
+    if (success) {
+      _showSuccessDialog(context);
+      DuckDuckSnackbar(
+        text: 'Registration successful!',
+        // ... other snackbar properties
+      ).show(context);
+      Navigator.pushNamed(context, '/login');
+    } else {
+      DuckDuckSnackbar(
+        text: 'Registration failed.',
+        // ... other snackbar properties
+      ).show(context);
+    }
+  }
+
+  bool _validateForms() {
+    return _validateEmail(_emailController.text) == null &&
+        _validateName(_nameController.text) == null &&
+        _validatePassword(_passwordController.text) == null;
   }
 
   @override
@@ -81,6 +143,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           focusNode: _emailNode,
                           hintText: 'Email',
                           textInputAction: TextInputAction.next,
+                          validator: _validateEmail,
                           onSubmitted: (_) => FocusScope.of(context)
                               .requestFocus(_passwordNode)),
                       const SizedBox(
@@ -91,7 +154,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         focusNode: _passwordNode,
                         hintText: 'Password',
                         icon: Icons.lock_rounded,
+                        validator: _validatePassword,
                         obscureText: true,
+                        onSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(_nameNode),
                       ),
                       const SizedBox(
                         height: 15,
@@ -101,6 +167,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         focusNode: _nameNode,
                         hintText: 'Name',
                         icon: Icons.account_circle_rounded,
+                        validator: _validateName,
+                        onSubmitted: (_) => FocusScope.of(context)
+                            .requestFocus(_deviceCodeNode),
                       ),
                       const SizedBox(
                         height: 15,
@@ -119,7 +188,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           Align(
                             alignment: Alignment.centerRight,
                             child: AuthenButton(
-                              onPressed: () => _dialogBuilder(context),
+                              onPressed: handleRegistration,
                             ),
                           ),
                         ],
@@ -135,7 +204,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Future<void> _dialogBuilder(BuildContext context) {
+  Future<void> _showSuccessDialog(BuildContext context) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {

@@ -2,8 +2,13 @@ import 'package:duckduck/utils/colors.dart';
 import 'package:duckduck/widgets/authen_button.dart';
 import 'package:duckduck/widgets/login/custom_textform.dart';
 import 'package:duckduck/widgets/login/signup_click.dart';
+import 'package:duckduck/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/login.dart';
+import '../../providers/authentication_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -21,8 +26,40 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> handleLogin() async {
     setState(() => isSubmitted = true);
-    FocusScope.of(context).unfocus();
-    Navigator.pushNamed(context, '/home');
+    final result = await performLogin();
+
+    if (result.isSuccess) {
+      print(Provider.of<AuthenticationProvider>(context, listen: false)
+          .firebaseToken);
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      _showErrorSnackBar(result.errorMessage);
+    }
+  }
+
+  Future<LoginResult> performLogin() async {
+    try {
+      final authProvider =
+          Provider.of<AuthenticationProvider>(context, listen: false);
+      bool success = await authProvider.login(
+          _emailController.text, _passwordController.text);
+      FocusScope.of(context).unfocus();
+
+      if (success) {
+        return LoginResult(isSuccess: true);
+      } else {
+        return LoginResult(
+            errorMessage: 'Login failed. Please check your credentials.');
+      }
+    } catch (e) {
+      return LoginResult(errorMessage: 'An error occurred: $e');
+    }
+  }
+
+  void _showErrorSnackBar(String message) {
+    DuckDuckSnackbar snackBar = DuckDuckSnackbar(
+        text: message, icon: Icons.clear, accentColor: DuckDuckStatus.error);
+    snackBar.show(context);
   }
 
   @override
