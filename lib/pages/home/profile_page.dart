@@ -2,6 +2,10 @@ import 'package:duckduck/widgets/confirm_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:duckduck/utils/colors.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/authentication_provider.dart';
+import '../authentication/login_page.dart';
 
 class ImageInput extends StatefulWidget {
   final String image;
@@ -169,6 +173,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider =
+        Provider.of<AuthenticationProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -179,15 +185,38 @@ class _ProfilePageState extends State<ProfilePage> {
                 color: DuckDuckColors.frostWhite,
                 padding: EdgeInsets.only(left: 18, top: 15),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'Profile',
                       style: GoogleFonts.rubik(
                         textStyle: TextStyle(
                           color: DuckDuckColors.steelBlack,
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600,
                         ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        try {
+                          await authProvider.logout();
+                          SnackBar(content: Text("Logged out successfully!"));
+                          // Optional: Redirect user to login page after logging out
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
+                              ModalRoute.withName('/'));
+                        } catch (error) {
+                          // Handle any logout error (if necessary)
+                          SnackBar(content: Text("Error logging out: $error"));
+                        }
+                      },
+                      icon: const Icon(
+                        Icons.logout,
+                        color: DuckDuckColors.steelBlack,
+                        size: 28,
                       ),
                     ),
                   ],
@@ -260,7 +289,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 width: 10,
                               ),
                               Text(
-                                'nongtanny.kodack@gmail.com',
+                                '${authProvider.currentUser?.email}',
                                 style: GoogleFonts.rubik(
                                     color: DuckDuckStatus.disabledForeground),
                               )

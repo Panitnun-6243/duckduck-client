@@ -1,10 +1,8 @@
 import 'package:duckduck/providers/light_provider.dart';
-import 'package:duckduck/utils/colors.dart';
 import 'package:duckduck/widgets/light_control/brightness_gauge.dart';
 import 'package:duckduck/widgets/light_control/light_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../widgets/light_control/svg_bulb.dart';
 
 class LightControlPage extends StatefulWidget {
