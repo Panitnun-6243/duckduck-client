@@ -3,6 +3,12 @@ import 'package:duckduck/widgets/alarm/alarm_gauge.dart';
 import 'package:duckduck/widgets/alarm/alarm_header.dart';
 import 'package:duckduck/widgets/alarm/test_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:duckduck/widgets/alarm/content/sleep_time.dart';
+import 'package:duckduck/widgets/alarm/content/sunrise_card.dart';
+import 'package:duckduck/widgets/alarm/content/repeat_card.dart';
+import 'package:duckduck/widgets/alarm/content/sound_card.dart';
+import 'package:duckduck/widgets/alarm/content/volume_card.dart';
+import 'package:duckduck/widgets/alarm/content/snooze_card.dart';
 
 class AlarmDialog extends StatefulWidget {
   const AlarmDialog({super.key});
@@ -41,7 +47,25 @@ class _AlarmDialogState extends State<AlarmDialog> {
                       children: [
                         AlarmGauge(),
                         // TestDialog(),
-                        Text('alarm content'),
+                        // Text('alarm content'),
+                        // SleepTime(),
+                        SunriseCard(),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        RepeatCard(),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        SoundCard(),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        VoulmeCard(),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        SnoozeCard(),
                       ],
                     ),
                   ),

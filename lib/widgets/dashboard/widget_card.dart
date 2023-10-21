@@ -37,13 +37,13 @@ class WidgetCard extends StatelessWidget {
                           color: DuckDuckColors.cocoa,
                         ),
                         children: [
-                          TextSpan(text: 'Customize\n'),
-                          TextSpan(text: 'Widget'),
+                           const TextSpan(text: 'Customize\n'),
+                          const TextSpan(text: 'Widget'),
                         ]),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Image.asset(

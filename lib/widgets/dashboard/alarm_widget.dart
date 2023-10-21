@@ -1,6 +1,6 @@
 import 'package:duckduck/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 
 class AlarmWidget extends StatelessWidget {
   const AlarmWidget({super.key});
@@ -13,7 +13,7 @@ class AlarmWidget extends StatelessWidget {
         Container(
           height: 109.00,
           width: 109.00,
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: DuckDuckColors.metalBlue,
             borderRadius: BorderRadius.circular(21.67),

@@ -19,6 +19,7 @@ class AlarmCard extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
+      // ignore: dead_code
       color: isActive ? DuckDuckColors.skyBlue : DuckDuckStatus.disabled,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -37,6 +38,7 @@ class AlarmCard extends StatelessWidget {
                 height: 30,
                 color: isActive
                     ? DuckDuckColors.caramelCheese
+                    // ignore: dead_code
                     : DuckDuckStatus.disabledForeground,
                 margin: const EdgeInsets.only(right: 20, left: 5),
               ),
@@ -52,6 +54,7 @@ class AlarmCard extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                         color: isActive
                             ? DuckDuckColors.frostWhite
+                            // ignore: dead_code
                             : DuckDuckStatus.disabledForeground,
                       ),
                     ),
@@ -68,6 +71,7 @@ class AlarmCard extends StatelessWidget {
                           Icons.bedtime,
                           color: isActive
                               ? DuckDuckColors.metalBlue
+                              // ignore: dead_code
                               : DuckDuckStatus.disabledForeground,
                           size: 16,
                         ),
@@ -81,6 +85,7 @@ class AlarmCard extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             color: isActive
                                 ? DuckDuckColors.frostWhite
+                                // ignore: dead_code
                                 : DuckDuckStatus.disabledForeground,
                           ),
                         ),
@@ -99,6 +104,7 @@ class AlarmCard extends StatelessWidget {
                           Icons.sunny,
                           color: isActive
                               ? DuckDuckColors.mandarinOrange
+                              // ignore: dead_code
                               : DuckDuckStatus.disabledForeground,
                           size: 24,
                         ),
@@ -112,6 +118,7 @@ class AlarmCard extends StatelessWidget {
                             fontWeight: FontWeight.w700,
                             color: isActive
                                 ? DuckDuckColors.frostWhite
+                                // ignore: dead_code
                                 : DuckDuckStatus.disabledForeground,
                           ),
                         ),
@@ -124,6 +131,7 @@ class AlarmCard extends StatelessWidget {
                               ? (volume == 0
                                   ? DuckDuckStatus.error
                                   : DuckDuckColors.frostWhite)
+                              // ignore: dead_code
                               : DuckDuckStatus.disabledForeground,
                           size: 24,
                         ),
