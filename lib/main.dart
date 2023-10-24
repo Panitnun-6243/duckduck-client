@@ -36,33 +36,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    // temp user value
-    const user = null;
-    return ChangeNotifierProvider(
-      create: (context) => LightProvider(),
-      child: MaterialApp(
-          title: 'DuckDuck',
-          debugShowCheckedModeBanner: false,
-          initialRoute: user == null ? '/alarm' : '/home',
-          routes: {
-            '/login': (context) => const LoginPage(),
-            '/register': (context) => const RegisterPage(),
-            '/dashboard': (context) => const DashboardPage(),
-            '/calendar': (context) => const CalendarPage(),
-            '/live-score': (context) => const LiveScorePage(),
-            '/weather': (context) => const WeatherPage(),
-            '/traffic': (context) => const TrafficPage(),
-            '/time-zone': (context) => const TimeZonePage(),
-            '/stock': (context) => const StockPage(),
-            '/sleep-analysis': (context) => const SleepAnalysisPage(),
-            '/lullaby-song': (context) => const LullabySongPage(),
-            '/light-control': (context) => const LightControlPage(),
-            '/alarm': (context) => const AlarmPage(),
-            '/home': (context) => const HomePage(),
-            '/profile': (context) => const ProfilePage(),
-          }),
-=======
     final authProvider =
         Provider.of<AuthenticationProvider>(context, listen: false);
     final user = authProvider.currentUser;
@@ -89,7 +62,6 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomePage(),
         '/profile': (context) => const ProfilePage(),
       },
->>>>>>> 83374f19815fcfcbf6854ea8d5ba132ab03360f1
     );
   }
 }
