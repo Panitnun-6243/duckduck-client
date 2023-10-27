@@ -2,9 +2,13 @@ import 'package:duckduck/utils/colors.dart';
 import 'package:duckduck/widgets/alarm/alarm_dialog_bottom.dart';
 import 'package:duckduck/widgets/alarm/alarm_gauge.dart';
 import 'package:duckduck/widgets/alarm/alarm_header.dart';
+import 'package:duckduck/widgets/alarm/alarm_switch.dart';
+import 'package:duckduck/widgets/alarm/content/TimePicker.dart';
+import 'package:duckduck/widgets/alarm/content/TimeTextField.dart';
 import 'package:duckduck/widgets/alarm/test_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:duckduck/widgets/alarm/content/TimeTextField.dart';
 
 class SunriseCard extends StatefulWidget {
   const SunriseCard({super.key});
@@ -34,6 +38,7 @@ class _SunriseCardState extends State<SunriseCard> {
             Column(
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       'Sunrise',
@@ -45,6 +50,7 @@ class _SunriseCardState extends State<SunriseCard> {
                     const SizedBox(
                       width: 15,
                     ),
+                    AlarmSwitch(),
                   ],
                 ),
                 const SizedBox(
@@ -56,55 +62,21 @@ class _SunriseCardState extends State<SunriseCard> {
                 ),
               ],
             ),
-            Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Image.asset(
-                      'assets/images/sunrise_red.png',
-                      width: 36.00,
-                      height: 36.00,
+                    TimePicker(
+                        title: "Start", image: "assets/images/sunrise_red.png"),
+                    SizedBox(
+                      width: 30,
                     ),
-                    const SizedBox(
-                      width: 10,
+                    TimePicker(
+                      title: "End",
+                      image: "assets/images/sun_blue.png",
                     ),
-                    Column(
-                      children: [
-                        Text(
-                          'Start',
-                          style: GoogleFonts.rubik(
-                              fontSize: 16, fontWeight: FontWeight.w500),
-                        ),
-                        
-                      ],
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      'assets/images/sun_blue.png',
-                      width: 36,
-                      height: 36,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          'Peak',
-                          style: GoogleFonts.rubik(
-                              fontSize: 16, fontWeight: FontWeight.w500),
-                        )
-                      ],
-                    )
                   ],
                 )
               ],

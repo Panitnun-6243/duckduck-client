@@ -33,7 +33,6 @@ class _AlarmDialogState extends State<AlarmDialog> {
             right: 20,
           ),
           child: Container(
-            width: double.infinity,
             child: const Column(
               children: [
                 AlarmHeader(),
@@ -48,7 +47,10 @@ class _AlarmDialogState extends State<AlarmDialog> {
                         AlarmGauge(),
                         // TestDialog(),
                         // Text('alarm content'),
-                        // SleepTime(),
+                        SleepTime(),
+                        SizedBox(
+                          height: 25,
+                        ),
                         SunriseCard(),
                         SizedBox(
                           height: 25,
@@ -66,6 +68,7 @@ class _AlarmDialogState extends State<AlarmDialog> {
                           height: 25,
                         ),
                         SnoozeCard(),
+                        SizedBox(height: 60)
                       ],
                     ),
                   ),

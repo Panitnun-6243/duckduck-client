@@ -46,22 +46,26 @@ class _SoundCardState extends State<SoundCard> {
                   ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                          primary: DuckDuckColors.frostWhite,
-                          onPrimary: DuckDuckColors.steelBlack,
+                          backgroundColor: DuckDuckColors.frostWhite,
+                          foregroundColor: DuckDuckColors.steelBlack,
                           padding: const EdgeInsets.all(5.0),
                           textStyle: GoogleFonts.rubik(
                               fontSize: 14, fontWeight: FontWeight.w500),
                           fixedSize: const Size(261, 36),
                           side: const BorderSide(
-                              color: DuckDuckColors.duckyYellow, width: 1)),
-                      child: const Row(
+                              color: DuckDuckColors.duckyYellow, width: 1),
+                          shadowColor: Colors.transparent),
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text('Over the Horizon'),
-                          SizedBox(
-                            width: 12,
-                          ),
-                          Icon(
+                          Expanded(
+                              child: Text(
+                            'Over the Horizon',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.rubik(
+                                fontSize: 14, fontWeight: FontWeight.w400),
+                          )),
+                          const Icon(
                             Icons.chevron_right,
                             color: DuckDuckColors.duckyYellow,
                           )

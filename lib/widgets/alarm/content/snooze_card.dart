@@ -1,3 +1,4 @@
+import 'package:duckduck/widgets/alarm/content/snooze_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:duckduck/utils/colors.dart';
@@ -41,32 +42,9 @@ class _SnoozeCardState extends State<SnoozeCard> {
                     ),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 16,
                   ),
-                  ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          primary: DuckDuckColors.frostWhite,
-                          onPrimary: DuckDuckColors.steelBlack,
-                          padding: const EdgeInsets.all(5.0),
-                          textStyle: GoogleFonts.rubik(
-                              fontSize: 14, fontWeight: FontWeight.w500),
-                          fixedSize: const Size(261, 36),
-                          side: const BorderSide(
-                              color: DuckDuckColors.duckyYellow, width: 1)),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text('5 minutes'),
-                          SizedBox(
-                            width: 35,
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: DuckDuckColors.duckyYellow,
-                          )
-                        ],
-                      )),
+                  SnoozeMenu()
                 ],
               )
             ],
