@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:duckduck/utils/colors.dart';
 
 class StockPage extends StatefulWidget {
   const StockPage({super.key});
@@ -11,9 +10,6 @@ class StockPage extends StatefulWidget {
 class _StockPageState extends State<StockPage> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-        //
-        );
-    ;
+    return const Row();
   }
 }

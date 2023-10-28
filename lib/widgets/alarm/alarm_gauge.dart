@@ -3,16 +3,85 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
+WidgetPointer IconPointer(
+    {required double value,
+    required Function(double)? onValueChanged,
+    required bool enableDragging,
+    required IconData icon,
+    MaterialColor? iconColor}) {
+  return WidgetPointer(
+    value: value,
+    onValueChanged: onValueChanged,
+    // onValueChanging: _handlebedtimePointerValueChanging,
+    enableDragging: enableDragging,
+    child: Container(
+      width: 48,
+      height: 48,
+      decoration: const BoxDecoration(
+          color: DuckDuckColors.frostWhite,
+          borderRadius: BorderRadius.all(Radius.circular(48)),
+          boxShadow: [
+            BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.1),
+                blurRadius: 4,
+                offset: Offset(0, -2))
+          ]),
+      child: Icon(
+        icon,
+        color: iconColor ?? DuckDuckColors.steelBlack,
+        size: 30,
+      ),
+    ),
+  );
+}
+
+WidgetPointer ImagePointer(
+    {required double value,
+    required Function(double)? onValueChanged,
+    required bool enableDragging,
+    required String image,
+    MaterialColor? iconColor}) {
+  return WidgetPointer(
+    value: value,
+    onValueChanged: onValueChanged,
+    // onValueChanging: _handlebedtimePointerValueChanging,
+    enableDragging: enableDragging,
+    child: Container(
+      width: 36,
+      height: 36,
+      decoration: const BoxDecoration(
+          color: DuckDuckColors.steelBlack,
+          borderRadius: BorderRadius.all(Radius.circular(36)),
+          boxShadow: [
+            BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.1),
+                blurRadius: 4,
+                offset: Offset(0, -2))
+          ]),
+      child: Center(
+        child: Image.asset(
+          image,
+          width: 24,
+          height: 24,
+        ),
+      ),
+    ),
+  );
+}
+
 class AlarmGauge extends StatefulWidget {
-  const AlarmGauge({super.key});
+  final Function(String, TimeOfDay) updateTime;
+  const AlarmGauge({super.key, required this.updateTime});
 
   @override
   State<AlarmGauge> createState() => _AlarmGaugeState();
 }
 
 class _AlarmGaugeState extends State<AlarmGauge> {
-  double _firstMarkerValue = 2;
-  double _secondMarkerValue = 8;
+  double _bedtimeMarkerValue = 22;
+  double _wakeupMarkerValue = 6;
+  double _startMarkerValue = 3.5;
+  double _peakMarkerValue = 5.5;
   String _annotationValue = '06';
   String _minutesValue = '00';
   bool _enableDragging = true;
@@ -41,36 +110,44 @@ class _AlarmGaugeState extends State<AlarmGauge> {
             thicknessUnit: GaugeSizeUnit.logicalPixel,
           ),
           pointers: <GaugePointer>[
-            MarkerPointer(
-              markerHeight: 42,
-              markerWidth: 42,
-              value: _firstMarkerValue,
-              onValueChanged: _handleFirstPointerValueChanged,
-              // onValueChanging: _handleFirstPointerValueChanging,
+            IconPointer(
+              value: _bedtimeMarkerValue,
+              onValueChanged: _handlebedtimePointerValueChanged,
               enableDragging: _enableDragging,
-              markerType: MarkerType.circle,
-              color: DuckDuckColors.frostWhite,
-              elevation: 1,
-              borderColor: Colors.black,
+              icon: Icons.bedtime,
+              iconColor: DuckDuckColors.metalBlue,
             ),
-            MarkerPointer(
-              value: _secondMarkerValue,
-              markerHeight: 42,
-              markerWidth: 42,
-              markerType: MarkerType.circle,
-              color: DuckDuckColors.frostWhite,
-              elevation: 1,
-              onValueChanged: _handleSecondPointerValueChanged,
-              // onValueChanging: _handleSecondPointerValueChanging,
-              enableDragging: _enableDragging,
-            ),
+            IconPointer(
+                value: _wakeupMarkerValue,
+                onValueChanged: _handlewakeupPointerValueChanged,
+                enableDragging: _enableDragging,
+                icon: Icons.sunny,
+                iconColor: DuckDuckColors.mandarinOrange),
+            ImagePointer(
+                value: _startMarkerValue,
+                onValueChanged: _handlestartPointerValueChanged,
+                enableDragging: _enableDragging,
+                image: "assets/images/sunrise_red.png"),
+            ImagePointer(
+                value: _peakMarkerValue,
+                onValueChanged: _handlepeakPointerValueChanged,
+                enableDragging: _enableDragging,
+                image: "assets/images/sun_blue.png"),
           ],
           ranges: <GaugeRange>[
             GaugeRange(
               color: DuckDuckColors.duckyYellow,
               sizeUnit: GaugeSizeUnit.logicalPixel,
-              startValue: _firstMarkerValue,
-              endValue: _secondMarkerValue,
+              startValue: _bedtimeMarkerValue,
+              endValue: _wakeupMarkerValue,
+              startWidth: 28,
+              endWidth: 28,
+            ),
+            GaugeRange(
+              color: Color.fromARGB(0xff, 0xff, 0x7c, 0x53),
+              sizeUnit: GaugeSizeUnit.logicalPixel,
+              startValue: _startMarkerValue,
+              endValue: _peakMarkerValue,
               startWidth: 28,
               endWidth: 28,
             )
@@ -81,19 +158,18 @@ class _AlarmGaugeState extends State<AlarmGauge> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        '$_annotationValue hours',
-                        style: GoogleFonts.rubik(
+                      Text('$_annotationValue hours',
+                          style: GoogleFonts.rubik(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
-                            color: DuckDuckColors.skyBlue),
-                      ),
+                            color: DuckDuckColors.steelBlack,
+                          )),
                       Text(
                         '$_minutesValue minutes',
                         style: GoogleFonts.rubik(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
-                          color: DuckDuckColors.skyBlue,
+                          color: DuckDuckColors.steelBlack,
                         ),
                       )
                     ],
@@ -107,7 +183,7 @@ class _AlarmGaugeState extends State<AlarmGauge> {
     );
   }
 
-  void _handleFirstPointerValueChanging(ValueChangingArgs args) {
+  void _handlebedtimePointerValueChanging(ValueChangingArgs args) {
     if (args.value >= 24) {
       args.value = 0;
     }
@@ -115,39 +191,73 @@ class _AlarmGaugeState extends State<AlarmGauge> {
       args.value =
           23.5; // To avoid it going negative and create a max limit to 23.5 for half hour interval.
     }
-    if ((args.value - _secondMarkerValue).abs() > 12) {
+    if ((args.value - _wakeupMarkerValue).abs() > 12) {
       args.cancel = true;
     }
   }
 
-  void _handleFirstPointerValueChanged(double value) {
+  void _handlebedtimePointerValueChanged(double value) {
     setState(() {
-      _firstMarkerValue = value;
+      _bedtimeMarkerValue = value;
       _calculateDuration();
+      widget.updateTime(
+          "bedtime",
+          TimeOfDay(
+              hour: value.floor(),
+              minute: ((value - value.floor()) * 60).floor()));
     });
   }
 
-  void _handleSecondPointerValueChanging(ValueChangingArgs args) {
+  void _handlewakeupPointerValueChanging(ValueChangingArgs args) {
     if (args.value >= 24) {
       args.value = 0;
     }
     if (args.value < 0) {
       args.value = 23.5;
     }
-    if ((args.value - _firstMarkerValue).abs() > 12) {
+    if ((args.value - _bedtimeMarkerValue).abs() > 12) {
       args.cancel = true;
     }
   }
 
-  void _handleSecondPointerValueChanged(double value) {
+  void _handlewakeupPointerValueChanged(double value) {
     setState(() {
-      _secondMarkerValue = value;
+      _wakeupMarkerValue = value;
       _calculateDuration();
+      widget.updateTime(
+          "wakeup",
+          TimeOfDay(
+              hour: value.floor(),
+              minute: ((value - value.floor()) * 60).floor()));
+    });
+  }
+
+  void _handlestartPointerValueChanged(double value) {
+    setState(() {
+      _startMarkerValue = value;
+      _calculateDuration();
+      widget.updateTime(
+          "start",
+          TimeOfDay(
+              hour: value.floor(),
+              minute: ((value - value.floor()) * 60).floor()));
+    });
+  }
+
+  void _handlepeakPointerValueChanged(double value) {
+    setState(() {
+      _peakMarkerValue = value;
+      _calculateDuration();
+      widget.updateTime(
+          "peak",
+          TimeOfDay(
+              hour: value.floor(),
+              minute: ((value - value.floor()) * 60).floor()));
     });
   }
 
   void _calculateDuration() {
-    double duration = _secondMarkerValue - _firstMarkerValue;
+    double duration = _wakeupMarkerValue - _bedtimeMarkerValue;
     if (duration < 0) {
       duration += 24;
     }

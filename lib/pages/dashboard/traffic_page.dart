@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:duckduck/utils/colors.dart';
 
 class TrafficPage extends StatefulWidget {
   const TrafficPage({super.key});

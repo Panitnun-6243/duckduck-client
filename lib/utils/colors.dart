@@ -124,17 +124,17 @@ class DuckDuckColors {
 }
 
 class DuckDuckStatus {
-  static const MaterialColor success = MaterialColor(0xFF83F53D, {
-    50: Color.fromRGBO(131, 245, 61, .1),
-    100: Color.fromRGBO(131, 245, 61, .2),
-    200: Color.fromRGBO(131, 245, 61, .3),
-    300: Color.fromRGBO(131, 245, 61, .4),
-    400: Color.fromRGBO(131, 245, 61, .5),
-    500: Color.fromRGBO(131, 245, 61, .6),
-    600: Color.fromRGBO(131, 245, 61, .7),
-    700: Color.fromRGBO(131, 245, 61, .8),
-    800: Color.fromRGBO(131, 245, 61, .9),
-    900: Color.fromRGBO(131, 245, 61, 1),
+  static const MaterialColor success = MaterialColor(0xFFA1EB74, {
+    50: Color.fromRGBO(161, 235, 116, .1),
+    100: Color.fromRGBO(161, 235, 116, .2),
+    200: Color.fromRGBO(161, 235, 116, .3),
+    300: Color.fromRGBO(161, 235, 116, .4),
+    400: Color.fromRGBO(161, 235, 116, .5),
+    500: Color.fromRGBO(161, 235, 116, .6),
+    600: Color.fromRGBO(161, 235, 116, .7),
+    700: Color.fromRGBO(161, 235, 116, .8),
+    800: Color.fromRGBO(161, 235, 116, .9),
+    900: Color.fromRGBO(161, 235, 116, 1),
   });
   static const MaterialColor warning = MaterialColor(0xFFF79964, {
     50: Color.fromRGBO(247, 153, 100, .1),
@@ -148,17 +148,17 @@ class DuckDuckStatus {
     800: Color.fromRGBO(247, 153, 100, .9),
     900: Color.fromRGBO(247, 153, 100, 1),
   });
-  static const MaterialColor error = MaterialColor(0xFFF85454, {
-    50: Color.fromRGBO(248, 84, 84, .1),
-    100: Color.fromRGBO(248, 84, 84, .2),
-    200: Color.fromRGBO(248, 84, 84, .3),
-    300: Color.fromRGBO(248, 84, 84, .4),
-    400: Color.fromRGBO(248, 84, 84, .5),
-    500: Color.fromRGBO(248, 84, 84, .6),
-    600: Color.fromRGBO(248, 84, 84, .7),
-    700: Color.fromRGBO(248, 84, 84, .8),
-    800: Color.fromRGBO(248, 84, 84, .9),
-    900: Color.fromRGBO(248, 84, 84, 1),
+  static const MaterialColor error = MaterialColor(0xFFF86262, {
+    50: Color.fromRGBO(248, 98, 98, .1),
+    100: Color.fromRGBO(248, 98, 98, .2),
+    200: Color.fromRGBO(248, 98, 98, .3),
+    300: Color.fromRGBO(248, 98, 98, .4),
+    400: Color.fromRGBO(248, 98, 98, .5),
+    500: Color.fromRGBO(248, 98, 98, .6),
+    600: Color.fromRGBO(248, 98, 98, .7),
+    700: Color.fromRGBO(248, 98, 98, .8),
+    800: Color.fromRGBO(248, 98, 98, .9),
+    900: Color.fromRGBO(248, 98, 98, 1),
   });
   static const MaterialColor disabled = MaterialColor(0xFFE5E6E5, {
     50: Color.fromRGBO(229, 230, 229, .1),

@@ -43,6 +43,7 @@ dependencies:
   mobkit_dashed_border: ^0.0.5
   firebase_core: ^2.19.0
   firebase_auth: ^4.11.1
+  format: ^1.4.0
 
 dev_dependencies:
   flutter_test:

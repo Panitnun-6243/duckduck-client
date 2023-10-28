@@ -208,6 +208,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  format:
+    dependency: "direct main"
+    description:
+      name: format
+      sha256: "8829452e1f01321dabe734a082674fe32bb0224caacb08d6d2d4b33f7eca3bdd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
   google_fonts:
     dependency: "direct main"
     description:

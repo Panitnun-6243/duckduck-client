@@ -9,7 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SleepTime extends StatefulWidget {
-  const SleepTime({super.key});
+  final TimeOfDay bedtime;
+  final TimeOfDay wakeup;
+  final Function(String, TimeOfDay)? onChanged;
+  const SleepTime(
+      {super.key, required this.bedtime, required this.wakeup, this.onChanged});
 
   @override
   State<SleepTime> createState() => _SleepTimeState();
@@ -18,20 +22,27 @@ class SleepTime extends StatefulWidget {
 class _SleepTimeState extends State<SleepTime> {
   @override
   Widget build(BuildContext context) {
-    return const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Row(children: [
         TimePicker(
             icon: Icons.bedtime,
             iconColor: DuckDuckColors.metalBlue,
-            title: "Bedtime"),
-        SizedBox(
+            title: "Bedtime",
+            time: widget.bedtime,
+            onChanged: (newTime) {
+              widget.onChanged?.call("bedtime", newTime);
+            }),
+        const SizedBox(
           width: 30,
         ),
         TimePicker(
-          icon: Icons.sunny,
-          iconColor: DuckDuckColors.duckyYellow,
-          title: "Wake up",
-        ),
+            icon: Icons.sunny,
+            iconColor: DuckDuckColors.duckyYellow,
+            title: "Wake up",
+            time: widget.wakeup,
+            onChanged: (newTime) {
+              widget.onChanged?.call("wakeup", newTime);
+            }),
       ])
     ]);
   }

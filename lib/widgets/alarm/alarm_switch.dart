@@ -3,14 +3,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AlarmSwitch extends StatefulWidget {
-  const AlarmSwitch({super.key});
+  final bool? defaultState;
+  final Function(bool)? onToggle;
+  const AlarmSwitch({super.key, this.defaultState, this.onToggle});
 
   @override
   State<AlarmSwitch> createState() => _AlarmSwitchState();
 }
 
 class _AlarmSwitchState extends State<AlarmSwitch> {
-  bool _switchValue = false;
+  late bool _switchValue;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _switchValue = widget.defaultState ?? true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoSwitch(
@@ -20,6 +30,7 @@ class _AlarmSwitchState extends State<AlarmSwitch> {
           setState(() {
             _switchValue = !_switchValue;
           });
+          widget.onToggle?.call(value);
         });
   }
 }

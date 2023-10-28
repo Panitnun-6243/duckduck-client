@@ -1,5 +1,3 @@
-import 'package:duckduck/pages/dashboard/stock_page.dart';
-import 'package:duckduck/pages/dashboard/traffic_page.dart';
 import 'package:duckduck/utils/colors.dart';
 import 'package:duckduck/widgets/dashboard/alarm_widget.dart';
 import 'package:duckduck/widgets/dashboard/calendar_widget.dart';
@@ -27,7 +25,7 @@ class _DashboardPageState extends State<DashboardPage> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(left: 18, top: 15, bottom: 10),
+                padding: const EdgeInsets.only(left: 18, top: 15, bottom: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -36,7 +34,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         Text(
                           'Configure Dashboard ',
                           style: GoogleFonts.rubik(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               color: DuckDuckColors.steelBlack,
                               fontSize: 26,
                               fontWeight: FontWeight.bold,
@@ -48,11 +46,11 @@ class _DashboardPageState extends State<DashboardPage> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
-                padding: EdgeInsets.only(left: 18, bottom: 10),
+                padding: const EdgeInsets.only(left: 18, bottom: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -61,7 +59,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         Text(
                           'Tab on a tile to adjust settings',
                           style: GoogleFonts.rubik(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                             color: DuckDuckColors.steelBlack,
                             fontSize: 16,
                           )),
@@ -71,11 +69,11 @@ class _DashboardPageState extends State<DashboardPage> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
-                child: Column(
+                child: const Column(
                   children: [
                     Row(
                       children: [
@@ -121,10 +119,10 @@ class _DashboardPageState extends State<DashboardPage> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              WidgetCard(),
+              const WidgetCard(),
             ],
           ),
         ),

@@ -1,4 +1,3 @@
-import 'package:duckduck/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class WeatherPage extends StatefulWidget {
@@ -11,6 +10,6 @@ class WeatherPage extends StatefulWidget {
 class _WeatherPageState extends State<WeatherPage> {
   @override
   Widget build(BuildContext context) {
-    return Row();
+    return const Row();
   }
 }

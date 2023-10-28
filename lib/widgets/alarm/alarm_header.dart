@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AlarmHeader extends StatelessWidget {
-  const AlarmHeader({super.key});
+  final String alarmName;
+  final bool isEditing;
+  final Function(bool?)? onToggle;
+  final Function(String)? onChanged;
+  const AlarmHeader(
+      {super.key, this.isEditing = false, this.onToggle, this.onChanged, required this.alarmName});
 
   @override
   Widget build(BuildContext context) {
@@ -21,22 +26,54 @@ class AlarmHeader extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  'New alarm',
-                  style: GoogleFonts.rubik(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: DuckDuckColors.steelBlack,
+            child: isEditing
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 150,
+                        height: 40,
+                        child: TextField(
+                          decoration: const InputDecoration(
+                            border: UnderlineInputBorder(),
+                            hintText: 'Alarm name',
+                          ),
+                          onChanged: (newName) {
+                            print("call onchanged with $newName");
+                            onChanged?.call(newName);
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.check,
+                          color: DuckDuckStatus.success,
+                        ),
+                        onPressed: () => onToggle?.call(false),
+                      ),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        alarmName,
+                        style: GoogleFonts.rubik(
+                            color: DuckDuckColors.steelBlack,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(width: 10),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.mode_edit,
+                          color: DuckDuckColors.skyBlue,
+                        ),
+                        onPressed: () => onToggle?.call(true),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(width: 10),
-                const Icon(Icons.mode_edit,
-                    color: DuckDuckColors.skyBlue, size: 24)
-              ],
-            ),
           ),
           IconButton(
             onPressed: () => Navigator.of(context).pop(),
