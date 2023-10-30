@@ -1,6 +1,7 @@
 import 'package:duckduck/utils/colors.dart';
 import 'package:duckduck/widgets/alarm/SoundRadioList.dart';
 import 'package:duckduck/widgets/alarm/alarm_dialog_bottom.dart';
+import 'package:duckduck/widgets/alarm/sound_dialog_bottom.dart';
 import 'package:duckduck/widgets/confirm_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -203,7 +204,7 @@ class _AlarmMusicSelectorState extends State<AlarmMusicSelector> {
                   ),
                 ),
               ),
-              //AlarmDialogBottom(),
+              SoundDialogBottom(),
             ],
           ),
         ),
