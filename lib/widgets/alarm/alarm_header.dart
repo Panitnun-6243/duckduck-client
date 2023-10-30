@@ -8,7 +8,11 @@ class AlarmHeader extends StatelessWidget {
   final Function(bool?)? onToggle;
   final Function(String)? onChanged;
   const AlarmHeader(
-      {super.key, this.isEditing = false, this.onToggle, this.onChanged, required this.alarmName});
+      {super.key,
+      this.isEditing = false,
+      this.onToggle,
+      this.onChanged,
+      required this.alarmName});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,7 @@ class AlarmHeader extends StatelessWidget {
       decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Color(0xFFE7E7E7),
+            color: DuckDuckColors.frostWhite,
             width: 1,
           ),
         ),

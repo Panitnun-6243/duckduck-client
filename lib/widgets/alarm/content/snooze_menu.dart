@@ -17,7 +17,7 @@ class _SnoozeMenuState extends State<SnoozeMenu> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 261,
+        width: 200,
         height: 36,
         child: DropdownButtonFormField<String>(
           validator: (value) => null,

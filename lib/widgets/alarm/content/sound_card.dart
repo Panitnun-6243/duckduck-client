@@ -1,3 +1,4 @@
+import 'package:duckduck/pages/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:duckduck/utils/colors.dart';
@@ -29,49 +30,57 @@ class _SoundCardState extends State<SoundCard> {
               const SizedBox(
                 width: 10,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Sound',
-                    style: GoogleFonts.rubik(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: DuckDuckColors.steelBlack,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Sound',
+                      style: GoogleFonts.rubik(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: DuckDuckColors.steelBlack,
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: DuckDuckColors.frostWhite,
-                          foregroundColor: DuckDuckColors.steelBlack,
-                          padding: const EdgeInsets.all(5.0),
-                          textStyle: GoogleFonts.rubik(
-                              fontSize: 14, fontWeight: FontWeight.w500),
-                          fixedSize: const Size(261, 36),
-                          side: const BorderSide(
-                              color: DuckDuckColors.duckyYellow, width: 1),
-                          shadowColor: Colors.transparent),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                              child: Text(
-                            'Over the Horizon',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.rubik(
-                                fontSize: 14, fontWeight: FontWeight.w400),
-                          )),
-                          const Icon(
-                            Icons.chevron_right,
-                            color: DuckDuckColors.duckyYellow,
-                          )
-                        ],
-                      )),
-                ],
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              barrierDismissible: false   ,
+                              builder: (BuildContext context) {
+                                return AlarmMusicSelector(dialogContext: context);
+                              });
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: DuckDuckColors.frostWhite,
+                            foregroundColor: DuckDuckColors.steelBlack,
+                            padding: const EdgeInsets.all(5.0),
+                            textStyle: GoogleFonts.rubik(
+                                fontSize: 14, fontWeight: FontWeight.w500),
+                            side: const BorderSide(
+                                color: DuckDuckColors.duckyYellow, width: 1),
+                            shadowColor: Colors.transparent),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                                child: Text(
+                              'Over the Horizon',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.rubik(
+                                  fontSize: 14, fontWeight: FontWeight.w400),
+                            )),
+                            const Icon(
+                              Icons.chevron_right,
+                              color: DuckDuckColors.duckyYellow,
+                            )
+                          ],
+                        )),
+                  ],
+                ),
               )
             ],
           )

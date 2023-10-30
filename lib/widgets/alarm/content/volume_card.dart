@@ -44,7 +44,7 @@ class _VoulmeCardState extends State<VoulmeCard> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Container(width: 261, child: VolumeSlider())
+                    Container(width: 200, child: VolumeSlider())
                   ],
                 ),
               ],

@@ -13,3 +13,4 @@ export 'package:duckduck/pages/sleep/sleep_analysis_page.dart';
 export 'package:duckduck/pages/sleep/lullaby_song_page.dart';
 export 'package:duckduck/pages/light_control_page.dart';
 export 'package:duckduck/pages/alarm_page.dart';
+export 'package:duckduck/widgets/alarm/AlarmMusicSelector.dart';

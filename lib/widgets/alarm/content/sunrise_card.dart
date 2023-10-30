@@ -70,7 +70,7 @@ class _SunriseCardState extends State<SunriseCard> {
                   height: 5,
                 ),
                 widget.isEnabled
-                    ? Divider(
+                    ? const Divider(
                         height: 1,
                         color: DuckDuckStatus.disabledForeground,
                       )
