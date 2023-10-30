@@ -32,17 +32,14 @@ class RgbPicker extends StatelessWidget {
             height: 30,
           ),
           ColorPicker(
-            enableAlpha: true,
+            enableAlpha: false,
             displayThumbColor: true,
             pickerColor: pickerColor,
             onColorChanged: changeColor,
             pickerAreaHeightPercent: 0.8,
             paletteType: PaletteType.hsl,
             labelTypes: const [
-              ColorLabelType.hex,
-              ColorLabelType.rgb,
               ColorLabelType.hsl,
-              ColorLabelType.hsv
             ],
             pickerAreaBorderRadius: const BorderRadius.all(
               Radius.circular(10),

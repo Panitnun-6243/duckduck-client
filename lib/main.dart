@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
     final authProvider =
         Provider.of<AuthenticationProvider>(context, listen: false);
     final user = authProvider.currentUser;
-    final initialRoute = user == null ? '/alarm' : '/home';
+    final initialRoute = user == null ? '/login' : '/home';
 
     return MaterialApp(
       title: 'DuckDuck',

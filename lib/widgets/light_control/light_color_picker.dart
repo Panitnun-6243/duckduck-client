@@ -92,7 +92,7 @@ class _LightColorPickerState extends State<LightColorPicker> {
                         labelColor: DuckDuckColors.mandarinOrange,
                         indicatorColor: DuckDuckColors.mandarinOrange,
                         tabs: [
-                          Tab(text: 'RGB'),
+                          Tab(text: 'HSL'),
                           Tab(text: 'CCT'),
                         ],
                       ),
