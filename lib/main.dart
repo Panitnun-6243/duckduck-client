@@ -2,6 +2,7 @@ import 'package:duckduck/pages/pages.dart';
 import 'package:duckduck/providers/authentication_provider.dart';
 import 'package:duckduck/providers/light_provider.dart';
 import 'package:duckduck/widgets/alarm/AlarmMusicSelector.dart';
+import 'package:duckduck/widgets/sleep/sleep_clinic.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
     final authProvider =
         Provider.of<AuthenticationProvider>(context, listen: false);
     final user = authProvider.currentUser;
-    final initialRoute = user == null ? '/login' : '/home';
+    final initialRoute = user == null ? '/sleep-clinic' : '/home';
 
     return MaterialApp(
       title: 'DuckDuck',
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
         '/traffic': (context) => const TrafficPage(),
         '/time-zone': (context) => const TimeZonePage(),
         '/stock': (context) => const StockPage(),
+        '/sleep-clinic': (context) => const SleepClinicPage(),
         '/sleep-analysis': (context) => const SleepAnalysisPage(),
         '/lullaby-song': (context) => const LullabySongPage(),
         '/light-control': (context) => const LightControlPage(),
