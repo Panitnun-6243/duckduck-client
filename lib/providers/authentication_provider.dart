@@ -2,6 +2,7 @@ import 'package:duckduck/controller/http_handler.dart';
 import 'package:duckduck/models/users.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   Users? _currentUser;
@@ -9,6 +10,14 @@ class AuthenticationProvider with ChangeNotifier {
 
   Users? get currentUser => _currentUser;
   String? get token => _token;
+
+  AuthenticationProvider() {
+    _init();
+  }
+
+  Future<void> _init() async {
+    await _loadToken();
+  }
 
   void setCurrentUser(Users user) {
     _currentUser = user;
@@ -24,6 +33,7 @@ class AuthenticationProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         _currentUser = Users.fromJson(response.data["data"]);
         _token = response.data["data"]["token"];
+        await _saveToken(_token!);
         Caller.setToken(_token!);
         notifyListeners();
         return true;
@@ -59,6 +69,8 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   Future<void> logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
     _currentUser = null;
     _token = null;
     notifyListeners();
@@ -71,11 +83,39 @@ class AuthenticationProvider with ChangeNotifier {
     return validDeviceCodes.contains(deviceCode);
   }
 
-  // String handleDioException(DioException e) {
-  //   if (e.response != null) {
-  //     return e.response!.data["message"] ?? "An unknown error occurred";
-  //   } else {
-  //     return e.message;
-  //   }
-  // }
+  Future<void> _saveToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
+  }
+
+  Future<void> _loadToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    _token = prefs.getString('token');
+    if (_token != null) {
+      print(_token);
+      Caller.setToken(_token!);
+      await fetchUserDetails(); // Implement this method to set _currentUser based on token
+    }
+  }
+
+  Future<void> fetchUserDetails() async {
+    try {
+      Response response = await Caller.dio.get('/users');
+      if (response.statusCode == 200 && response.data != null) {
+        print(Users.fromJson(response.data["data"]));
+        _currentUser = Users.fromJson(response.data["data"]);
+      } else {
+        // Handle cases where the token might be invalid or expired
+        _token = null;
+        _currentUser = null;
+      }
+    } on DioException catch (e) {
+      // Handle exception
+      _token = null;
+      _currentUser = null;
+      print('Error fetching user details: ${e.message}');
+    } finally {
+      notifyListeners();
+    }
+  }
 }
