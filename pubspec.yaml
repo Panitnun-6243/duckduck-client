@@ -46,6 +46,7 @@ dependencies:
   format: ^1.4.0
   mqtt_client: ^10.0.0
   dio: ^5.3.4
+  flutter_platform_alert: ^0.5.0
 
 dev_dependencies:
   flutter_test:

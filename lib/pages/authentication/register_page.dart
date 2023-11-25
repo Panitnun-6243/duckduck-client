@@ -54,16 +54,19 @@ class _RegisterPageState extends State<RegisterPage> {
     return null;
   }
 
-  Future<void> handleRegistration() async {
+  Future<void> handleRegistration(context) async {
     setState(() => isSubmitted = true);
 
     if (!_validateForms()) {
-      return;
+      return DuckDuckSnackbar(
+              text: 'Invalid form data. Please check your details.',
+              icon: Icons.error,
+              accentColor: DuckDuckStatus.error)
+          .show(context);
     }
 
     final authProvider =
         Provider.of<AuthenticationProvider>(context, listen: false);
-
     bool success = await authProvider.register(
         _emailController.text,
         _passwordController.text,
@@ -71,18 +74,19 @@ class _RegisterPageState extends State<RegisterPage> {
         _deviceCodeController.text);
 
     if (success) {
-      _showSuccessDialog(context);
       DuckDuckSnackbar(
-        text: 'Registration successful!',
-        // ... other snackbar properties
-      ).show(context);
+              text: 'Registration successful!',
+              icon: Icons.check_circle,
+              accentColor: DuckDuckStatus.success)
+          .show(context);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginPage()));
     } else {
       DuckDuckSnackbar(
-        text: 'Registration failed.',
-        // ... other snackbar properties
-      ).show(context);
+              text: 'Registration failed. Please check your details.',
+              icon: Icons.error,
+              accentColor: DuckDuckStatus.error)
+          .show(context);
     }
   }
 
@@ -190,7 +194,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           Align(
                             alignment: Alignment.centerRight,
                             child: AuthenButton(
-                              onPressed: handleRegistration,
+                              onPressed: () => handleRegistration(context),
                             ),
                           ),
                         ],

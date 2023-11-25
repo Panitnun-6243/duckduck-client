@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/login.dart';
 import '../../providers/authentication_provider.dart';
 import '../home/home_page.dart';
 
@@ -25,43 +24,28 @@ class _LoginPageState extends State<LoginPage> {
   final FocusNode _passwordNode = FocusNode();
   bool isSubmitted = false;
 
-  Future<void> handleLogin() async {
+  Future<void> handleLogin(context) async {
     setState(() => isSubmitted = true);
-    final result = await performLogin();
+    final authProvider =
+        Provider.of<AuthenticationProvider>(context, listen: false);
+    bool success = await authProvider.login(
+        _emailController.text, _passwordController.text);
 
-    if (result.isSuccess) {
-      print(Provider.of<AuthenticationProvider>(context, listen: false)
-          .firebaseToken);
+    if (success) {
+      DuckDuckSnackbar(
+              text: 'Login successful!',
+              icon: Icons.check_circle,
+              accentColor: DuckDuckStatus.success)
+          .show(context);
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
     } else {
-      _showErrorSnackBar(result.errorMessage);
+      DuckDuckSnackbar(
+              text: 'Login failed. Please check your credentials.',
+              icon: Icons.error,
+              accentColor: DuckDuckStatus.error)
+          .show(context);
     }
-  }
-
-  Future<LoginResult> performLogin() async {
-    try {
-      final authProvider =
-          Provider.of<AuthenticationProvider>(context, listen: false);
-      bool success = await authProvider.login(
-          _emailController.text, _passwordController.text);
-      FocusScope.of(context).unfocus();
-
-      if (success) {
-        return LoginResult(isSuccess: true);
-      } else {
-        return LoginResult(
-            errorMessage: 'Login failed. Please check your credentials.');
-      }
-    } catch (e) {
-      return LoginResult(errorMessage: 'An error occurred: $e');
-    }
-  }
-
-  void _showErrorSnackBar(String message) {
-    DuckDuckSnackbar snackBar = DuckDuckSnackbar(
-        text: message, icon: Icons.clear, accentColor: DuckDuckStatus.error);
-    snackBar.show(context);
   }
 
   @override
@@ -124,7 +108,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           Align(
                             alignment: Alignment.centerRight,
-                            child: AuthenButton(onPressed: handleLogin),
+                            child: AuthenButton(
+                                onPressed: () => handleLogin(context)),
                           ),
                         ],
                       ),

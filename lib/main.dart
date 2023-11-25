@@ -1,19 +1,17 @@
 import 'package:dio/dio.dart';
-import 'package:duckduck/controller/MqttHandler.dart';
+import 'package:duckduck/controller/mqtt_handler.dart';
 import 'package:duckduck/models/light.dart';
 import 'package:duckduck/pages/pages.dart';
 import 'package:duckduck/providers/authentication_provider.dart';
 import 'package:duckduck/providers/light_provider.dart';
 import 'package:duckduck/widgets/alarm/AlarmMusicSelector.dart';
 import 'package:duckduck/widgets/sleep/sleep_clinic.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Future.delayed(const Duration(seconds: 1));
   FlutterNativeSplash.remove();
@@ -57,14 +55,14 @@ class _MyAppState extends State<MyApp> {
 
   Future<Light> fetchLight() async {
     Response response = await dio.get('/light-control',
-      options: Options(
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDM1MzkyNzQsImlhdCI6MTcwMDkxMTI3NCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.tYm0ClS67TuRELDnhGeB8bJivPMDtzNnhR9xTyrw7ag'
-        },
-      )
-    );
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization':
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDI3Nzg4MzAsImlhdCI6MTcwMDE1MDgzMCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.XNe6R_3n4xDiG7Hc6Qg5_xU32AieU2Xi39YBOx1w2zY'
+          },
+        ));
     Light newStatus = Light.fromJson(response.data["data"]);
     return newStatus;
   }
@@ -75,7 +73,7 @@ class _MyAppState extends State<MyApp> {
     final authProvider =
         Provider.of<AuthenticationProvider>(context, listen: false);
     final user = authProvider.currentUser;
-    final initialRoute = user == null ? '/sleep-clinic' : '/home';
+    final initialRoute = user == null ? '/login' : '/home';
 
     return MaterialApp(
       title: 'DuckDuck',
@@ -94,7 +92,8 @@ class _MyAppState extends State<MyApp> {
         '/sleep-clinic': (context) => const SleepClinicPage(),
         '/sleep-analysis': (context) => const SleepAnalysisPage(),
         '/lullaby-song': (context) => const LullabySongPage(),
-        '/light-control': (context) => LightControlPage(lightStatus: mqttHandler.lightStatus, fetchLight: fetchLight),
+        '/light-control': (context) => LightControlPage(
+            lightStatus: mqttHandler.lightStatus, fetchLight: fetchLight),
         '/alarm': (context) => const AlarmPage(),
         '/home': (context) => const HomePage(),
         '/profile': (context) => const ProfilePage(),
