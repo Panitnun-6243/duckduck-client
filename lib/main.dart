@@ -1,3 +1,6 @@
+import 'package:dio/dio.dart';
+import 'package:duckduck/controller/MqttHandler.dart';
+import 'package:duckduck/models/light.dart';
 import 'package:duckduck/pages/pages.dart';
 import 'package:duckduck/providers/authentication_provider.dart';
 import 'package:duckduck/providers/light_provider.dart';
@@ -32,8 +35,39 @@ class AppRoot extends StatelessWidget {
   }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  MqttHandler mqttHandler = MqttHandler();
+  Dio dio = Dio();
+
+  @override
+  void initState() {
+    super.initState();
+    mqttHandler.connect();
+    dio.options.baseUrl = 'https://dduck.panitnun.tech/api/v1';
+    dio.options.connectTimeout = const Duration(seconds: 5);
+    dio.options.receiveTimeout = const Duration(seconds: 3);
+  }
+
+  Future<Light> fetchLight() async {
+    Response response = await dio.get('/light-control',
+      options: Options(
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDM1MzkyNzQsImlhdCI6MTcwMDkxMTI3NCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.tYm0ClS67TuRELDnhGeB8bJivPMDtzNnhR9xTyrw7ag'
+        },
+      )
+    );
+    Light newStatus = Light.fromJson(response.data["data"]);
+    return newStatus;
+  }
 
   // This widget is the root of your application.
   @override
@@ -60,7 +94,7 @@ class MyApp extends StatelessWidget {
         '/sleep-clinic': (context) => const SleepClinicPage(),
         '/sleep-analysis': (context) => const SleepAnalysisPage(),
         '/lullaby-song': (context) => const LullabySongPage(),
-        '/light-control': (context) => const LightControlPage(),
+        '/light-control': (context) => LightControlPage(lightStatus: mqttHandler.lightStatus, fetchLight: fetchLight),
         '/alarm': (context) => const AlarmPage(),
         '/home': (context) => const HomePage(),
         '/profile': (context) => const ProfilePage(),

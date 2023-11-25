@@ -44,6 +44,8 @@ dependencies:
   firebase_core: ^2.19.0
   firebase_auth: ^4.11.1
   format: ^1.4.0
+  mqtt_client: ^10.0.0
+  dio: ^5.3.4
 
 dev_dependencies:
   flutter_test:
