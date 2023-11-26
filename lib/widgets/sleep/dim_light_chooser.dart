@@ -1,3 +1,4 @@
+import 'package:duckduck/widgets/chooser.dart';
 import 'package:flutter/material.dart';
 
 class DimLightChooser extends StatelessWidget {

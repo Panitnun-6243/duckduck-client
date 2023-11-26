@@ -28,17 +28,17 @@ class SleepClinicPage extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            Expanded(
+            const Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     Column(
                       children: [
                         AnalysisGraph(),
-                        const SizedBox(
+                        SizedBox(
                           height: 40,
                         ),
-                        const SweetDreams()
+                        SweetDreams()
                       ],
                     ),
                   ],

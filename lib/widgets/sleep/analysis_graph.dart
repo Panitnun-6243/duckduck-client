@@ -23,6 +23,7 @@ class _AnalysisGraphState extends State<AnalysisGraph> {
     SleepData(date: "2023-11-24", sleepDurationHours: 7),
     SleepData(date: "2023-11-25", sleepDurationHours: 5),
     SleepData(date: "2023-11-26", sleepDurationHours: 6.5),
+    SleepData(date: "2023-11-27", sleepDurationHours: 6),
   ];
 
   List<ChartData> processSleepData(List<SleepData> rawData) {
