@@ -48,6 +48,9 @@ dependencies:
   shared_preferences: ^2.2.2
   fl_chart: ^0.65.0
   syncfusion_flutter_charts: ^23.2.4
+  gcloud: ^0.8.11
+  mime: ^1.0.4
+  googleapis_auth: ^1.4.1
   file_picker: ^6.1.1
 
 dev_dependencies:

@@ -76,7 +76,7 @@ class _MyAppState extends State<MyApp> {
     final authProvider =
         Provider.of<AuthenticationProvider>(context, listen: false);
     final user = authProvider.currentUser;
-    final initialRoute = user == null ? '/login' : '/home';
+    final initialRoute = user == null ? '/sleep-clinic' : '/home';
 
     return MaterialApp(
       title: 'DuckDuck',
