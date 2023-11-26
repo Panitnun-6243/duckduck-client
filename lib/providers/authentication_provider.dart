@@ -11,7 +11,8 @@ class AuthenticationProvider with ChangeNotifier {
   Users? get currentUser => _currentUser;
   String? get token => _token;
 
-  AuthenticationProvider() {
+  AuthenticationProvider({String? initialToken}) {
+    _token = initialToken;
     _init();
   }
 
@@ -76,13 +77,6 @@ class AuthenticationProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _isValidDeviceCode(String deviceCode) {
-    // Consider updating this logic to fetch device codes from the server
-    List<String> validDeviceCodes = ['CODE123', 'CODE456', 'CODE789'];
-
-    return validDeviceCodes.contains(deviceCode);
-  }
-
   Future<void> _saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', token);
@@ -92,20 +86,19 @@ class AuthenticationProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     _token = prefs.getString('token');
     if (_token != null) {
-      print(_token);
       Caller.setToken(_token!);
-      await fetchUserDetails(); // Implement this method to set _currentUser based on token
+      await fetchUserDetails();
     }
   }
 
   Future<void> fetchUserDetails() async {
     try {
-      Response response = await Caller.dio.get('/users');
+      Response response = await Caller.dio.get('/users',
+          options: Options(headers: {'Authorization': 'Bearer $_token'}));
       if (response.statusCode == 200 && response.data != null) {
-        print(Users.fromJson(response.data["data"]));
+        print(response.data["data"]);
         _currentUser = Users.fromJson(response.data["data"]);
       } else {
-        // Handle cases where the token might be invalid or expired
         _token = null;
         _currentUser = null;
       }
@@ -116,6 +109,26 @@ class AuthenticationProvider with ChangeNotifier {
       print('Error fetching user details: ${e.message}');
     } finally {
       notifyListeners();
+    }
+  }
+
+  Future<bool> updateUserProfile(String name, String avatarUrl) async {
+    try {
+      Response response = await Caller.dio.post(
+        '/users',
+        data: {'name': name, 'avatar_url': avatarUrl},
+        options: Options(headers: {'Authorization': 'Bearer $_token'}),
+      );
+      if (response.statusCode == 200) {
+        // Update the current user's details
+        _currentUser = Users.fromJson(response.data["data"]);
+        notifyListeners();
+        return true;
+      }
+      return false;
+    } on DioException catch (e) {
+      print(e.response!.data);
+      return false;
     }
   }
 }

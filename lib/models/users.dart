@@ -1,8 +1,8 @@
 class Users {
-  final String? email;
-  final String? name;
-  final String? deviceCode;
-  final String? avatarUrl;
+  String? email;
+  String? name;
+  String? deviceCode;
+  String? avatarUrl;
 
   Users({
     this.email,
@@ -11,7 +11,6 @@ class Users {
     this.avatarUrl,
   });
 
-  // Add fromJson constructor
   factory Users.fromJson(Map<String, dynamic> json) {
     return Users(
       email: json['email'],
