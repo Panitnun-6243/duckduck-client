@@ -1,5 +1,5 @@
 import 'package:duckduck/utils/colors.dart';
-import 'package:fl_chart/fl_chart.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,6 +21,6 @@ class _AnalysisGraphState extends State<AnalysisGraph> {
   bool isPlaying = false;
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(aspectRatio: 2, child: BarChart(BarChartData()));
+    return AspectRatio(aspectRatio: 2, child: Container());
   }
 }

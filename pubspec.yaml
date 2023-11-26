@@ -41,8 +41,6 @@ dependencies:
   flutter_svg: ^2.0.7
   provider: ^6.0.5
   mobkit_dashed_border: ^0.0.5
-  firebase_core: ^2.19.0
-  firebase_auth: ^4.11.1
   format: ^1.4.0
   mqtt_client: ^10.0.0
   dio: ^5.3.4
