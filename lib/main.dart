@@ -76,7 +76,7 @@ class _MyAppState extends State<MyApp> {
     final authProvider =
         Provider.of<AuthenticationProvider>(context, listen: false);
     final user = authProvider.currentUser;
-    final initialRoute = user == null ? '/sleep-clinic' : '/home';
+    final initialRoute = user == null ? '/login' : '/home';
 
     return MaterialApp(
       title: 'DuckDuck',
@@ -93,7 +93,6 @@ class _MyAppState extends State<MyApp> {
         '/time-zone': (context) => const TimeZonePage(),
         '/stock': (context) => const StockPage(),
         '/sleep-clinic': (context) => const SleepClinicPage(),
-        '/dim-light': (context) => const DimLightPage(),
         '/lullaby-song': (context) => const LullabySongPage(),
         '/light-control': (context) => LightControlPage(
             lightStatus: mqttHandler.lightStatus, fetchLight: fetchLight),

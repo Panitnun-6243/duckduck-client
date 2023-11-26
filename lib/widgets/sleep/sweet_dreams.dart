@@ -1,8 +1,7 @@
 import 'package:duckduck/pages/pages.dart';
 import 'package:duckduck/utils/colors.dart';
-import 'package:duckduck/widgets/sleep/dim_light_chooser.dart';
-import 'package:duckduck/widgets/sleep/lullaby_chooser.dart';
 import 'package:duckduck/widgets/sleep/sweet_dream_switch.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -50,11 +49,11 @@ class SweetDreams extends StatelessWidget {
                 title: 'Dim Light',
                 icon: Icons.wb_sunny_outlined,
                 onTapped: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const DimLightPage()),
-                  );
+                  showCupertinoModalPopup<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return _buildContainer(DimLightDialog());
+                      });
                 },
               ),
               const SizedBox(
@@ -77,4 +76,25 @@ class SweetDreams extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _buildContainer(Widget picker) {
+  return Container(
+    height: 200,
+    padding: const EdgeInsets.only(top: 6.0),
+    color: CupertinoColors.white,
+    child: DefaultTextStyle(
+      style: const TextStyle(
+        color: CupertinoColors.black,
+        fontSize: 22.0,
+      ),
+      child: GestureDetector(
+        onTap: () {},
+        child: SafeArea(
+          top: false,
+          child: picker,
+        ),
+      ),
+    ),
+  );
 }
