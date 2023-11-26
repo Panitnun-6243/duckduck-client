@@ -9,7 +9,7 @@ export 'package:duckduck/pages/dashboard/weather_page.dart';
 export 'package:duckduck/pages/dashboard/traffic_page.dart';
 export 'package:duckduck/pages/dashboard/time_zone_page.dart';
 export 'package:duckduck/pages/dashboard/stock_page.dart';
-export 'package:duckduck/pages/sleep/sleep_analysis_page.dart';
+export 'package:duckduck/pages/sleep/dim_light_page.dart';
 export 'package:duckduck/pages/sleep/lullaby_song_page.dart';
 export 'package:duckduck/pages/light_control_page.dart';
 export 'package:duckduck/pages/alarm_page.dart';

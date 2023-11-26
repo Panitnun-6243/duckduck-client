@@ -10,6 +10,6 @@ class LullabySongPage extends StatefulWidget {
 class _LullabySongPageState extends State<LullabySongPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container();
   }
 }
