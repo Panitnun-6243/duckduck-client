@@ -14,6 +14,7 @@ class LightProvider with ChangeNotifier {
   int get levelOfBrightness => _light.levelOfBrightness ?? 3;
   LightMode get currentMode => _light.mode ?? LightMode.rgb;
   int get temperature => _light.temperature ?? 2000;
+  String get id => _light.id ?? '1';
   int currentModeTab = 0;
 
   void setColor(Color newColor) {
@@ -39,6 +40,32 @@ class LightProvider with ChangeNotifier {
     _light.cctColor = _getColorFromTemperature(temperature);
     setMode(LightMode.temperature);
     _notifyChanges();
+  }
+
+  void setId(String id) {
+    _light.id = id;
+    _notifyChanges();
+  }
+
+  void setLight(Light light) {
+    _light.rgbColor = light.rgbColor;
+    _light.cctColor = light.cctColor;
+    _light.brightness = light.brightness;
+    _light.levelOfBrightness = light.levelOfBrightness;
+    _light.mode = light.mode;
+    _light.temperature = light.temperature;
+    _light.id = light.id;
+    _notifyChanges();
+  }
+
+  void setLightPassive(Light light) {
+    _light.rgbColor = light.rgbColor;
+    _light.cctColor = light.cctColor;
+    _light.brightness = light.brightness;
+    _light.levelOfBrightness = light.levelOfBrightness;
+    _light.mode = light.mode;
+    _light.temperature = light.temperature;
+    _light.id = light.id;
   }
 
   void _updateLevelOfBrightness(double brightness) {

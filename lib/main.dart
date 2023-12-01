@@ -56,18 +56,63 @@ class _MyAppState extends State<MyApp> {
     dio.options.receiveTimeout = const Duration(seconds: 3);
   }
 
-  Future<Light> fetchLight() async {
+  Future<Light> fetchLight(token) async {
     Response response = await dio.get('/light-control',
         options: Options(
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization':
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDI3Nzg4MzAsImlhdCI6MTcwMDE1MDgzMCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.XNe6R_3n4xDiG7Hc6Qg5_xU32AieU2Xi39YBOx1w2zY'
+            'Authorization': 'Bearer $token'
           },
+          receiveTimeout: const Duration(seconds: 5),
         ));
     Light newStatus = Light.fromJson(response.data["data"]);
     return newStatus;
+  }
+
+  void putLight(token, Light light, LightMode? mode) async {
+    if (mode == null) {
+      await dio.put('/light-control/${light.id!}',
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $token'
+            },
+          ),
+          data: {
+            'brightness': double.parse(light.brightness!.toStringAsFixed(2)),
+          });
+    } else if (mode == LightMode.rgb) {
+      HSLColor hslColor = HSLColor.fromColor(light.rgbColor!);
+      await dio.patch('/hsl-light/${light.id!}',
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $token'
+            },
+          ),
+          data: {
+            'hsl_color': {
+              'h': (hslColor.hue / 2).floor(),
+              's': (hslColor.saturation * 100).floor(),
+              'l': (hslColor.lightness * 100).floor()
+            },
+            // 'brightness': double.parse(light.brightness!.toStringAsFixed(2)),
+            // 'color_mode': 'hsl'
+          });
+    } else if (mode == LightMode.temperature) {
+      await dio.put('/cct-light/${light.id!}',
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $token'
+            },
+          ),
+          data: {
+            'temp': light.temperature,
+            'brightness': double.parse(light.brightness!.toStringAsFixed(2))
+          });
+    }
   }
 
   // This widget is the root of your application.
@@ -76,7 +121,7 @@ class _MyAppState extends State<MyApp> {
     final authProvider =
         Provider.of<AuthenticationProvider>(context, listen: false);
     final user = authProvider.currentUser;
-    final initialRoute = user == null ? '/sleep-clinic' : '/home';
+    final initialRoute = user == null ? '/login' : '/home';
 
     return MaterialApp(
       title: 'DuckDuck',
@@ -95,7 +140,9 @@ class _MyAppState extends State<MyApp> {
         '/sleep-clinic': (context) => const SleepClinicPage(),
         '/lullaby-song': (context) => const LullabySongPage(),
         '/light-control': (context) => LightControlPage(
-            lightStatus: mqttHandler.lightStatus, fetchLight: fetchLight),
+            fetchLight: () => fetchLight(authProvider.token),
+            putLight: (Light l, LightMode? m) =>
+                putLight(authProvider.token, l, m)),
         '/alarm': (context) => const AlarmPage(),
         '/home': (context) => const HomePage(),
         '/profile': (context) => const ProfilePage(),

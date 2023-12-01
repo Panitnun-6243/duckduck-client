@@ -1,3 +1,4 @@
+import 'package:duckduck/models/light.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +8,8 @@ import '../../providers/light_provider.dart';
 import '../../utils/colors.dart';
 
 class BrightnessGauge extends StatefulWidget {
-  const BrightnessGauge({super.key});
+  final Function(Light) putLight;
+  const BrightnessGauge({super.key, required this.putLight});
 
   @override
   State<BrightnessGauge> createState() => _BrightnessGaugeState();
@@ -28,6 +30,9 @@ class _BrightnessGaugeState extends State<BrightnessGauge> {
       _volumeValue = '$gaugeValue';
     });
     Provider.of<LightProvider>(context, listen: false).setBrightness(value);
+    widget.putLight(Light(
+        brightness: value,
+        id: Provider.of<LightProvider>(context, listen: false).id));
   }
 
   @override

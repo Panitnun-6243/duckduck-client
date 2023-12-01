@@ -10,7 +10,9 @@ import '../../utils/colors.dart';
 
 class LightColorPicker extends StatefulWidget {
   final Color activeColor;
-  const LightColorPicker({super.key, required this.activeColor});
+  final void Function(Light, LightMode) putLight;
+  const LightColorPicker(
+      {super.key, required this.activeColor, required this.putLight});
 
   @override
   State<LightColorPicker> createState() => _LightColorPickerState();
@@ -29,6 +31,7 @@ class _LightColorPickerState extends State<LightColorPicker> {
   void initState() {
     super.initState();
     lightProvider = Provider.of<LightProvider>(context, listen: false);
+    tempKelvin = 3000;
   }
 
   void _changeColor(Color color) {
@@ -36,17 +39,40 @@ class _LightColorPickerState extends State<LightColorPicker> {
       () {
         pickerColor = color;
         lightProvider.setColor(pickerColor);
+        if (lightProvider.currentMode == LightMode.rgb) {
+          widget.putLight(
+              Light(
+                  rgbColor: pickerColor,
+                  brightness: lightProvider.brightness,
+                  levelOfBrightness: lightProvider.levelOfBrightness,
+                  id: lightProvider.id),
+              LightMode.rgb);
+        }
       },
     );
   }
 
   void _saveChanges() {
     if (lightProvider.currentMode == LightMode.rgb) {
+      lightProvider.setColor(pickerColor);
+      widget.putLight(
+          Light(
+              rgbColor: pickerColor,
+              brightness: lightProvider.brightness,
+              levelOfBrightness: lightProvider.levelOfBrightness,
+              id: lightProvider.id),
+          LightMode.rgb);
       setState(() => rgbColor = pickerColor);
-      lightProvider.setColor(rgbColor);
     } else {
+      lightProvider.setTemperature(pickerTempKelvin);
+      widget.putLight(
+          Light(
+              temperature: pickerTempKelvin,
+              brightness: lightProvider.brightness,
+              levelOfBrightness: lightProvider.levelOfBrightness,
+              id: lightProvider.id),
+          LightMode.rgb);
       setState(() => tempKelvin = pickerTempKelvin);
-      lightProvider.setTemperature(tempKelvin);
     }
     Navigator.of(context).pop();
   }
@@ -103,7 +129,7 @@ class _LightColorPickerState extends State<LightColorPicker> {
                                 textColorController: textColorController,
                                 pickerColor: pickerColor,
                                 changeColor: _changeColor),
-                            const TemperaturePicker(),
+                            TemperaturePicker(),
                           ],
                         ),
                       ),
@@ -157,7 +183,7 @@ class _LightColorPickerState extends State<LightColorPicker> {
               height: 30,
               decoration: BoxDecoration(
                 border: Border.all(color: DuckDuckColors.frostWhite, width: 2),
-                color: lightProvider.activeColor,
+                color: lightProvider.rgbColor,
                 shape: BoxShape.circle,
               ),
             ),

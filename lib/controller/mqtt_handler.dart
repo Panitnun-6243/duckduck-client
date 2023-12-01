@@ -51,7 +51,7 @@ class MqttHandler with ChangeNotifier {
       return -1;
     }
 
-    const topic = 'SSAC19/#';
+    const topic = 'ABC45/#';
     client.subscribe(topic, MqttQos.exactlyOnce);
 
     client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
@@ -94,7 +94,7 @@ class MqttHandler with ChangeNotifier {
   }
 
   void handleMessage(String topic, Map pto) {
-    switch(topic) {
+    switch (topic) {
       case 'hsl':
         break;
     }

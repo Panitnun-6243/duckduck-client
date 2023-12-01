@@ -1,3 +1,4 @@
+import 'package:duckduck/models/light.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -8,9 +9,7 @@ import '../../utils/colors.dart';
 import '../../utils/kelvin_to_rgb.dart';
 
 class TemperaturePicker extends StatelessWidget {
-  const TemperaturePicker({
-    super.key,
-  });
+  const TemperaturePicker({super.key});
 
   @override
   Widget build(BuildContext context) {
