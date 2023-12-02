@@ -1,3 +1,4 @@
+import 'package:duckduck/widgets/sleep/lullaby_item.dart';
 import 'package:duckduck/widgets/sleep/upload_mp3_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,7 +37,42 @@ class _LullabySongPageState extends State<LullabySongPage> {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
-                  children: [UploadMp3Button()],
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        LullabyItem(
+                            category: 'Instrument',
+                            numOfSongs: 4,
+                            image: 'assets/images/instrument.png'),
+                        LullabyItem(
+                            category: 'Ambient',
+                            numOfSongs: 4,
+                            image: 'assets/images/ambient.png'),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        LullabyItem(
+                            category: 'Natural',
+                            numOfSongs: 4,
+                            image: 'assets/images/natural.png'),
+                        LullabyItem(
+                            category: 'Custom',
+                            numOfSongs: 4,
+                            image: 'assets/images/custom.png'),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    UploadMp3Button()
+                  ],
                 ),
               ),
             ),
