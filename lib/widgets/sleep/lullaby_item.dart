@@ -6,19 +6,19 @@ class LullabyItem extends StatelessWidget {
   final String category;
   final int numOfSongs;
   final String image;
+  final void Function() onTap;
   const LullabyItem(
       {super.key,
       required this.category,
       required this.numOfSongs,
-      required this.image});
+      required this.image,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(10),
-      onTap: () {
-        print('go to each song page');
-      },
+      onTap: onTap,
       child: SizedBox(
         width: 164,
         height: 212,

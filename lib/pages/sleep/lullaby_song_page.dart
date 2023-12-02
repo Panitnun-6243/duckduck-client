@@ -39,33 +39,49 @@ class _LullabySongPageState extends State<LullabySongPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         LullabyItem(
-                            category: 'Instrument',
-                            numOfSongs: 4,
-                            image: 'assets/images/instrument.png'),
+                          category: 'Instrument',
+                          numOfSongs: 4,
+                          image: 'assets/images/instrument.png',
+                          onTap: () {
+                            Navigator.pushNamed(context, '/lullaby-instrument');
+                          },
+                        ),
                         LullabyItem(
-                            category: 'Ambient',
-                            numOfSongs: 4,
-                            image: 'assets/images/ambient.png'),
+                          category: 'Ambient',
+                          numOfSongs: 4,
+                          image: 'assets/images/ambient.png',
+                          onTap: () {
+                            Navigator.pushNamed(context, '/lullaby-ambient');
+                          },
+                        ),
                       ],
                     ),
                     const SizedBox(
                       height: 16,
                     ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         LullabyItem(
-                            category: 'Natural',
-                            numOfSongs: 4,
-                            image: 'assets/images/natural.png'),
+                          category: 'Natural',
+                          numOfSongs: 4,
+                          image: 'assets/images/natural.png',
+                          onTap: () {
+                            Navigator.pushNamed(context, '/lullaby-natural');
+                          },
+                        ),
                         LullabyItem(
-                            category: 'Custom',
-                            numOfSongs: 4,
-                            image: 'assets/images/custom.png'),
+                          category: 'Custom',
+                          numOfSongs: 4,
+                          image: 'assets/images/custom.png',
+                          onTap: () {
+                            Navigator.pushNamed(context, '/lullaby-custom');
+                          },
+                        ),
                       ],
                     ),
                     const SizedBox(

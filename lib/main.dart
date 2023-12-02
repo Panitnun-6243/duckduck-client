@@ -146,6 +146,10 @@ class _MyAppState extends State<MyApp> {
         '/alarm': (context) => const AlarmPage(),
         '/home': (context) => const HomePage(),
         '/profile': (context) => const ProfilePage(),
+        '/lullaby-instrument': (context) => const LullabyInstrumentPage(),
+        '/lullaby-ambient': (context) => const LullabyAmbientPage(),
+        '/lullaby-custom': (context) => const LullabyCustomPage(),
+        '/lullaby-natural': (context) => const LullabyNaturalPage(),
       },
     );
   }
