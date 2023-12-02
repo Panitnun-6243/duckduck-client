@@ -1,3 +1,4 @@
+import 'package:duckduck/utils/kelvin_to_rgb.dart';
 import 'package:flutter/material.dart';
 
 enum LightMode { rgb, temperature }
@@ -6,7 +7,6 @@ class Light {
   Color? rgbColor;
   Color? cctColor;
   double? brightness;
-  int? levelOfBrightness;
   LightMode? mode;
   int? temperature;
   String? id;
@@ -15,7 +15,6 @@ class Light {
       {this.rgbColor,
       this.cctColor,
       this.brightness,
-      this.levelOfBrightness,
       this.mode,
       this.temperature,
       this.id});
@@ -26,18 +25,17 @@ class Light {
   factory Light.fromJson(Map<dynamic, dynamic> json) {
     Color hsl = HSLColor.fromAHSL(
             1.0,
-            json['hsl_color']['h'].toDouble(),
+            json['hsl_color']['h'].toDouble() * 2,
             json['hsl_color']['s'].toDouble() / 100,
             json['hsl_color']['l'].toDouble() / 100)
         .toColor();
     Color cct = HSLColor.fromAHSL(
             1.0,
-            json['hsl_color']['h'].toDouble(),
+            json['hsl_color']['h'].toDouble() * 2,
             json['hsl_color']['s'].toDouble() / 100,
             json['hsl_color']['l'].toDouble() / 100)
         .toColor();
-    int levelOfBrightness = json['brightness'];
-    double brightness = levelOfBrightness.toDouble();
+    double brightness = json['brightness'];
     LightMode mode =
         json['color_mode'] == 'hsl' ? LightMode.rgb : LightMode.temperature;
     int temperature = json['temp'];
@@ -46,7 +44,6 @@ class Light {
         rgbColor: hsl,
         cctColor: cct,
         brightness: brightness,
-        levelOfBrightness: levelOfBrightness,
         mode: mode,
         temperature: temperature,
         id: id);
@@ -62,3 +59,12 @@ class Light {
   //   }
   // }
 }
+
+Color _getColorFromTemperature(int temp) {
+    if (kelvinTable.containsKey(temp)) {
+      return kelvinTable[temp]!;
+    }
+    int closestTemp = kelvinTable.keys
+        .reduce((a, b) => (temp - a).abs() < (temp - b).abs() ? a : b);
+    return kelvinTable[closestTemp]!;
+  }

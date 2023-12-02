@@ -13,8 +13,7 @@ class TemperaturePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late int pickerTempKelvin =
-        Provider.of<LightProvider>(context, listen: false).temperature;
+    int pickerTempKelvin = Provider.of<LightProvider>(context, listen: false).temperature;
 
     List<double> kelvinKeys =
         kelvinTable.keys.map((k) => k.toDouble()).toList();
@@ -53,8 +52,8 @@ class TemperaturePicker extends StatelessWidget {
           ),
           StatefulBuilder(builder: (context, state) {
             return SfLinearGauge(
-              minimum: kelvinTable.keys.first.toDouble(),
-              maximum: kelvinTable.keys.last.toDouble(),
+              minimum: 3000.00,
+              maximum: 7000.00,
               orientation: LinearGaugeOrientation.vertical,
               barPointers: [
                 LinearBarPointer(value: pickerTempKelvin.toDouble())

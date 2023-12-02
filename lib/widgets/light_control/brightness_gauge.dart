@@ -8,35 +8,46 @@ import '../../providers/light_provider.dart';
 import '../../utils/colors.dart';
 
 class BrightnessGauge extends StatefulWidget {
+  final double startValue;
   final Function(Light) putLight;
-  const BrightnessGauge({super.key, required this.putLight});
+  final Function(double) setBulbBrightness;
+  const BrightnessGauge({super.key, required this.startValue, required this.putLight, required this.setBulbBrightness});
 
   @override
   State<BrightnessGauge> createState() => _BrightnessGaugeState();
 }
 
 class _BrightnessGaugeState extends State<BrightnessGauge> {
-  late String _volumeValue = Provider.of<LightProvider>(context, listen: false)
-      .brightness
-      .toInt()
-      .toString();
-  late double _valueRange =
-      Provider.of<LightProvider>(context, listen: false).brightness;
+  late double _valueRange;
 
-  void onVolumeChanged(double value) {
+  @override
+  void initState() {
+    super.initState();
+    _valueRange = Provider.of<LightProvider>(context, listen: false).brightness;
+  }
+
+  void onVolumeChanged(BuildContext context, double value) {
     setState(() {
-      final int gaugeValue = value.toInt();
       _valueRange = value.toDouble();
-      _volumeValue = '$gaugeValue';
     });
     Provider.of<LightProvider>(context, listen: false).setBrightness(value);
+    widget.setBulbBrightness(value);
+  }
+
+  void onVolumeChangeEnd(BuildContext context, double value) {
+    print("brightness b $value");
+    final lightProvider = Provider.of<LightProvider>(context, listen: false);
     widget.putLight(Light(
+        rgbColor: lightProvider.rgbColor,
+        temperature: lightProvider.temperature,
         brightness: value,
-        id: Provider.of<LightProvider>(context, listen: false).id));
+        mode: lightProvider.currentMode,
+        id: lightProvider.id));
   }
 
   @override
   Widget build(BuildContext context) {
+    
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
@@ -55,7 +66,6 @@ class _BrightnessGaugeState extends State<BrightnessGauge> {
           ),
           pointers: <GaugePointer>[
             RangePointer(
-              onValueChanged: onVolumeChanged,
               enableDragging: true,
               value: _valueRange,
               cornerStyle: CornerStyle.bothCurve,
@@ -65,7 +75,8 @@ class _BrightnessGaugeState extends State<BrightnessGauge> {
             ),
             MarkerPointer(
               value: _valueRange,
-              onValueChanged: onVolumeChanged,
+              onValueChanged: (value) => onVolumeChanged(context, value),
+              onValueChangeEnd: (value) => onVolumeChangeEnd(context, value),
               enableDragging: true,
               markerHeight: 41,
               markerWidth: 41,
@@ -95,16 +106,11 @@ class _BrightnessGaugeState extends State<BrightnessGauge> {
               widget: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(_volumeValue,
+                  Text('${_valueRange.toInt().toString()}%',
                       style: GoogleFonts.rubik(
                           fontSize: 40,
                           fontWeight: FontWeight.w700,
                           color: DuckDuckColors.duckyYellow)),
-                  Text('%',
-                      style: GoogleFonts.rubik(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w700,
-                          color: DuckDuckColors.duckyYellow))
                 ],
               ),
             ),

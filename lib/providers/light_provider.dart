@@ -6,12 +6,11 @@ import '../utils/kelvin_to_rgb.dart';
 class LightProvider with ChangeNotifier {
   final Light _light = Light();
 
-  Color get activeColor => _light.activeColor ?? rgbColor;
+  Color get activeColor => (_light.mode == LightMode.rgb ? _light.rgbColor : _light.cctColor) ?? const Color(0xffAADBAA);
   Color get rgbColor => _light.rgbColor ?? const Color(0xfff2DB6F);
   Color get cctColor =>
       _light.cctColor ?? const Color.fromRGBO(255, 138, 18, 1);
   double get brightness => _light.brightness ?? 51;
-  int get levelOfBrightness => _light.levelOfBrightness ?? 3;
   LightMode get currentMode => _light.mode ?? LightMode.rgb;
   int get temperature => _light.temperature ?? 2000;
   String get id => _light.id ?? '1';
@@ -25,14 +24,17 @@ class LightProvider with ChangeNotifier {
 
   void setBrightness(double newBrightness) {
     _light.brightness = newBrightness;
-    _updateLevelOfBrightness(newBrightness);
     _notifyChanges();
   }
 
   void setMode(LightMode mode) {
+    setModePassive(mode);
+    _notifyChanges();
+  }
+
+  void setModePassive(LightMode mode) {
     _light.mode = mode;
     currentModeTab = (_light.mode == LightMode.rgb) ? 0 : 1;
-    _notifyChanges();
   }
 
   void setTemperature(int temperature) {
@@ -51,7 +53,6 @@ class LightProvider with ChangeNotifier {
     _light.rgbColor = light.rgbColor;
     _light.cctColor = light.cctColor;
     _light.brightness = light.brightness;
-    _light.levelOfBrightness = light.levelOfBrightness;
     _light.mode = light.mode;
     _light.temperature = light.temperature;
     _light.id = light.id;
@@ -62,21 +63,11 @@ class LightProvider with ChangeNotifier {
     _light.rgbColor = light.rgbColor;
     _light.cctColor = light.cctColor;
     _light.brightness = light.brightness;
-    _light.levelOfBrightness = light.levelOfBrightness;
     _light.mode = light.mode;
     _light.temperature = light.temperature;
     _light.id = light.id;
-  }
-
-  void _updateLevelOfBrightness(double brightness) {
-    if (brightness < 25) {
-      _light.levelOfBrightness = 1;
-    } else if (brightness < 50) {
-      _light.levelOfBrightness = 2;
-    } else if (brightness < 75) {
-      _light.levelOfBrightness = 3;
-    } else {
-      _light.levelOfBrightness = 4;
+    if (light.mode != null) {
+      setModePassive(light.mode!);
     }
   }
 

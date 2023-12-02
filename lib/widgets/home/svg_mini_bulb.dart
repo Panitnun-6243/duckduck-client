@@ -5,13 +5,11 @@ class SvgMiniBulb extends StatelessWidget {
   final Color color;
   final double brightness;
   final String assetName;
-  final int levelOfBrightness;
 
   const SvgMiniBulb({
     super.key,
     required this.color,
     required this.brightness,
-    required this.levelOfBrightness,
     required this.assetName,
   });
 

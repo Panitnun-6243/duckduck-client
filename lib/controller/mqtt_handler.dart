@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:duckduck/models/light.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mqtt_client/mqtt_client.dart';
@@ -8,9 +9,15 @@ class MqttHandler with ChangeNotifier {
   final ValueNotifier<Light> lightStatus = ValueNotifier<Light>(Light());
   late MqttServerClient client;
 
+  static const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  static final Random _rnd = Random();
+
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
   Future<Object> connect() async {
     client = MqttServerClient.withPort(
-        '34.87.44.54', 'lens_ALGxRhLLfeAVFZU2iMgNfBTyNUS232332323', 1883);
+        '34.87.44.54', getRandomString(32), 1883);
     client.logging(on: true);
     client.onConnected = onConnected;
     client.onDisconnected = onDisconnected;
@@ -51,7 +58,7 @@ class MqttHandler with ChangeNotifier {
       return -1;
     }
 
-    const topic = 'ABC45/#';
+    const topic = 'SSAC12/#';
     client.subscribe(topic, MqttQos.exactlyOnce);
 
     client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {

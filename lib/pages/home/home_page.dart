@@ -267,8 +267,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             SvgMiniBulb(
                               color: lightProvider.activeColor,
                               brightness: lightProvider.brightness,
-                              levelOfBrightness:
-                                  lightProvider.levelOfBrightness,
                               assetName: 'assets/images/light-bulb-mini.svg',
                             )
                           ],

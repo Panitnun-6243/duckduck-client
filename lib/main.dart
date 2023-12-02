@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:duckduck/controller/http_handler.dart';
 import 'package:duckduck/controller/mqtt_handler.dart';
 import 'package:duckduck/models/light.dart';
 import 'package:duckduck/pages/pages.dart';
@@ -45,19 +46,17 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   MqttHandler mqttHandler = MqttHandler();
-  Dio dio = Dio();
 
   @override
   void initState() {
     super.initState();
     mqttHandler.connect();
-    dio.options.baseUrl = 'https://dduck.panitnun.tech/api/v1';
-    dio.options.connectTimeout = const Duration(seconds: 5);
-    dio.options.receiveTimeout = const Duration(seconds: 3);
+    Caller.setToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g');
   }
 
   Future<Light> fetchLight(token) async {
-    Response response = await dio.get('/light-control',
+    print("fetching");
+    Response response = await Caller.dio.get('/light-control',
         options: Options(
           headers: {
             'Content-Type': 'application/json',
@@ -71,8 +70,14 @@ class _MyAppState extends State<MyApp> {
   }
 
   void putLight(token, Light light, LightMode? mode) async {
+    print("putLight ${light.brightness}");
+    print("putLight ${light.rgbColor}");
+    print("putLight $mode");
     if (mode == null) {
-      await dio.put('/light-control/${light.id!}',
+      if (light.brightness == null) return;
+      if (light.mode == LightMode.rgb) {
+        HSLColor hslColor = HSLColor.fromColor(light.rgbColor!);
+        await Caller.dio.patch('/hsl-light/${light.id!}',
           options: Options(
             headers: {
               'Content-Type': 'application/json',
@@ -80,11 +85,28 @@ class _MyAppState extends State<MyApp> {
             },
           ),
           data: {
-            'brightness': double.parse(light.brightness!.toStringAsFixed(2)),
+            'hsl_color': {
+              'h': (hslColor.hue / 2).floor(),
+              's': (hslColor.saturation * 100).floor(),
+              'l': light.brightness!.toInt()
+            },
           });
+      } else if (light.mode == LightMode.temperature) {
+        await Caller.dio.put('/cct-light/${light.id!}',
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $token'
+            },
+          ),
+          data: {
+            'temp': light.temperature,
+            'brightness': double.parse(light.brightness!.toStringAsFixed(2))
+          });
+      }
     } else if (mode == LightMode.rgb) {
       HSLColor hslColor = HSLColor.fromColor(light.rgbColor!);
-      await dio.patch('/hsl-light/${light.id!}',
+      await Caller.dio.patch('/hsl-light/${light.id!}',
           options: Options(
             headers: {
               'Content-Type': 'application/json',
@@ -101,7 +123,7 @@ class _MyAppState extends State<MyApp> {
             // 'color_mode': 'hsl'
           });
     } else if (mode == LightMode.temperature) {
-      await dio.put('/cct-light/${light.id!}',
+      await Caller.dio.put('/cct-light/${light.id!}',
           options: Options(
             headers: {
               'Content-Type': 'application/json',
@@ -118,8 +140,8 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final authProvider =
-        Provider.of<AuthenticationProvider>(context, listen: false);
+    final authProvider = context.read<AuthenticationProvider>();
+    final lightProvider = context.watch<LightProvider>();
     final user = authProvider.currentUser;
     final initialRoute = user == null ? '/sleep-clinic' : '/home';
 
@@ -140,6 +162,7 @@ class _MyAppState extends State<MyApp> {
         '/sleep-clinic': (context) => const SleepClinicPage(),
         '/lullaby-song': (context) => const LullabySongPage(),
         '/light-control': (context) => LightControlPage(
+            lightProvider: lightProvider,
             fetchLight: () => fetchLight(authProvider.token),
             putLight: (Light l, LightMode? m) =>
                 putLight(authProvider.token, l, m)),
