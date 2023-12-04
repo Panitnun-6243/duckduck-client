@@ -1,13 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controller/http_handler.dart';
+import '../../../models/lullaby_song.dart';
+import '../../../providers/sleep_provider.dart';
 import '../../../utils/colors.dart';
 
-class LullabyNaturalPage extends StatelessWidget {
+class LullabyNaturalPage extends StatefulWidget {
   const LullabyNaturalPage({super.key});
 
   @override
+  State<LullabyNaturalPage> createState() => _LullabyNaturalPageState();
+}
+
+class _LullabyNaturalPageState extends State<LullabyNaturalPage> {
+  late Future<List<LullabySong>> futureSongs;
+  LullabySong? selectedSong;
+
+  @override
+  void initState() {
+    super.initState();
+    futureSongs = Caller.fetchLullabySongs();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final sleepProvider = Provider.of<SleepProvider>(context);
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -49,19 +69,58 @@ class LullabyNaturalPage extends StatelessWidget {
                 color: Color(0xffE7E7E7),
                 thickness: 1,
               ),
-              const Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 40,
-                          ),
-                        ],
+              Expanded(
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Expanded(
+                      child: FutureBuilder<List<LullabySong>>(
+                        future: futureSongs,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else if (snapshot.hasData) {
+                            List<LullabySong> songs = snapshot.data!
+                                .where((song) => song.category == 'natural')
+                                .toList();
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: const ClampingScrollPhysics(),
+                              itemCount: songs.length,
+                              itemBuilder: (context, index) {
+                                final song = songs[index];
+                                bool isSelected =
+                                    sleepProvider.currentSong?.id == song.id;
+                                return ListTile(
+                                  title: Text(
+                                    song.name,
+                                    style: GoogleFonts.rubik(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: DuckDuckColors.steelBlack),
+                                  ),
+                                  trailing: isSelected
+                                      ? const Icon(Icons.check_circle,
+                                          color: Colors.green)
+                                      : null,
+                                  onTap: () {
+                                    sleepProvider.setCurrentSong(song);
+                                  },
+                                );
+                              },
+                            );
+                          } else {
+                            return const Text('No songs found');
+                          }
+                        },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],

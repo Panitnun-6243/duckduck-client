@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 
+import '../models/lullaby_song.dart';
+
 class Caller {
   static BaseOptions options = BaseOptions(
     baseUrl: "https://dduck.panitnun.tech/api/v1",
@@ -14,6 +16,20 @@ class Caller {
 
   static setToken(String token) {
     dio.options.headers["Authorization"] = "Bearer $token";
+  }
+
+  static Future<List<LullabySong>> fetchLullabySongs() async {
+    try {
+      final response = await dio.get('/preset-lullaby-song');
+      if (response.data['success'] == true) {
+        List<dynamic> songsJson = response.data['data'];
+        return songsJson.map((json) => LullabySong.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load songs');
+      }
+    } on DioException catch (e) {
+      rethrow;
+    }
   }
 
   static handle(BuildContext context, DioException error) {

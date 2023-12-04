@@ -5,6 +5,7 @@ import 'package:duckduck/models/light.dart';
 import 'package:duckduck/pages/pages.dart';
 import 'package:duckduck/providers/authentication_provider.dart';
 import 'package:duckduck/providers/light_provider.dart';
+import 'package:duckduck/providers/sleep_provider.dart';
 import 'package:duckduck/widgets/alarm/AlarmMusicSelector.dart';
 import 'package:duckduck/pages/sleep/sleep_clinic_page.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class AppRoot extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (context) => LightProvider()),
+        ChangeNotifierProvider(create: (context) => SleepProvider()),
       ],
       child: const MyApp(),
     );
