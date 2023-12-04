@@ -44,7 +44,7 @@ class _DimLightDialogState extends State<DimLightDialog> {
               style: GoogleFonts.rubik(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
-                  color: DuckDuckColors.steelBlack),
+                  color: DuckDuckColors.frostWhite),
             ),
           );
         },

@@ -15,7 +15,8 @@ class SweetDreams extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<SleepProvider>(builder: (context, provider, child) {
-      return Container(
+      return AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
@@ -30,10 +31,11 @@ class SweetDreams extends StatelessWidget {
                   : DuckDuckStatus.disabledForeground),
         ),
         padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
-            top: 10,
-            bottom: provider.dimLight.isActive ? 20 : 5),
+          left: 20,
+          right: 20,
+          top: 10,
+          bottom: provider.dimLight.isActive ? 20 : 5,
+        ),
         child: Column(
           children: [
             Row(
@@ -43,103 +45,104 @@ class SweetDreams extends StatelessWidget {
                 Text(
                   'Sweet Dreams',
                   style: GoogleFonts.rubik(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: provider.dimLight.isActive
-                          ? DuckDuckColors.cocoa
-                          : Colors.grey),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: provider.dimLight.isActive
+                        ? DuckDuckColors.cocoa
+                        : Colors.grey,
+                  ),
                 ),
-                const SweetDreamSwitch()
+                const SweetDreamSwitch(),
               ],
             ),
-            const SizedBox(
-              height: 10,
+            const SizedBox(height: 10),
+            // Dim Light Chooser
+            Chooser(
+              title: 'Dim Light',
+              icon: Icons.wb_sunny_outlined,
+              onTapped: () {
+                if (provider.dimLight.isActive) {
+                  showCupertinoModalPopup<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return _buildContainer(const DimLightDialog(), context);
+                    },
+                  );
+                }
+              },
             ),
-            Column(
-              children: [
-                Chooser(
-                  title: 'Dim Light',
-                  icon: Icons.wb_sunny_outlined,
-                  onTapped: () {
-                    showCupertinoModalPopup<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return _buildContainer(const DimLightDialog(), context);
-                      },
-                    );
-                  },
-                ),
-                provider.dimLight.isActive
-                    ? Row(
-                        children: [
-                          Text(
-                            'Duration:',
-                            style: GoogleFonts.rubik(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              color: provider.dimLight.isActive
-                                  ? DuckDuckColors.cocoa
-                                  : Colors.grey,
+            // Dim Light details with AnimatedOpacity
+            AnimatedOpacity(
+              opacity: provider.dimLight.isActive ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 300),
+              child: Column(
+                children: [
+                  provider.dimLight.isActive
+                      ? Row(
+                          children: [
+                            Text(
+                              'Duration:',
+                              style: GoogleFonts.rubik(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                color: DuckDuckColors.cocoa,
+                              ),
                             ),
-                          ),
-                          Text(
-                            ' ${provider.dimLight.duration} minutes',
-                            style: GoogleFonts.rubik(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: provider.dimLight.isActive
-                                  ? DuckDuckColors.cocoa
-                                  : Colors.grey,
+                            Text(
+                              ' ${provider.dimLight.duration} minutes',
+                              style: GoogleFonts.rubik(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: DuckDuckColors.cocoa,
+                              ),
                             ),
-                          )
-                        ],
-                      )
-                    : Container(),
+                          ],
+                        )
+                      : const SizedBox(),
+                  provider.dimLight.isActive
+                      ? const SizedBox(height: 13)
+                      : const SizedBox(),
+                ],
+              ),
+            ),
+            // Lullaby Chooser
+            Chooser(
+              title: 'Lullaby',
+              icon: Icons.music_note_outlined,
+              onTapped: () {
                 provider.dimLight.isActive
-                    ? const SizedBox(
-                        height: 13,
+                    ? Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LullabySongPage(),
+                        ),
                       )
-                    : Container(),
-                Chooser(
-                  title: 'Lullaby',
-                  icon: Icons.music_note_outlined,
-                  onTapped: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LullabySongPage(),
+                    : null;
+              },
+            ),
+            // Current Song
+            provider.dimLight.isActive
+                ? Row(
+                    children: [
+                      Text(
+                        'Current Song:',
+                        style: GoogleFonts.rubik(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400,
+                          color: DuckDuckColors.cocoa,
+                        ),
                       ),
-                    );
-                  },
-                ),
-                provider.dimLight.isActive
-                    ? Row(
-                        children: [
-                          Text(
-                            'Current Song:',
-                            style: GoogleFonts.rubik(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              color: provider.dimLight.isActive
-                                  ? DuckDuckColors.cocoa
-                                  : Colors.grey,
-                            ),
-                          ),
-                          Text(
-                            ' ${provider.currentSong?.name ?? 'None'}',
-                            style: GoogleFonts.rubik(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: provider.dimLight.isActive
-                                  ? DuckDuckColors.cocoa
-                                  : Colors.grey,
-                            ),
-                          ),
-                        ],
-                      )
-                    : Container(),
-              ],
-            )
+                      Text(
+                        ' ${provider.currentSong?.name ?? 'None'}',
+                        style: GoogleFonts.rubik(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: DuckDuckColors.cocoa,
+                        ),
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
           ],
         ),
       );
@@ -151,7 +154,7 @@ Widget _buildContainer(Widget picker, context) {
   return Container(
     height: 200,
     padding: const EdgeInsets.only(top: 6.0),
-    color: CupertinoColors.white,
+    color: DuckDuckColors.skyBlue,
     child: DefaultTextStyle(
       style: const TextStyle(
         color: CupertinoColors.black,

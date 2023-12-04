@@ -53,7 +53,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     mqttHandler.connect();
-    Caller.setToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g');
+    Caller.setToken(
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g');
   }
 
   Future<Light> fetchLight(token) async {
@@ -80,31 +81,31 @@ class _MyAppState extends State<MyApp> {
       if (light.mode == LightMode.rgb) {
         HSLColor hslColor = HSLColor.fromColor(light.rgbColor!);
         await Caller.dio.patch('/hsl-light/${light.id!}',
-          options: Options(
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer $token'
-            },
-          ),
-          data: {
-            'hsl_color': {
-              'h': (hslColor.hue / 2).floor(),
-              's': (hslColor.saturation * 100).floor(),
-              'l': light.brightness!.toInt()
-            },
-          });
+            options: Options(
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer $token'
+              },
+            ),
+            data: {
+              'hsl_color': {
+                'h': (hslColor.hue / 2).floor(),
+                's': (hslColor.saturation * 100).floor(),
+                'l': light.brightness!.toInt()
+              },
+            });
       } else if (light.mode == LightMode.temperature) {
         await Caller.dio.put('/cct-light/${light.id!}',
-          options: Options(
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer $token'
-            },
-          ),
-          data: {
-            'temp': light.temperature,
-            'brightness': double.parse(light.brightness!.toStringAsFixed(2))
-          });
+            options: Options(
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer $token'
+              },
+            ),
+            data: {
+              'temp': light.temperature,
+              'brightness': double.parse(light.brightness!.toStringAsFixed(2))
+            });
       }
     } else if (mode == LightMode.rgb) {
       HSLColor hslColor = HSLColor.fromColor(light.rgbColor!);
