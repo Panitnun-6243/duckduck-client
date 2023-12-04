@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/sleep_provider.dart';
 import '../../utils/colors.dart';
 
 class DimLightDialog extends StatefulWidget {
@@ -11,23 +14,41 @@ class DimLightDialog extends StatefulWidget {
 }
 
 class _DimLightDialogState extends State<DimLightDialog> {
-  int selectedMinute = 1;
+  late int selectedMinute;
+
+  @override
+  void initState() {
+    super.initState();
+    final sleepProvider = Provider.of<SleepProvider>(context, listen: false);
+    selectedMinute = sleepProvider.dimLight.duration;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final sleepProvider = Provider.of<SleepProvider>(context, listen: false);
+
     return CupertinoPicker(
       itemExtent: 32.0,
       onSelectedItemChanged: (int value) {
-        setState(() {
-          selectedMinute = value + 1; // Adding 1 because the array starts at 0
-        });
+        sleepProvider.setDimLight(sleepProvider.dimLight.isActive, value + 1);
       },
       scrollController: FixedExtentScrollController(
         initialItem: selectedMinute - 1,
       ),
-      children: List<Widget>.generate(60, (int index) {
-        return Center(child: Text('${index + 1} minutes'));
-      }),
+      children: List<Widget>.generate(
+        60,
+        (int index) {
+          return Center(
+            child: Text(
+              '${index + 1} minutes',
+              style: GoogleFonts.rubik(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: DuckDuckColors.steelBlack),
+            ),
+          );
+        },
+      ),
     );
   }
 }

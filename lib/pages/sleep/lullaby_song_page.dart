@@ -92,14 +92,9 @@ class _LullabySongPageState extends State<LullabySongPage> {
                         ],
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 30,
                       ),
-                      Consumer<SleepProvider>(
-                        builder: (context, provider, child) {
-                          return Text(
-                              'Current Song: ${provider.currentSong?.name ?? 'None'}');
-                        },
-                      ),
+                      UploadMp3Button()
                     ],
                   ),
                 ),

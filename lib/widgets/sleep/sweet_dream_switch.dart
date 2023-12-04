@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/sleep_provider.dart';
 import '../../utils/colors.dart';
 
 class SweetDreamSwitch extends StatefulWidget {
@@ -13,25 +15,16 @@ class SweetDreamSwitch extends StatefulWidget {
 }
 
 class _SweetDreamSwitchState extends State<SweetDreamSwitch> {
-  late bool _switchValue;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _switchValue = widget.defaultState ?? true;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final sleepProvider = Provider.of<SleepProvider>(context);
+
     return CupertinoSwitch(
-        activeColor: DuckDuckColors.duckyYellow,
-        value: _switchValue,
-        onChanged: (value) {
-          setState(() {
-            _switchValue = !_switchValue;
-          });
-          widget.onToggle?.call(value);
-        });
+      activeColor: DuckDuckColors.duckyYellow,
+      value: sleepProvider.dimLight.isActive,
+      onChanged: (bool value) {
+        sleepProvider.setDimLight(value, sleepProvider.dimLight.duration);
+      },
+    );
   }
 }
