@@ -108,8 +108,9 @@ class _LullabyNaturalPageState extends State<LullabyNaturalPage> {
                                       ? const Icon(Icons.check_circle,
                                           color: Colors.green)
                                       : null,
-                                  onTap: () {
+                                  onTap: () async {
                                     sleepProvider.setCurrentSong(song);
+                                    await sleepProvider.updateSleepClinicData();
                                   },
                                 );
                               },

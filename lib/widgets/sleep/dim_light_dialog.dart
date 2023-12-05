@@ -29,8 +29,9 @@ class _DimLightDialogState extends State<DimLightDialog> {
 
     return CupertinoPicker(
       itemExtent: 32.0,
-      onSelectedItemChanged: (int value) {
+      onSelectedItemChanged: (int value) async {
         sleepProvider.setDimLight(sleepProvider.dimLight.isActive, value + 1);
+        await sleepProvider.updateSleepClinicData();
       },
       scrollController: FixedExtentScrollController(
         initialItem: selectedMinute - 1,

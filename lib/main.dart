@@ -55,7 +55,9 @@ class _MyAppState extends State<MyApp> {
     mqttHandler.connect();
     () async {
       await Future.delayed(Duration.zero);
-      context.read<AuthenticationProvider>().login("nongtanny@gmail.com", "123456789");    
+      context
+          .read<AuthenticationProvider>()
+          .login("nongtanny@gmail.com", "123456789");
     }();
   }
 
@@ -137,10 +139,10 @@ class _MyAppState extends State<MyApp> {
       print(light.temperature);
       print(light.brightness);
       final data = {
-            'temp': light.temperature,
-            'brightness': double.parse(light.brightness!.toStringAsFixed(2))
-          };
-          print(data);
+        'temp': light.temperature,
+        'brightness': double.parse(light.brightness!.toStringAsFixed(2))
+      };
+      print(data);
       await Caller.dio.patch('/cct-light/${light.id!}',
           options: Options(
             headers: {
@@ -158,7 +160,7 @@ class _MyAppState extends State<MyApp> {
     final authProvider = context.read<AuthenticationProvider>();
     final lightProvider = context.watch<LightProvider>();
     final user = authProvider.currentUser;
-    final initialRoute = user == null ? '/profile' : '/home';
+    final initialRoute = user == null ? '/sleep-clinic' : '/home';
 
     return MaterialApp(
       title: 'DuckDuck',

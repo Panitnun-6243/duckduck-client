@@ -9,7 +9,7 @@
 .history
 .svn/
 migrate_working_dir/
-
+android.old/
 # IntelliJ related
 *.iml
 *.ipr

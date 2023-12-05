@@ -1,11 +1,24 @@
+import 'package:duckduck/providers/sleep_provider.dart';
 import 'package:duckduck/utils/colors.dart';
 import 'package:duckduck/widgets/sleep/analysis_graph.dart';
 import 'package:duckduck/widgets/sleep/sweet_dreams.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-class SleepClinicPage extends StatelessWidget {
+class SleepClinicPage extends StatefulWidget {
   const SleepClinicPage({super.key});
+
+  @override
+  State<SleepClinicPage> createState() => _SleepClinicPageState();
+}
+
+class _SleepClinicPageState extends State<SleepClinicPage> {
+  @override
+  void initState() {
+    Provider.of<SleepProvider>(context, listen: false).initProvider();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,10 @@ class LightControlPage extends StatefulWidget {
   final Future<Light> Function() fetchLight;
   final void Function(Light, LightMode?) putLight;
   const LightControlPage(
-      {super.key, required this.lightProvider, required this.fetchLight, required this.putLight});
+      {super.key,
+      required this.lightProvider,
+      required this.fetchLight,
+      required this.putLight});
 
   @override
   State<LightControlPage> createState() => _LightControlPageState();
@@ -84,7 +87,8 @@ class _LightControlPageState extends State<LightControlPage> {
                         if (light.mode == LightMode.rgb) {
                           bulbColor = light.rgbColor!;
                         } else if (light.mode == LightMode.temperature) {
-                          bulbColor = Light.getColorFromTemperature(light.temperature!);
+                          bulbColor =
+                              Light.getColorFromTemperature(light.temperature!);
                         }
                         isFetched = true;
                       }
@@ -99,30 +103,28 @@ class _LightControlPageState extends State<LightControlPage> {
                             alignment: Alignment.center,
                             children: [
                               BrightnessGauge(
-                                mode: bulbMode,
-                                startValue: bulbBrightness,
-                                putLight: (light) {
-                                  light.rgbColor = bulbColor;
-                                  light.temperature = bulbTemp;
-                                  widget.putLight(light, null);
-                                },
-                                setBulbBrightness: setBulbBrightness
-                              ),
+                                  mode: bulbMode,
+                                  startValue: bulbBrightness,
+                                  putLight: (light) {
+                                    light.rgbColor = bulbColor;
+                                    light.temperature = bulbTemp;
+                                    widget.putLight(light, null);
+                                  },
+                                  setBulbBrightness: setBulbBrightness),
                               Positioned(
                                 bottom: bottomLightPadding,
                                 child: LightColorPicker(
-                                  mode: bulbMode,
-                                  brightness: bulbBrightness,
-                                  color: bulbColor,
-                                  lightProvider: widget.lightProvider,
-                                  putLight: (Light light, LightMode mode) {
-                                    print("$bulbMode");
-                                    return widget.putLight(light, mode);
-                                  },
-                                  setBulb: setBulb,
-                                  setMode: setMode,
-                                  setTemp: setTemp
-                                ),
+                                    mode: bulbMode,
+                                    brightness: bulbBrightness,
+                                    color: bulbColor,
+                                    lightProvider: widget.lightProvider,
+                                    putLight: (Light light, LightMode mode) {
+                                      print("$bulbMode");
+                                      return widget.putLight(light, mode);
+                                    },
+                                    setBulb: setBulb,
+                                    setMode: setMode,
+                                    setTemp: setTemp),
                               )
                             ],
                           ),

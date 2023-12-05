@@ -22,8 +22,9 @@ class _SweetDreamSwitchState extends State<SweetDreamSwitch> {
     return CupertinoSwitch(
       activeColor: DuckDuckColors.duckyYellow,
       value: sleepProvider.dimLight.isActive,
-      onChanged: (bool value) {
+      onChanged: (bool value) async {
         sleepProvider.setDimLight(value, sleepProvider.dimLight.duration);
+        await sleepProvider.updateSleepClinicData();
       },
     );
   }

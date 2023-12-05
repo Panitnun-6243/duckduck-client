@@ -18,6 +18,7 @@ class Caller {
     dio.options.headers["Authorization"] = "Bearer $token";
   }
 
+  // sleep clinic
   static Future<List<LullabySong>> fetchLullabySongs() async {
     try {
       final response = await dio.get('/preset-lullaby-song');
@@ -28,10 +29,50 @@ class Caller {
         throw Exception('Failed to load songs');
       }
     } on DioException catch (e) {
+      print(e.message);
       rethrow;
     }
   }
 
+  static Future<Map<String, dynamic>> fetchSleepClinicData() async {
+    try {
+      final response = await dio.get(
+        '/sleep-clinic',
+        options: Options(
+          headers: {
+            'Authorization':
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g'
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        print("test: already fetch");
+        print(response.data["data"]);
+        return response.data["data"];
+      } else {
+        throw Exception('Failed to fetch sleep clinic data');
+      }
+    } on DioException catch (e) {
+      print(e.message);
+      rethrow;
+    }
+  }
+
+  static Future<Response> updateSleepClinicData(
+      String sleepClinicId, Map<String, dynamic> data) async {
+    return await dio.put(
+      '/sleep-clinic/$sleepClinicId',
+      data: data,
+      options: Options(
+        headers: {
+          'Authorization':
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g'
+        },
+      ),
+    );
+  }
+
+  // error handling
   static handle(BuildContext context, DioException error) {
     if (error.response == null) {
       FlutterPlatformAlert.showAlert(
