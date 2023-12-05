@@ -28,7 +28,7 @@ class ConfirmButton extends StatelessWidget {
     // print('disabled: $disabled');
     return Container(
       height: height,
-      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+      padding: const EdgeInsets.all(10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -41,17 +41,20 @@ class ConfirmButton extends StatelessWidget {
             backgroundColor: DuckDuckColors.transparent,
             isElevated: false,
             isBold: false,
+            iconColor: DuckDuckColors.frostWhite,
           )),
           const SizedBox(width: 20.0),
           Expanded(
               child: WideButton(
-                  height: 45,
-                  text: confirmText,
-                  isBold: true,
-                  icon: Icons.check,
-                  onPressed: onConfirm,
-                  disabled: disabled,
-                  isLoading: isLoading)),
+            height: 45,
+            text: confirmText,
+            isBold: true,
+            icon: Icons.check,
+            onPressed: onConfirm,
+            disabled: disabled,
+            isLoading: isLoading,
+            iconColor: DuckDuckColors.frostWhite,
+          )),
         ],
       ),
     );

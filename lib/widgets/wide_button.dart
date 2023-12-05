@@ -24,7 +24,8 @@ class WideButton extends StatelessWidget {
       this.isLoading = false,
       this.height = 35,
       this.icon,
-      required this.onPressed})
+      required this.onPressed,
+      required MaterialColor iconColor})
       : super(key: key);
 
   @override

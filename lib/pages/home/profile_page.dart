@@ -190,7 +190,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Text(
                       'Profile',
                       style: GoogleFonts.rubik(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           color: DuckDuckColors.steelBlack,
                           fontSize: 28,
                           fontWeight: FontWeight.w600,
@@ -201,7 +201,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       onPressed: () async {
                         try {
                           await authProvider.logout();
-                          SnackBar(content: Text("Logged out successfully!"));
+                          const SnackBar(
+                              content: Text("Logged out successfully!"));
                           // Optional: Redirect user to login page after logging out
                           Navigator.pushAndRemoveUntil(
                               context,
@@ -244,8 +245,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 color: DuckDuckColors.steelBlack,
                               ),
                             ),
-                            SizedBox(width: 10),
-                            Icon(
+                            const SizedBox(width: 15),
+                            const Icon(
                               Icons.edit,
                               size: 20,
                               color: DuckDuckColors.skyBlue,
@@ -265,7 +266,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           color: DuckDuckColors.steelBlack),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -281,11 +282,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           child: Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.email_rounded,
                                 color: DuckDuckStatus.disabledForeground,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Text(
@@ -298,10 +299,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 30),
+                    padding: const EdgeInsets.only(top: 350),
                     child: SingleChildScrollView(
                       child: Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(10),
                         child: ConfirmButton(
                           confirmText: 'Save',
                           onConfirm: () {},
