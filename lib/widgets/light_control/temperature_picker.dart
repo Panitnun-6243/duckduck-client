@@ -1,5 +1,6 @@
 import 'package:duckduck/models/light.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -8,19 +9,35 @@ import '../../providers/light_provider.dart';
 import '../../utils/colors.dart';
 import '../../utils/kelvin_to_rgb.dart';
 
-class TemperaturePicker extends StatelessWidget {
-  const TemperaturePicker({super.key});
+class TemperaturePicker extends StatefulWidget {
+  final int startTempKelvin;
+  final void Function(int) setTempKelvin;
+  const TemperaturePicker({super.key, required this.startTempKelvin, required this.setTempKelvin});
+
+  @override
+  State<TemperaturePicker> createState() => _TemperaturePickerState();
+}
+
+class _TemperaturePickerState extends State<TemperaturePicker> {
+  List<double> kelvinKeys =
+        kelvinTable.keys.map((k) => k.toDouble()).toList();
+
+  List<Color> reversedKelvinColors =
+      kelvinTable.values.toList().reversed.toList();
+
+  late int pickerTempKelvin;
+
+  @override
+  void initState() {
+    super.initState();
+    pickerTempKelvin = widget.startTempKelvin;
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      pickerTempKelvin = context.read<LightProvider>().temperature;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    int pickerTempKelvin = Provider.of<LightProvider>(context, listen: false).temperature;
-
-    List<double> kelvinKeys =
-        kelvinTable.keys.map((k) => k.toDouble()).toList();
-
-    List<Color> reversedKelvinColors =
-        kelvinTable.values.toList().reversed.toList();
-
     LinearGradient createKelvinGradient() {
       return LinearGradient(
         begin: Alignment.topCenter,
@@ -67,11 +84,12 @@ class TemperaturePicker extends StatelessWidget {
                     state(
                       () {
                         pickerTempKelvin = kelvin.toInt();
-                        Provider.of<LightProvider>(context, listen: false)
-                            .setTemperature(pickerTempKelvin);
+                        // Provider.of<LightProvider>(context, listen: false)
+                        //     .setTemperature(pickerTempKelvin);
                       },
                     );
                   },
+                  onChangeEnd: (kelvin) => widget.setTempKelvin(kelvin.toInt()),
                 )
               ],
               ranges: <LinearGaugeRange>[
