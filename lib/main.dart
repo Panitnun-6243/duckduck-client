@@ -53,8 +53,10 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     mqttHandler.connect();
-    Caller.setToken(
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g');
+    () async {
+      await Future.delayed(Duration.zero);
+      context.read<AuthenticationProvider>().login("nongtanny@gmail.com", "123456789");    
+    }();
   }
 
   Future<Light> fetchLight(token) async {
@@ -75,10 +77,12 @@ class _MyAppState extends State<MyApp> {
   void putLight(token, Light light, LightMode? mode) async {
     print("putLight ${light.brightness}");
     print("putLight ${light.rgbColor}");
+    print("putLight ${light.temperature}");
     print("putLight $mode");
     if (mode == null) {
       if (light.brightness == null) return;
       if (light.mode == LightMode.rgb) {
+        print("case 1");
         HSLColor hslColor = HSLColor.fromColor(light.rgbColor!);
         await Caller.dio.patch('/hsl-light/${light.id!}',
             options: Options(
@@ -95,7 +99,8 @@ class _MyAppState extends State<MyApp> {
               },
             });
       } else if (light.mode == LightMode.temperature) {
-        await Caller.dio.put('/cct-light/${light.id!}',
+        print("case 2");
+        await Caller.dio.patch('/cct-light/${light.id!}',
             options: Options(
               headers: {
                 'Content-Type': 'application/json',
@@ -108,6 +113,7 @@ class _MyAppState extends State<MyApp> {
             });
       }
     } else if (mode == LightMode.rgb) {
+      print("case 3");
       HSLColor hslColor = HSLColor.fromColor(light.rgbColor!);
       await Caller.dio.patch('/hsl-light/${light.id!}',
           options: Options(
@@ -126,17 +132,23 @@ class _MyAppState extends State<MyApp> {
             // 'color_mode': 'hsl'
           });
     } else if (mode == LightMode.temperature) {
-      await Caller.dio.put('/cct-light/${light.id!}',
+      print("case 4");
+      print(light.id);
+      print(light.temperature);
+      print(light.brightness);
+      final data = {
+            'temp': light.temperature,
+            'brightness': double.parse(light.brightness!.toStringAsFixed(2))
+          };
+          print(data);
+      await Caller.dio.patch('/cct-light/${light.id!}',
           options: Options(
             headers: {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer $token'
             },
           ),
-          data: {
-            'temp': light.temperature,
-            'brightness': double.parse(light.brightness!.toStringAsFixed(2))
-          });
+          data: data);
     }
   }
 
@@ -146,7 +158,7 @@ class _MyAppState extends State<MyApp> {
     final authProvider = context.read<AuthenticationProvider>();
     final lightProvider = context.watch<LightProvider>();
     final user = authProvider.currentUser;
-    final initialRoute = user == null ? '/sleep-clinic' : '/home';
+    final initialRoute = user == null ? '/home' : '/home';
 
     return MaterialApp(
       title: 'DuckDuck',

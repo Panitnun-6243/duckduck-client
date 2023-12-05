@@ -1,8 +1,10 @@
 import 'package:duckduck/models/light.dart';
+import 'package:duckduck/providers/authentication_provider.dart';
 import 'package:duckduck/providers/light_provider.dart';
 import 'package:duckduck/widgets/light_control/brightness_gauge.dart';
 import 'package:duckduck/widgets/light_control/light_color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../widgets/light_control/svg_bulb.dart';
 
 class LightControlPage extends StatefulWidget {
@@ -20,6 +22,8 @@ class _LightControlPageState extends State<LightControlPage> {
   late Future<Light> lightFuture;
   late Color bulbColor;
   late double bulbBrightness;
+  late LightMode bulbMode;
+  late int bulbTemp;
   bool isFetched = false;
 
   @override
@@ -28,6 +32,8 @@ class _LightControlPageState extends State<LightControlPage> {
     lightFuture = widget.fetchLight();
     bulbColor = widget.lightProvider.activeColor;
     bulbBrightness = widget.lightProvider.brightness;
+    bulbMode = widget.lightProvider.currentMode;
+    bulbTemp = widget.lightProvider.temperature;
   }
 
   void setBulbColor(Color newColor) {
@@ -39,10 +45,19 @@ class _LightControlPageState extends State<LightControlPage> {
   }
 
   void setBulb(Color newColor, double newBrightness) {
+    print("set bulb $newColor $newBrightness");
     setState(() {
       bulbColor = newColor;
       bulbBrightness = newBrightness;
     });
+  }
+
+  void setMode(LightMode newMode) {
+    setState(() => bulbMode = newMode);
+  }
+
+  void setTemp(int newTemp) {
+    bulbTemp = newTemp;
   }
 
   @override
@@ -64,8 +79,13 @@ class _LightControlPageState extends State<LightControlPage> {
                     if (snapshot.hasData) {
                       Light light = snapshot.data as Light;
                       widget.lightProvider.setLightPassive(light);
-                      if (!isFetched){
-                        bulbColor = light.rgbColor!;
+                      if (!isFetched) {
+                        bulbMode = light.mode!;
+                        if (light.mode == LightMode.rgb) {
+                          bulbColor = light.rgbColor!;
+                        } else if (light.mode == LightMode.temperature) {
+                          bulbColor = Light.getColorFromTemperature(light.temperature!);
+                        }
                         isFetched = true;
                       }
                       return Column(
@@ -79,9 +99,11 @@ class _LightControlPageState extends State<LightControlPage> {
                             alignment: Alignment.center,
                             children: [
                               BrightnessGauge(
+                                mode: bulbMode,
                                 startValue: bulbBrightness,
                                 putLight: (light) {
                                   light.rgbColor = bulbColor;
+                                  light.temperature = bulbTemp;
                                   widget.putLight(light, null);
                                 },
                                 setBulbBrightness: setBulbBrightness
@@ -89,9 +111,17 @@ class _LightControlPageState extends State<LightControlPage> {
                               Positioned(
                                 bottom: bottomLightPadding,
                                 child: LightColorPicker(
+                                  mode: bulbMode,
+                                  brightness: bulbBrightness,
+                                  color: bulbColor,
                                   lightProvider: widget.lightProvider,
-                                  putLight: widget.putLight,
-                                  setBulb: setBulb
+                                  putLight: (Light light, LightMode mode) {
+                                    print("$bulbMode");
+                                    return widget.putLight(light, mode);
+                                  },
+                                  setBulb: setBulb,
+                                  setMode: setMode,
+                                  setTemp: setTemp
                                 ),
                               )
                             ],

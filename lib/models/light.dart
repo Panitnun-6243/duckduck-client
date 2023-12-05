@@ -58,9 +58,7 @@ class Light {
   //     },
   //   }
   // }
-}
-
-Color _getColorFromTemperature(int temp) {
+  static Color _getColorFromTemperature(int temp) {
     if (kelvinTable.containsKey(temp)) {
       return kelvinTable[temp]!;
     }
@@ -68,3 +66,13 @@ Color _getColorFromTemperature(int temp) {
         .reduce((a, b) => (temp - a).abs() < (temp - b).abs() ? a : b);
     return kelvinTable[closestTemp]!;
   }
+
+  static Color getColorFromTemperature(int temp) {
+    /*
+        Input temperature range: 3000-7000
+        Output temperature range: 2000-12000
+     */
+    int mappedTemp = (2000 + ((temp - 3000) / 4000 * 10000)).toInt();
+    return Light._getColorFromTemperature(mappedTemp);
+  }
+}

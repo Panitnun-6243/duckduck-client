@@ -8,10 +8,11 @@ import '../../providers/light_provider.dart';
 import '../../utils/colors.dart';
 
 class BrightnessGauge extends StatefulWidget {
+  final LightMode mode;
   final double startValue;
   final Function(Light) putLight;
   final Function(double) setBulbBrightness;
-  const BrightnessGauge({super.key, required this.startValue, required this.putLight, required this.setBulbBrightness});
+  const BrightnessGauge({super.key, required this.mode, required this.startValue, required this.putLight, required this.setBulbBrightness});
 
   @override
   State<BrightnessGauge> createState() => _BrightnessGaugeState();
@@ -26,6 +27,14 @@ class _BrightnessGaugeState extends State<BrightnessGauge> {
     _valueRange = Provider.of<LightProvider>(context, listen: false).brightness;
   }
 
+  @override
+  void didUpdateWidget(covariant BrightnessGauge oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    setState(() {
+      _valueRange = widget.startValue;
+    });
+  }
+
   void onVolumeChanged(BuildContext context, double value) {
     setState(() {
       _valueRange = value.toDouble();
@@ -37,11 +46,12 @@ class _BrightnessGaugeState extends State<BrightnessGauge> {
   void onVolumeChangeEnd(BuildContext context, double value) {
     print("brightness b $value");
     final lightProvider = Provider.of<LightProvider>(context, listen: false);
+    // widget.setTemp(value.toInt());
     widget.putLight(Light(
         rgbColor: lightProvider.rgbColor,
         temperature: lightProvider.temperature,
         brightness: value,
-        mode: lightProvider.currentMode,
+        mode: widget.mode,
         id: lightProvider.id));
   }
 
