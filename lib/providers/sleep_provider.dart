@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../controller/http_handler.dart';
 import '../models/dim_light.dart';
 import '../models/lullaby_song.dart';
+import '../models/sleep_data.dart';
 
 class SleepProvider with ChangeNotifier {
   LullabySong? _currentSong;
@@ -13,6 +14,9 @@ class SleepProvider with ChangeNotifier {
   String get currentSongName => _currentSong?.name ?? "";
   List<LullabySong> get allSongs => _allSongs;
   DimLight get dimLight => _dimLight;
+
+  List<SleepData> _sleepStats = [];
+  List<SleepData> get sleepStats => _sleepStats;
   Dio dio = Caller.dio;
 
   SleepProvider() {
@@ -47,6 +51,9 @@ class SleepProvider with ChangeNotifier {
         orElse: () => LullabySong(id: '', name: '', path: '', category: ''),
       );
       _dimLight = DimLight.fromJson(data['dim_light']);
+      _sleepStats = (data['sleep_stats'] as List)
+          .map((e) => SleepData.fromJson(e))
+          .toList();
       notifyListeners();
     } catch (e) {
       print("Error fetching clinic data: $e");

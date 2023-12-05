@@ -2,9 +2,11 @@ import 'package:duckduck/utils/colors.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../models/sleep_data.dart';
+import '../../providers/sleep_provider.dart';
 
 class AnalysisGraph extends StatefulWidget {
   const AnalysisGraph({super.key});
@@ -16,15 +18,15 @@ class AnalysisGraph extends StatefulWidget {
 class _AnalysisGraphState extends State<AnalysisGraph> {
   late TooltipBehavior _tooltipBehavior;
   late List<ChartData> chartData;
-  List<SleepData> rawData = [
-    SleepData(date: "2023-11-21", sleepDurationHours: 7),
-    SleepData(date: "2023-11-22", sleepDurationHours: 5),
-    SleepData(date: "2023-11-23", sleepDurationHours: 3.5),
-    SleepData(date: "2023-11-24", sleepDurationHours: 7),
-    SleepData(date: "2023-11-25", sleepDurationHours: 5),
-    SleepData(date: "2023-11-26", sleepDurationHours: 6.5),
-    SleepData(date: "2023-11-27", sleepDurationHours: 6),
-  ];
+  // List<SleepData> rawData = [
+  //   SleepData(date: "2023-11-21", sleepDurationHours: 7),
+  //   SleepData(date: "2023-11-22", sleepDurationHours: 5),
+  //   SleepData(date: "2023-11-23", sleepDurationHours: 3.5),
+  //   SleepData(date: "2023-11-24", sleepDurationHours: 7),
+  //   SleepData(date: "2023-11-25", sleepDurationHours: 5),
+  //   SleepData(date: "2023-11-26", sleepDurationHours: 6.5),
+  //   SleepData(date: "2023-11-27", sleepDurationHours: 6),
+  // ];
 
   List<ChartData> processSleepData(List<SleepData> rawData) {
     rawData.sort(
@@ -55,11 +57,14 @@ class _AnalysisGraphState extends State<AnalysisGraph> {
   void initState() {
     super.initState();
     _tooltipBehavior = TooltipBehavior(enable: true);
-    chartData = processSleepData(rawData);
+    // chartData = processSleepData(rawData);
   }
 
   @override
   Widget build(BuildContext context) {
+    final sleepProvider = Provider.of<SleepProvider>(context);
+    chartData = processSleepData(sleepProvider.sleepStats);
+
     return SfCartesianChart(
       primaryXAxis: CategoryAxis(),
       tooltipBehavior: _tooltipBehavior,
