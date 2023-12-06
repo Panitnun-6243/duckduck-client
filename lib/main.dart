@@ -160,7 +160,7 @@ class _MyAppState extends State<MyApp> {
     final authProvider = context.read<AuthenticationProvider>();
     final lightProvider = context.watch<LightProvider>();
     final user = authProvider.currentUser;
-    final initialRoute = user == null ? '/sleep-clinic' : '/home';
+    final initialRoute = user == null ? '/alarm' : '/home';
 
     return MaterialApp(
       title: 'DuckDuck',

@@ -14,7 +14,7 @@ class AlarmCard extends StatelessWidget {
     int wakeUpHours = 21;
     int wakeUpMinutes = 30;
     int volume = 0;
-    int repeatDaysCount = 0;
+    int repeatDaysCount = 1;
     bool isActive = true;
 
     return Card(

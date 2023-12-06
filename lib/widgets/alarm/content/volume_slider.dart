@@ -10,7 +10,7 @@ class VolumeSlider extends StatefulWidget {
 }
 
 class _VolumeSliderState extends State<VolumeSlider> {
-  double volumeLevel = 60;
+  double volumeLevel = 100;
 
   @override
   Widget build(BuildContext context) {
