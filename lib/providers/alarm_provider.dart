@@ -5,18 +5,13 @@ import '../models/alarm.dart';
 
 class AlarmProvider with ChangeNotifier {
   List<Alarm> _alarms = [];
-
   List<Alarm> get alarms => _alarms;
 
   // Fetch all alarms
   Future<void> fetchAlarms() async {
     try {
-      final response = await Caller.dio.get('/alarms');
-      if (response.statusCode == 200 && response.data['success']) {
-        final data = response.data['data'] as List;
-        _alarms = data.map((json) => Alarm.fromJson(json)).toList();
-        notifyListeners();
-      }
+      _alarms = await Caller.fetchAlarms();
+      notifyListeners();
     } catch (e) {
       print('Error fetching alarms: $e');
     }
@@ -25,9 +20,9 @@ class AlarmProvider with ChangeNotifier {
   // Add a new alarm
   Future<void> addAlarm(Alarm alarm) async {
     try {
-      final response = await Caller.dio.post('/alarms', data: alarm.toJson());
+      final response = await Caller.addAlarm(alarm.toJson());
       if (response.statusCode == 200 && response.data['success']) {
-        fetchAlarms(); // Refresh the alarm list
+        await fetchAlarms(); // Refresh the alarm list
       }
     } catch (e) {
       print('Error adding alarm: $e');
@@ -37,10 +32,9 @@ class AlarmProvider with ChangeNotifier {
   // Update an alarm
   Future<void> updateAlarm(String id, Alarm updatedAlarm) async {
     try {
-      final response =
-          await Caller.dio.put('/alarms/$id', data: updatedAlarm.toJson());
+      final response = await Caller.updateAlarm(id, updatedAlarm.toJson());
       if (response.statusCode == 200 && response.data['success']) {
-        fetchAlarms();
+        await fetchAlarms(); // Refresh the alarm list
       }
     } catch (e) {
       print('Error updating alarm: $e');
@@ -50,9 +44,9 @@ class AlarmProvider with ChangeNotifier {
   // Delete an alarm
   Future<void> deleteAlarm(String id) async {
     try {
-      final response = await Caller.dio.delete('/alarms/$id');
+      final response = await Caller.deleteAlarm(id);
       if (response.statusCode == 200 && response.data['success']) {
-        fetchAlarms();
+        await fetchAlarms(); // Refresh the alarm list
       }
     } catch (e) {
       print('Error deleting alarm: $e');

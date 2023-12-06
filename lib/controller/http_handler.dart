@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 
+import '../models/alarm.dart';
 import '../models/lullaby_song.dart';
 
 class Caller {
@@ -16,6 +17,86 @@ class Caller {
 
   static setToken(String token) {
     dio.options.headers["Authorization"] = "Bearer $token";
+  }
+
+  // alarm
+  static Future<List<Alarm>> fetchAlarms() async {
+    try {
+      final response = await dio.get(
+        '/alarms',
+        options: Options(
+          headers: {
+            'Authorization':
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g'
+          },
+        ),
+      );
+      if (response.data['success'] == true) {
+        print('test: already fetch');
+        return (response.data['data'] as List)
+            .map((json) => Alarm.fromJson(json))
+            .toList();
+      } else {
+        throw Exception('Failed to load alarms');
+      }
+    } on DioException catch (e) {
+      print(e.message);
+      rethrow;
+    }
+  }
+
+  static Future<Response> addAlarm(Map<String, dynamic> alarmData) async {
+    try {
+      return await dio.post(
+        '/alarms',
+        data: alarmData,
+        options: Options(
+          headers: {
+            'Authorization':
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g'
+          },
+        ),
+      );
+    } on DioException catch (e) {
+      print('Add Alarm Error: ${e.message}');
+      rethrow;
+    }
+  }
+
+  static Future<Response> updateAlarm(
+      String id, Map<String, dynamic> alarmData) async {
+    try {
+      return await dio.put(
+        '/alarms/$id',
+        data: alarmData,
+        options: Options(
+          headers: {
+            'Authorization':
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g'
+          },
+        ),
+      );
+    } on DioException catch (e) {
+      print('Update Alarm Error: ${e.message}');
+      rethrow;
+    }
+  }
+
+  static Future<Response> deleteAlarm(String id) async {
+    try {
+      return await dio.delete(
+        '/alarms/$id',
+        options: Options(
+          headers: {
+            'Authorization':
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g'
+          },
+        ),
+      );
+    } on DioException catch (e) {
+      print('Delete Alarm Error: ${e.message}');
+      rethrow;
+    }
   }
 
   // sleep clinic

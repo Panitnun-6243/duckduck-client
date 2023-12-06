@@ -4,23 +4,28 @@ import 'package:duckduck/widgets/alarm/alarm_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../models/alarm.dart';
+
 class AlarmCard extends StatelessWidget {
-  const AlarmCard({super.key});
+  final Alarm alarm;
+  const AlarmCard({super.key, required this.alarm});
 
   @override
   Widget build(BuildContext context) {
-    int bedtimeHours = 7;
-    int bedtimeMinutes = 30;
-    int wakeUpHours = 21;
-    int wakeUpMinutes = 30;
-    int volume = 0;
-    int repeatDaysCount = 1;
-    bool isActive = true;
+    // int bedtimeHours = 7;
+    // int bedtimeMinutes = 30;
+    // int wakeUpHours = 21;
+    // int wakeUpMinutes = 30;
+    // int volume = 0;
+    // int repeatDaysCount = 1;
+    // bool isActive = true;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       // ignore: dead_code
-      color: isActive ? DuckDuckColors.skyBlue : DuckDuckStatus.disabled,
+      color: alarm.isActive.status
+          ? DuckDuckColors.skyBlue
+          : DuckDuckStatus.disabled,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -36,7 +41,7 @@ class AlarmCard extends StatelessWidget {
               Container(
                 width: 5,
                 height: 30,
-                color: isActive
+                color: alarm.isActive.status
                     ? DuckDuckColors.caramelCheese
                     // ignore: dead_code
                     : DuckDuckStatus.disabledForeground,
@@ -52,7 +57,7 @@ class AlarmCard extends StatelessWidget {
                       style: GoogleFonts.rubik(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: isActive
+                        color: alarm.isActive.status
                             ? DuckDuckColors.frostWhite
                             // ignore: dead_code
                             : DuckDuckStatus.disabledForeground,
@@ -69,7 +74,7 @@ class AlarmCard extends StatelessWidget {
                         ),
                         Icon(
                           Icons.bedtime,
-                          color: isActive
+                          color: alarm.isActive.status
                               ? DuckDuckColors.metalBlue
                               // ignore: dead_code
                               : DuckDuckStatus.disabledForeground,
@@ -79,11 +84,11 @@ class AlarmCard extends StatelessWidget {
                           width: 15,
                         ),
                         Text(
-                          '$bedtimeHours:$bedtimeMinutes',
+                          '${alarm.bedTime.hours}:${alarm.bedTime.minutes}',
                           style: GoogleFonts.rubik(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: isActive
+                            color: alarm.isActive.status
                                 ? DuckDuckColors.frostWhite
                                 // ignore: dead_code
                                 : DuckDuckStatus.disabledForeground,
@@ -92,7 +97,7 @@ class AlarmCard extends StatelessWidget {
                         const SizedBox(
                           width: 15,
                         ),
-                        repeatDaysCount != 0
+                        alarm.repeatDays.length != 0
                             ? const AlamRepeatAlias()
                             : const SizedBox(),
                       ],
@@ -102,7 +107,7 @@ class AlarmCard extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.sunny,
-                          color: isActive
+                          color: alarm.isActive.status
                               ? DuckDuckColors.mandarinOrange
                               // ignore: dead_code
                               : DuckDuckStatus.disabledForeground,
@@ -112,11 +117,11 @@ class AlarmCard extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          '$wakeUpHours:$wakeUpMinutes',
+                          '${alarm.wakeUpTime.hours}:${alarm.wakeUpTime.minutes}',
                           style: GoogleFonts.rubik(
                             fontSize: 32,
                             fontWeight: FontWeight.w700,
-                            color: isActive
+                            color: alarm.isActive.status
                                 ? DuckDuckColors.frostWhite
                                 // ignore: dead_code
                                 : DuckDuckStatus.disabledForeground,
@@ -126,9 +131,11 @@ class AlarmCard extends StatelessWidget {
                           width: 10,
                         ),
                         Icon(
-                          volume == 0 ? Icons.volume_off : Icons.volume_up,
-                          color: isActive
-                              ? (volume == 0
+                          alarm.volume == 0
+                              ? Icons.volume_off
+                              : Icons.volume_up,
+                          color: alarm.isActive.status
+                              ? (alarm.volume == 0
                                   ? DuckDuckStatus.error
                                   : DuckDuckColors.frostWhite)
                               // ignore: dead_code
