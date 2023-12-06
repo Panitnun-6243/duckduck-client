@@ -48,6 +48,41 @@ class Alarm {
       updatedAt: DateTime.parse(json['updated_at']),
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'bed_time': {
+        'hours': bedTime.hours,
+        'minutes': bedTime.minutes,
+      },
+      'wake_up_time': {
+        'hours': wakeUpTime.hours,
+        'minutes': wakeUpTime.minutes,
+      },
+      'description': description,
+      'is_active': {
+        'status': isActive.status,
+        'date_active': isActive.dateActive.toIso8601String(),
+      },
+      'repeat_days': repeatDays,
+      'sunrise': {
+        'start_time': {
+          'hours': sunrise.startTime.hours,
+          'minutes': sunrise.startTime.minutes,
+        },
+        'peak_time': {
+          'hours': sunrise.peakTime.hours,
+          'minutes': sunrise.peakTime.minutes,
+        },
+      },
+      'current_alarm_sound': currentAlarmSound,
+      'current_alarm_sound_path': currentAlarmSoundPath,
+      'volume': volume,
+      'snooze_time': snoozeTime,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
+    };
+  }
 }
 
 class TimeModel {

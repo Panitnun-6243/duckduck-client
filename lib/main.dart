@@ -3,6 +3,7 @@ import 'package:duckduck/controller/http_handler.dart';
 import 'package:duckduck/controller/mqtt_handler.dart';
 import 'package:duckduck/models/light.dart';
 import 'package:duckduck/pages/pages.dart';
+import 'package:duckduck/providers/alarm_provider.dart';
 import 'package:duckduck/providers/authentication_provider.dart';
 import 'package:duckduck/providers/light_provider.dart';
 import 'package:duckduck/providers/sleep_provider.dart';
@@ -33,6 +34,7 @@ class AppRoot extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (context) => LightProvider()),
         ChangeNotifierProvider(create: (context) => SleepProvider()),
+        ChangeNotifierProvider(create: (context) => AlarmProvider()),
       ],
       child: const MyApp(),
     );
