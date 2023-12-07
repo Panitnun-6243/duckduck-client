@@ -12,14 +12,6 @@ class AlarmCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // int bedtimeHours = 7;
-    // int bedtimeMinutes = 30;
-    // int wakeUpHours = 21;
-    // int wakeUpMinutes = 30;
-    // int volume = 0;
-    // int repeatDaysCount = 1;
-    // bool isActive = true;
-
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       // ignore: dead_code
@@ -53,7 +45,8 @@ class AlarmCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Wake up',
+                      alarm.description,
+                      overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.rubik(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -84,7 +77,7 @@ class AlarmCard extends StatelessWidget {
                           width: 15,
                         ),
                         Text(
-                          '${alarm.bedTime.hours}:${alarm.bedTime.minutes}',
+                          '${alarm.bedTime.hours.toString().padLeft(2, '0')}:${alarm.bedTime.minutes.toString().padLeft(2, '0')}',
                           style: GoogleFonts.rubik(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -98,7 +91,9 @@ class AlarmCard extends StatelessWidget {
                           width: 15,
                         ),
                         alarm.repeatDays.length != 0
-                            ? const AlamRepeatAlias()
+                            ? AlamRepeatAlias(
+                                alarm: alarm,
+                              )
                             : const SizedBox(),
                       ],
                     ),
@@ -117,7 +112,7 @@ class AlarmCard extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          '${alarm.wakeUpTime.hours}:${alarm.wakeUpTime.minutes}',
+                          '${alarm.wakeUpTime.hours.toString().padLeft(2, '0')}:${alarm.wakeUpTime.minutes.toString().padLeft(2, '0')}',
                           style: GoogleFonts.rubik(
                             fontSize: 32,
                             fontWeight: FontWeight.w700,
@@ -147,7 +142,9 @@ class AlarmCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const AlarmSwitch(),
+              AlarmSwitch(
+                defaultState: alarm.isActive.status,
+              ),
             ],
           ),
         ),

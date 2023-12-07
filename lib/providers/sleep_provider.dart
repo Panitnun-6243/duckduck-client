@@ -65,6 +65,7 @@ class SleepProvider with ChangeNotifier {
       var data = await Caller.fetchSleepClinicData();
       var updateData = {
         "current_lullaby_song": _currentSong?.name ?? "",
+        "current_lullaby_song_path": _currentSong?.path ?? "",
         "dim_light": _dimLight.toJson(),
       };
       var response = await Caller.updateSleepClinicData(data["id"], updateData);
