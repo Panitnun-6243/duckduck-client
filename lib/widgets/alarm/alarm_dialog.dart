@@ -133,6 +133,13 @@ class _AlarmDialogState extends State<AlarmDialog> {
         Provider.of<AlarmProvider>(context, listen: false)
             .currentAlarmSoundPath;
 
+    repeatDaysStr = days
+        .where((day) =>
+            selectedRepeatDays[days.indexOf(day)] == true ? true : false)
+        .toList();
+    // to lowercase
+    repeatDaysStr = repeatDaysStr.map((day) => day.toLowerCase()).toList();
+
     print('saving $alarmName');
     print('saving $volume');
     print('saving $selectedRepeatDays ');
