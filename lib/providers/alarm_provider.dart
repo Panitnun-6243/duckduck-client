@@ -16,6 +16,15 @@ class AlarmProvider with ChangeNotifier {
   List<AlarmSound> _presetAlarmSounds = [];
   List<AlarmSound> get presetAlarmSounds => _presetAlarmSounds;
 
+  // Initialize the provider
+  AlarmProvider() {
+    initProvider();
+  }
+
+  Future<void> initProvider() async {
+    await fetchAllData();
+  }
+
   // Fetch all alarms
   Future<void> fetchAlarms() async {
     try {
@@ -55,12 +64,29 @@ class AlarmProvider with ChangeNotifier {
   // Update an alarm
   Future<void> updateAlarm(String id, Alarm updatedAlarm) async {
     try {
-      final response = await Caller.updateAlarm(id, updatedAlarm.toJson());
+      Map<String, dynamic> alarmJson = updatedAlarm.toJson();
+      alarmJson.remove("id");
+      alarmJson["is_active"] = {"status": true};
+      final response = await Caller.updateAlarm(id, alarmJson);
       if (response.statusCode == 200 && response.data['success']) {
         await fetchAlarms(); // Refresh the alarm list
       }
     } catch (e) {
       print('Error updating alarm: $e');
+    }
+  }
+
+  Future<void> toggleAlarm(Alarm alarm, bool newStatus) async {
+    try {
+      Map<String, dynamic> alarmJson = alarm.toJson();
+      alarmJson.remove("id");
+      alarmJson["is_active"] = {"status": newStatus};
+      final response = await Caller.updateAlarm(alarm.id!, alarmJson);
+      if (response.statusCode == 200 && response.data['success']) {
+        await fetchAlarms(); // Refresh the alarm list
+      }
+    } catch (e) {
+      print('Error toggling alarm: $e');
     }
   }
 

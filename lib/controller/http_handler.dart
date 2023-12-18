@@ -27,7 +27,8 @@ class Caller {
         '/alarms',
       );
       if (response.data['success'] == true) {
-        print('test: already fetch');
+        print('test: already fetch (${response.data['data']})');
+        if (response.data['data'] == null) return [];
         return (response.data['data'] as List)
             .map((json) => Alarm.fromJson(json))
             .toList();

@@ -4,7 +4,9 @@ import 'package:duckduck/providers/light_provider.dart';
 import 'package:duckduck/widgets/light_control/brightness_gauge.dart';
 import 'package:duckduck/widgets/light_control/light_color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '../utils/colors.dart';
 import '../widgets/light_control/svg_bulb.dart';
 
 class LightControlPage extends StatefulWidget {
@@ -68,72 +70,75 @@ class _LightControlPageState extends State<LightControlPage> {
     double bottomLightPadding = MediaQuery.of(context).size.height * 0.095;
 
     return Scaffold(
+      appBar: AppBar(),
       body: SafeArea(
         child: Container(
           // color: DuckDuckColors.steelBlack,
-          child: Padding(
-              padding: const EdgeInsets.only(
-                left: 35,
-                right: 35,
-              ),
-              child: FutureBuilder(
-                  future: lightFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      Light light = snapshot.data as Light;
-                      widget.lightProvider.setLightPassive(light);
-                      if (!isFetched) {
-                        bulbMode = light.mode!;
-                        if (light.mode == LightMode.rgb) {
-                          bulbColor = light.rgbColor!;
-                        } else if (light.mode == LightMode.temperature) {
-                          bulbColor =
-                              Light.getColorFromTemperature(light.temperature!);
+          child: SingleChildScrollView(
+            child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 35,
+                  right: 35,
+                ),
+                child: FutureBuilder(
+                    future: lightFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        Light light = snapshot.data as Light;
+                        widget.lightProvider.setLightPassive(light);
+                        if (!isFetched) {
+                          bulbMode = light.mode!;
+                          if (light.mode == LightMode.rgb) {
+                            bulbColor = light.rgbColor!;
+                          } else if (light.mode == LightMode.temperature) {
+                            bulbColor = Light.getColorFromTemperature(
+                                light.temperature!);
+                          }
+                          isFetched = true;
                         }
-                        isFetched = true;
-                      }
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SvgBulb(
-                            color: bulbColor,
-                            brightness: bulbBrightness,
-                          ),
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              BrightnessGauge(
-                                  mode: bulbMode,
-                                  startValue: bulbBrightness,
-                                  putLight: (light) {
-                                    light.rgbColor = bulbColor;
-                                    light.temperature = bulbTemp;
-                                    widget.putLight(light, null);
-                                  },
-                                  setBulbBrightness: setBulbBrightness),
-                              Positioned(
-                                bottom: bottomLightPadding,
-                                child: LightColorPicker(
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SvgBulb(
+                              color: bulbColor,
+                              brightness: bulbBrightness,
+                            ),
+                            Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                BrightnessGauge(
                                     mode: bulbMode,
-                                    brightness: bulbBrightness,
-                                    color: bulbColor,
-                                    lightProvider: widget.lightProvider,
-                                    putLight: (Light light, LightMode mode) {
-                                      print("$bulbMode");
-                                      return widget.putLight(light, mode);
+                                    startValue: bulbBrightness,
+                                    putLight: (light) {
+                                      light.rgbColor = bulbColor;
+                                      light.temperature = bulbTemp;
+                                      widget.putLight(light, null);
                                     },
-                                    setBulb: setBulb,
-                                    setMode: setMode,
-                                    setTemp: setTemp),
-                              )
-                            ],
-                          ),
-                        ],
-                      );
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  })),
+                                    setBulbBrightness: setBulbBrightness),
+                                Positioned(
+                                  bottom: bottomLightPadding,
+                                  child: LightColorPicker(
+                                      mode: bulbMode,
+                                      brightness: bulbBrightness,
+                                      color: bulbColor,
+                                      lightProvider: widget.lightProvider,
+                                      putLight: (Light light, LightMode mode) {
+                                        print("$bulbMode");
+                                        return widget.putLight(light, mode);
+                                      },
+                                      setBulb: setBulb,
+                                      setMode: setMode,
+                                      setTemp: setTemp),
+                                )
+                              ],
+                            ),
+                          ],
+                        );
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    })),
+          ),
         ),
       ),
     );

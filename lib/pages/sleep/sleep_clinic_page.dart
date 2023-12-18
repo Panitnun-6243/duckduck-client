@@ -23,25 +23,34 @@ class _SleepClinicPageState extends State<SleepClinicPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      appBar: AppBar(
+        centerTitle: false,
+        titleSpacing: 0,
+        title: Text(
+          'Sleep clinic',
+          style: GoogleFonts.rubik(
+              fontSize: 28,
+              fontWeight: FontWeight.w600,
+              color: DuckDuckColors.steelBlack),
+        ),
+        backgroundColor: DuckDuckColors.frostWhite,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: DuckDuckColors.steelBlack,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: const SafeArea(
           child: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 20),
         child: Column(
           children: [
-            SizedBox(
-              width: double.infinity,
-              child: Text(
-                'Sleep Clinic',
-                style: GoogleFonts.rubik(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w600,
-                    color: DuckDuckColors.steelBlack),
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            const Expanded(
+            Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: [

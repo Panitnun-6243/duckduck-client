@@ -153,6 +153,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       });
     // start animation
     bubbleTwoController.forward();
+    Provider.of<AlarmProvider>(context, listen: false).initProvider();
   }
 
   @override
@@ -170,9 +171,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final lightProvider = context.watch<LightProvider>();
-    final alarmProvider = Provider.of<AlarmProvider>(context);
-    // Function to get the nearest alarm time
-    // Function to get the nearest active alarm time
+    final alarmProvider = context.watch<AlarmProvider>();
+
     String getNearestActiveAlarmTime() {
       if (alarmProvider.alarms.isEmpty) {
         return 'No alarms set';
