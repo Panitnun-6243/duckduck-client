@@ -1,3 +1,4 @@
+import 'package:duckduck/utils/colors.dart';
 import 'package:duckduck/widgets/alarm/alarm_dialog_bottom.dart';
 import 'package:duckduck/widgets/alarm/alarm_gauge.dart';
 import 'package:duckduck/widgets/alarm/alarm_header.dart';
@@ -158,6 +159,7 @@ class _AlarmDialogState extends State<AlarmDialog> {
     return Padding(
       padding: const EdgeInsets.all(30),
       child: Dialog(
+        backgroundColor: Color(0xffFFFFFF),
         insetPadding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),

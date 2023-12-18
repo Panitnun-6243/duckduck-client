@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/alarm_provider.dart';
 import '../../providers/light_provider.dart';
 import '../../widgets/home/bubble.dart';
 import '../../widgets/home/svg_mini_bulb.dart';
@@ -169,6 +170,40 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final lightProvider = context.watch<LightProvider>();
+    final alarmProvider = Provider.of<AlarmProvider>(context);
+    // Function to get the nearest alarm time
+    // Function to get the nearest active alarm time
+    String getNearestActiveAlarmTime() {
+      if (alarmProvider.alarms.isEmpty) {
+        return 'No alarms set';
+      }
+
+      // Get the current time
+      final currentTime = DateTime.now();
+
+      // Filter active alarms
+      final activeAlarms =
+          alarmProvider.alarms.where((alarm) => alarm.isActive.status);
+
+      if (activeAlarms.isEmpty) {
+        return 'No active alarms';
+      }
+
+      // Find the nearest active alarm based on time difference
+      final nearestAlarm = activeAlarms.reduce((a, b) {
+        final timeDifferenceA =
+            (currentTime.hour - a.wakeUpTime.hours).abs() * 60 +
+                (currentTime.minute - a.wakeUpTime.minutes).abs();
+        final timeDifferenceB =
+            (currentTime.hour - b.wakeUpTime.hours).abs() * 60 +
+                (currentTime.minute - b.wakeUpTime.minutes).abs();
+
+        return timeDifferenceA < timeDifferenceB ? a : b;
+      });
+
+      return '${nearestAlarm.wakeUpTime.hours.toString().padLeft(2, '0')}:${nearestAlarm.wakeUpTime.minutes.toString().padLeft(2, '0')}';
+    }
+
     Size size = MediaQuery.of(context).size;
 
     // Calculate the average height of the wave at its peak
@@ -241,7 +276,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             style: GoogleFonts.rubik(fontSize: 13),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 10,
+                          ),
+                          Text(
+                            getNearestActiveAlarmTime(),
+                            style: GoogleFonts.rubik(
+                                fontSize: 24, fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),

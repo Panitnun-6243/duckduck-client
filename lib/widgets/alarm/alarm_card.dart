@@ -23,7 +23,7 @@ class AlarmCard extends StatelessWidget {
       ),
       elevation: 2,
       child: SizedBox(
-        height: 121,
+        height: 137,
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Row(

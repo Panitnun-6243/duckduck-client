@@ -24,7 +24,7 @@ class AlarmButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size(135, 45),
+        minimumSize: const Size(128, 45),
         elevation: 0,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(67.0)),

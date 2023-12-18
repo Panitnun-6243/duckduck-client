@@ -64,6 +64,7 @@ class _AlarmPageState extends State<AlarmPage> {
                   },
                 ),
               ),
+              const SizedBox(height: 10),
               AlarmAddButton(),
             ],
           ),
