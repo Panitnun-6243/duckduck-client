@@ -2,10 +2,19 @@ import 'package:flutter/foundation.dart';
 import '../controller/http_handler.dart';
 import 'package:flutter/material.dart';
 import '../models/alarm.dart';
+import '../models/alarm_sound.dart';
 
 class AlarmProvider with ChangeNotifier {
   List<Alarm> _alarms = [];
+
+  String currentAlarmSound = "Digital";
+
+  String currentAlarmSoundPath =
+      "https://storage.googleapis.com/duckduck-bucket/alarm-sound/digital.mp3";
   List<Alarm> get alarms => _alarms;
+
+  List<AlarmSound> _presetAlarmSounds = [];
+  List<AlarmSound> get presetAlarmSounds => _presetAlarmSounds;
 
   // Fetch all alarms
   Future<void> fetchAlarms() async {
@@ -17,10 +26,24 @@ class AlarmProvider with ChangeNotifier {
     }
   }
 
+  Future<void> fetchAllData() async {
+    try {
+      _alarms = await Caller.fetchAlarms();
+      _presetAlarmSounds = await Caller.fetchPresetAlarmSounds();
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
+
   // Add a new alarm
   Future<void> addAlarm(Alarm alarm) async {
     try {
-      final response = await Caller.addAlarm(alarm.toJson());
+      Map<String, dynamic> alarmJson = alarm.toJson();
+      alarmJson.remove("id");
+      alarmJson["is_active"] = {"status": true};
+      print(alarmJson);
+      final response = await Caller.addAlarm(alarmJson);
       if (response.statusCode == 200 && response.data['success']) {
         await fetchAlarms(); // Refresh the alarm list
       }
@@ -51,5 +74,23 @@ class AlarmProvider with ChangeNotifier {
     } catch (e) {
       print('Error deleting alarm: $e');
     }
+  }
+
+  // Fetch all preset alarm sounds
+  Future<List<AlarmSound>> fetchPresetAlarmSounds() async {
+    try {
+      final sounds = await Caller.fetchPresetAlarmSounds();
+      return sounds;
+    } catch (e) {
+      print('Error fetching preset alarm sounds: $e');
+      return [];
+    }
+  }
+
+  // Set the current alarm sound
+  void setCurrentAlarmSound(String name, String path) {
+    currentAlarmSound = name;
+    currentAlarmSoundPath = path;
+    notifyListeners();
   }
 }

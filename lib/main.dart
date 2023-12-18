@@ -55,12 +55,12 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     mqttHandler.connect();
-    () async {
-      await Future.delayed(Duration.zero);
-      context
-          .read<AuthenticationProvider>()
-          .login("nongtanny@gmail.com", "123456789");
-    }();
+    // () async {
+    //   await Future.delayed(Duration.zero);
+    //   context
+    //       .read<AuthenticationProvider>()
+    //       .login("nongtanny@gmail.com", "123456789");
+    // }();
   }
 
   Future<Light> fetchLight(token) async {
@@ -162,7 +162,7 @@ class _MyAppState extends State<MyApp> {
     final authProvider = context.read<AuthenticationProvider>();
     final lightProvider = context.watch<LightProvider>();
     final user = authProvider.currentUser;
-    final initialRoute = user == null ? '/alarm' : '/home';
+    final initialRoute = user == null ? '/login' : '/home';
 
     return MaterialApp(
       title: 'DuckDuck',

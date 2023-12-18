@@ -144,7 +144,14 @@ class _AlarmGaugeState extends State<AlarmGauge> {
               endWidth: 28,
             ),
             GaugeRange(
-              color: Color.fromARGB(0xff, 0xff, 0x7c, 0x53),
+              // color: Color.fromARGB(0xff, 0xff, 0x7c, 0x53),
+              gradient: const SweepGradient(
+                colors: <Color>[
+                  Color.fromRGBO(255, 124, 83, 1),
+                  Color.fromRGBO(114, 206, 252, 1),
+                ],
+                stops: <double>[0.25, 0.75],
+              ),
               sizeUnit: GaugeSizeUnit.logicalPixel,
               startValue: _startMarkerValue,
               endValue: _peakMarkerValue,

@@ -23,6 +23,14 @@ class _AlarmPageState extends State<AlarmPage> {
   }
 
   @override
+  void didUpdateWidget(covariant AlarmPage oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    final alarmProvider = Provider.of<AlarmProvider>(context, listen: false);
+    alarmProvider.fetchAlarms();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(

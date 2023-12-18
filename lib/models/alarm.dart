@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Alarm {
-  final String id;
+  final String? id;
   final TimeModel bedTime;
   final TimeModel wakeUpTime;
   final String description;
@@ -12,11 +12,11 @@ class Alarm {
   final String currentAlarmSoundPath;
   final double volume;
   final int snoozeTime;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   Alarm({
-    required this.id,
+    this.id,
     required this.bedTime,
     required this.wakeUpTime,
     required this.description,
@@ -27,8 +27,8 @@ class Alarm {
     required this.currentAlarmSoundPath,
     required this.volume,
     required this.snoozeTime,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Alarm.fromJson(Map<String, dynamic> json) {
@@ -79,8 +79,6 @@ class Alarm {
       'current_alarm_sound_path': currentAlarmSoundPath,
       'volume': volume,
       'snooze_time': snoozeTime,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
     };
   }
 }

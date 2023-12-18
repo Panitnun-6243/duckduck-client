@@ -5,14 +5,25 @@ import 'package:google_fonts/google_fonts.dart';
 const List<int> snoozeList = <int>[1, 2, 3, 4, 5, 10, 20, 30];
 
 class SnoozeMenu extends StatefulWidget {
-  const SnoozeMenu({super.key});
+  final int initialDuration;
+  final Function(int) onDurationChanged;
+  const SnoozeMenu(
+      {super.key,
+      required this.initialDuration,
+      required this.onDurationChanged});
 
   @override
   State<SnoozeMenu> createState() => _SnoozeMenuState();
 }
 
 class _SnoozeMenuState extends State<SnoozeMenu> {
-  int currentOption = snoozeList.first;
+  late int currentOption;
+
+  @override
+  void initState() {
+    super.initState();
+    currentOption = widget.initialDuration;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +51,7 @@ class _SnoozeMenuState extends State<SnoozeMenu> {
           isExpanded: false,
           onChanged: (String? newValue) {
             currentOption = int.parse(newValue ?? "1");
+            widget.onDurationChanged(currentOption);
           },
           items: snoozeList
               .map((minutes) => minutes.toString())

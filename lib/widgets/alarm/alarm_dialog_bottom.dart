@@ -5,11 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'alarm_button.dart';
 
 class AlarmDialogBottom extends StatelessWidget {
-  const AlarmDialogBottom({super.key});
+  final void Function() onSave;
+  const AlarmDialogBottom({super.key, required this.onSave});
 
   @override
   Widget build(BuildContext context) {
-    void handleDelete() {
+    void handleCancelCreate() {
       showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
@@ -24,14 +25,14 @@ class AlarmDialogBottom extends StatelessWidget {
               1,
             ),
             title: Text(
-              'Confirm Deletion',
+              'Confirm Cancel',
               style: GoogleFonts.rubik(
                 color: DuckDuckStatus.error,
                 fontWeight: FontWeight.w500,
               ),
             ),
             content: Text(
-              'Are you sure you want to delete this alarm?',
+              'Are you sure you want to cancel to create new alarm?',
               style: GoogleFonts.rubik(
                 color: DuckDuckColors.steelBlack,
               ),
@@ -52,7 +53,7 @@ class AlarmDialogBottom extends StatelessWidget {
               ),
               TextButton(
                 child: Text(
-                  'Delete',
+                  'Confirm',
                   style: GoogleFonts.rubik(
                     color: DuckDuckStatus.error,
                     fontWeight: FontWeight.w400,
@@ -60,8 +61,6 @@ class AlarmDialogBottom extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  // Method to delete the alarm
-
                   // Close the confirmation dialog
                   Navigator.of(dialogContext).pop();
 
@@ -82,11 +81,11 @@ class AlarmDialogBottom extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           AlarmButton(
-            label: 'Delete',
+            label: 'Cancel',
             icon: null,
             backgroundColor: Colors.transparent,
             textColor: DuckDuckStatus.error,
-            onPressed: () => handleDelete(),
+            onPressed: () => handleCancelCreate(),
             fontWeight: FontWeight.w400,
           ),
           AlarmButton(
@@ -95,7 +94,10 @@ class AlarmDialogBottom extends StatelessWidget {
             fontWeight: FontWeight.w500,
             backgroundColor: DuckDuckColors.skyBlue,
             textColor: DuckDuckColors.frostWhite,
-            onPressed: () => print('Save pressed'),
+            onPressed: () {
+              Navigator.of(context).pop();
+              onSave();
+            },
           ),
         ],
       ),

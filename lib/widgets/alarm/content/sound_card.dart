@@ -2,6 +2,9 @@ import 'package:duckduck/pages/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:duckduck/utils/colors.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/alarm_provider.dart';
 
 class SoundCard extends StatefulWidget {
   const SoundCard({super.key});
@@ -46,39 +49,45 @@ class _SoundCardState extends State<SoundCard> {
                       height: 10,
                     ),
                     ElevatedButton(
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              barrierDismissible: false   ,
-                              builder: (BuildContext context) {
-                                return AlarmMusicSelector(dialogContext: context);
-                              });
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: DuckDuckColors.frostWhite,
-                            foregroundColor: DuckDuckColors.steelBlack,
-                            padding: const EdgeInsets.all(5.0),
-                            textStyle: GoogleFonts.rubik(
-                                fontSize: 14, fontWeight: FontWeight.w500),
-                            side: const BorderSide(
-                                color: DuckDuckColors.duckyYellow, width: 1),
-                            shadowColor: Colors.transparent),
-                        child: Row(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return AlarmMusicSelector(dialogContext: context);
+                            });
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: DuckDuckColors.frostWhite,
+                          foregroundColor: DuckDuckColors.steelBlack,
+                          padding: const EdgeInsets.all(5.0),
+                          textStyle: GoogleFonts.rubik(
+                              fontSize: 14, fontWeight: FontWeight.w500),
+                          side: const BorderSide(
+                              color: DuckDuckColors.duckyYellow, width: 1),
+                          shadowColor: Colors.transparent),
+                      child: Consumer<AlarmProvider>(
+                        builder: (context, alarmProvider, _) => Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Expanded(
-                                child: Text(
-                              'Over the Horizon',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.rubik(
-                                  fontSize: 14, fontWeight: FontWeight.w400),
-                            )),
+                              child: Text(
+                                alarmProvider.currentAlarmSound,
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.rubik(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
                             const Icon(
                               Icons.chevron_right,
                               color: DuckDuckColors.duckyYellow,
-                            )
+                            ),
                           ],
-                        )),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               )

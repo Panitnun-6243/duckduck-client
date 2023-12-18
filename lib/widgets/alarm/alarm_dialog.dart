@@ -8,6 +8,11 @@ import 'package:duckduck/widgets/alarm/content/repeat_card.dart';
 import 'package:duckduck/widgets/alarm/content/sound_card.dart';
 import 'package:duckduck/widgets/alarm/content/volume_card.dart';
 import 'package:duckduck/widgets/alarm/content/snooze_card.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/alarm.dart';
+import '../../models/alarm_sound.dart';
+import '../../providers/alarm_provider.dart';
 
 const TimeOfDay DEFAULT_BEDTIME = TimeOfDay(hour: 22, minute: 0);
 const TimeOfDay DEFAULT_WAKEUP = TimeOfDay(hour: 6, minute: 0);
@@ -32,23 +37,120 @@ class _AlarmDialogState extends State<AlarmDialog> {
   bool sunriseEnabled = true;
   bool isEditing = false;
   String alarmName = "New alarm";
+  double volume = 100.0;
 
+  List<bool> selectedRepeatDays = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
+  List<String> repeatDaysStr = [];
+  int snoozeDuration = 1;
+  List<AlarmSound>? presetAlarmSounds;
   void updateTime(key, newTime) {
-    setState(() {
-      timeState[key] = newTime;
-    });
+    setState(
+      () {
+        timeState[key] = newTime;
+      },
+    );
+  }
+
+  Map<String, Map<String, int>> timeStateInt = {
+    "bedtime": {},
+    "wakeup": {},
+    "start": {},
+    "peak": {},
+  };
+
+  // Function to map TimeOfDay to hour and minute
+  Map<String, int> mapTimeToHourMinute(TimeOfDay time) {
+    return {
+      "hours": time.hour,
+      "minutes": time.minute,
+    };
   }
 
   void updateName(String newName) async {
+    setState(
+      () {
+        alarmName = newName;
+      },
+    );
+  }
+
+  void updateVolume(double newVolume) {
+    setState(
+      () {
+        volume = newVolume;
+      },
+    );
+  }
+
+  void updateRepeatDays(List<bool> repeatDays) {
     setState(() {
-      alarmName = newName;
+      print(repeatDays);
+      repeatDaysStr = days
+          .where((day) => repeatDays[days.indexOf(day)] == true ? true : false)
+          .toList();
+      // to lowercase
+      repeatDaysStr = repeatDaysStr.map((day) => day.toLowerCase()).toList();
+      print(repeatDaysStr);
+      selectedRepeatDays = repeatDays;
+    });
+  }
+
+  // update snooze duration
+  void updateSnoozeDuration(int duration) {
+    setState(() {
+      print(duration);
+      snoozeDuration = duration;
     });
   }
 
   void toggleSunrise(bool isEnabled) {
-    setState(() {
-      sunriseEnabled = isEnabled;
-    });
+    setState(
+      () {
+        sunriseEnabled = isEnabled;
+      },
+    );
+  }
+
+  bool validateAndSave() {
+    // Implement validation logic
+    // Return true if validation passes, false otherwise
+    return true;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch preset alarm sounds when the dialog is initialized
+    fetchPresetAlarmSounds();
+    setInitialSoundValues();
+  }
+
+  void setInitialSoundValues() {
+    if (presetAlarmSounds != null && presetAlarmSounds!.isNotEmpty) {
+      AlarmSound firstSound = presetAlarmSounds![0];
+      Provider.of<AlarmProvider>(context, listen: false)
+          .setCurrentAlarmSound(firstSound.name, firstSound.path);
+    }
+  }
+
+  Future<void> fetchPresetAlarmSounds() async {
+    try {
+      final sounds = await Provider.of<AlarmProvider>(context, listen: false)
+          .fetchPresetAlarmSounds();
+      setState(() {
+        presetAlarmSounds = sounds;
+      });
+    } catch (e) {
+      print('Error fetching preset alarm sounds: $e');
+    }
   }
 
   @override
@@ -109,7 +211,10 @@ class _AlarmDialogState extends State<AlarmDialog> {
                         const SizedBox(
                           height: 25,
                         ),
-                        const RepeatCard(),
+                        RepeatCard(
+                          onRepeatChanged: updateRepeatDays,
+                          // initialSelectedDays: repeatDays,
+                        ),
                         const SizedBox(
                           height: 25,
                         ),
@@ -117,17 +222,82 @@ class _AlarmDialogState extends State<AlarmDialog> {
                         const SizedBox(
                           height: 25,
                         ),
-                        const VoulmeCard(),
+                        VoulmeCard(volume: volume, onChanged: updateVolume),
                         const SizedBox(
                           height: 25,
                         ),
-                        const SnoozeCard(),
+                        SnoozeCard(
+                          initialDuration: snoozeDuration,
+                          onDurationChanged: updateSnoozeDuration,
+                        ),
                         const SizedBox(height: 60)
                       ],
                     ),
                   ),
                 ),
-                const AlarmDialogBottom()
+                AlarmDialogBottom(
+                  onSave: () {
+                    // Fetch the current alarm sound and path from the provider
+                    final currentAlarmSound =
+                        Provider.of<AlarmProvider>(context, listen: false)
+                            .currentAlarmSound;
+                    final currentAlarmSoundPath =
+                        Provider.of<AlarmProvider>(context, listen: false)
+                            .currentAlarmSoundPath;
+
+                    print('saving $alarmName');
+                    print('saving $volume');
+                    print('saving $selectedRepeatDays ');
+                    print('saving $repeatDaysStr');
+                    print('saving $snoozeDuration');
+                    print('saving $timeState');
+                    timeState.forEach((key, value) {
+                      timeStateInt[key] = mapTimeToHourMinute(value);
+                    });
+
+                    print('saving ${timeStateInt["bedtime"]}');
+                    print('saving ${timeStateInt["wakeup"]}');
+                    print('saving ${timeStateInt["start"]}');
+                    print('saving ${timeStateInt["peak"]}');
+
+                    final newAlarm = Alarm(
+                      bedTime: TimeModel(
+                        hours: timeStateInt['bedtime']!['hours']!,
+                        minutes: timeStateInt['bedtime']!['minutes']!,
+                      ),
+                      wakeUpTime: TimeModel(
+                        hours: timeStateInt['wakeup']!['hours']!,
+                        minutes: timeStateInt['wakeup']!['minutes']!,
+                      ),
+                      description: alarmName,
+                      isActive: ActiveStatus(
+                        status: true, // Provide the correct status here
+                        dateActive:
+                            DateTime.now(), // Provide the correct date here
+                      ),
+                      repeatDays: repeatDaysStr,
+                      sunrise: Sunrise(
+                        startTime: TimeModel(
+                          hours: timeStateInt['start']!['hours']!,
+                          minutes: timeStateInt['start']!['minutes']!,
+                        ),
+                        peakTime: TimeModel(
+                          hours: timeStateInt['peak']!['hours']!,
+                          minutes: timeStateInt['peak']!['minutes']!,
+                        ),
+                      ),
+                      currentAlarmSound:
+                          currentAlarmSound, // Use the dynamic sound value
+                      currentAlarmSoundPath: currentAlarmSoundPath,
+                      volume: volume,
+                      snoozeTime: snoozeDuration,
+                    );
+
+                    // Add the new alarm using the provider
+                    Provider.of<AlarmProvider>(context, listen: false)
+                        .addAlarm(newAlarm);
+                  },
+                )
               ],
             ),
           ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 
 import '../models/alarm.dart';
+import '../models/alarm_sound.dart';
 import '../models/lullaby_song.dart';
 
 class Caller {
@@ -24,12 +25,6 @@ class Caller {
     try {
       final response = await dio.get(
         '/alarms',
-        options: Options(
-          headers: {
-            'Authorization':
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g'
-          },
-        ),
       );
       if (response.data['success'] == true) {
         print('test: already fetch');
@@ -50,12 +45,6 @@ class Caller {
       return await dio.post(
         '/alarms',
         data: alarmData,
-        options: Options(
-          headers: {
-            'Authorization':
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g'
-          },
-        ),
       );
     } on DioException catch (e) {
       print('Add Alarm Error: ${e.message}');
@@ -69,12 +58,6 @@ class Caller {
       return await dio.put(
         '/alarms/$id',
         data: alarmData,
-        options: Options(
-          headers: {
-            'Authorization':
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g'
-          },
-        ),
       );
     } on DioException catch (e) {
       print('Update Alarm Error: ${e.message}');
@@ -86,15 +69,25 @@ class Caller {
     try {
       return await dio.delete(
         '/alarms/$id',
-        options: Options(
-          headers: {
-            'Authorization':
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g'
-          },
-        ),
       );
     } on DioException catch (e) {
       print('Delete Alarm Error: ${e.message}');
+      rethrow;
+    }
+  }
+
+  static Future<List<AlarmSound>> fetchPresetAlarmSounds() async {
+    try {
+      final response = await dio.get('/preset-alarm-sound');
+      if (response.data['success'] == true) {
+        print('test: already fetch alarm sounds');
+        List<dynamic> soundsJson = response.data['data'];
+        return soundsJson.map((json) => AlarmSound.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load preset alarm sounds');
+      }
+    } on DioException catch (e) {
+      print(e.message);
       rethrow;
     }
   }
@@ -119,12 +112,6 @@ class Caller {
     try {
       final response = await dio.get(
         '/sleep-clinic',
-        options: Options(
-          headers: {
-            'Authorization':
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g'
-          },
-        ),
       );
       if (response.statusCode == 200) {
         print("test: already fetch");
@@ -144,12 +131,6 @@ class Caller {
     return await dio.put(
       '/sleep-clinic/$sleepClinicId',
       data: data,
-      options: Options(
-        headers: {
-          'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQxNjAxMjQsImlhdCI6MTcwMTUzMjEyNCwic3ViIjoiNjU1NjMwZTAxYTA0MmI3ODQxYjUxMmY5In0.KFwMx-XZd9efejSSKtHTRGIBMZ3A6C654FNjJ476Q8g'
-        },
-      ),
     );
   }
 

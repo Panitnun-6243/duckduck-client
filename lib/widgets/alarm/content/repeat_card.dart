@@ -6,7 +6,12 @@ import 'package:duckduck/utils/colors.dart';
 const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
 class RepeatCard extends StatefulWidget {
-  const RepeatCard({super.key});
+  final Function(List<bool>) onRepeatChanged;
+  // final List<String> initialSelectedDays;
+  const RepeatCard({
+    super.key,
+    required this.onRepeatChanged,
+  });
 
   @override
   State<RepeatCard> createState() => _RepeatCardState();
@@ -18,6 +23,8 @@ class _RepeatCardState extends State<RepeatCard> {
   void toggle(int index) {
     setState(() {
       selected[index] = !selected[index];
+      print(selected);
+      widget.onRepeatChanged(selected);
     });
   }
 
