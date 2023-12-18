@@ -230,47 +230,75 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     bottom: avgWaveHeight - 300 + bubbleOneAnimation.value,
                     left: size.width * 0.1, // Adjust as per need
                     child: BubbleWidget(
-                        width: 125.81219,
-                        height: 130,
-                        onTap: () => Navigator.pushNamed(context, '/alarm'),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Next Alarm',
-                              style: GoogleFonts.rubik(fontSize: 14),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        )),
+                      width: 125.81219,
+                      height: 130,
+                      onTap: () => Navigator.pushNamed(context, '/alarm'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Next Alarm',
+                            style: GoogleFonts.rubik(fontSize: 13),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   Positioned(
                     bottom: avgWaveHeight - 256 + bubbleTwoAnimation.value,
                     left: size.width * 0.5, // Adjust as per need
                     child: BubbleWidget(
-                        width: 155.05077,
-                        height: 160,
-                        onTap: () =>
-                            Navigator.pushNamed(context, '/light-control'),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Light',
-                              style: GoogleFonts.rubik(fontSize: 14),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            SvgMiniBulb(
-                              color: lightProvider.activeColor,
-                              brightness: lightProvider.brightness,
-                              assetName: 'assets/images/light-bulb-mini.svg',
-                            )
-                          ],
-                        )),
+                      width: 155.05077,
+                      height: 160,
+                      onTap: () =>
+                          Navigator.pushNamed(context, '/light-control'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Light',
+                            style: GoogleFonts.rubik(fontSize: 14),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          SvgMiniBulb(
+                            color: lightProvider.activeColor,
+                            brightness: lightProvider.brightness,
+                            assetName: 'assets/images/light-bulb-mini.svg',
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: avgWaveHeight - 405 + bubbleOneAnimation.value,
+                    left: size.width * 0.44, // Adjust as per need
+                    child: BubbleWidget(
+                      width: 115.05077,
+                      height: 120,
+                      onTap: () =>
+                          Navigator.pushNamed(context, '/sleep-clinic'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Sleep',
+                            style: GoogleFonts.rubik(fontSize: 13),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Image.asset(
+                            'assets/images/sleeping.png',
+                            height: 50,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
