@@ -33,7 +33,7 @@ class DayTile extends StatelessWidget {
                     style: GoogleFonts.rubik(
                         fontSize: 10,
                         color: isSelected
-                            ? DuckDuckColors.frostWhite
+                            ? DuckDuckColors.steelBlack
                             : DuckDuckStatus.disabledForeground,
                         fontWeight:
                             isSelected ? FontWeight.w500 : FontWeight.w400)),

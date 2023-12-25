@@ -16,7 +16,6 @@ class _AlarmSwitchState extends State<AlarmSwitch> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _switchValue = widget.defaultState ?? true;
   }

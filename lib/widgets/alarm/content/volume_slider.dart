@@ -3,28 +3,38 @@ import 'package:duckduck/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 
 class VolumeSlider extends StatefulWidget {
-  const VolumeSlider({super.key});
+  final double startValue;
+  final void Function(double) onChanged;
+  const VolumeSlider(
+      {super.key, required this.startValue, required this.onChanged});
 
   @override
   State<VolumeSlider> createState() => _VolumeSliderState();
 }
 
 class _VolumeSliderState extends State<VolumeSlider> {
-  double volumeLevel = 60;
+  // late double volume;
+
+  @override
+  void initState() {
+    super.initState();
+    // volume = widget.startValue;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Slider(
-      value: volumeLevel,
+      value: widget.startValue,
       min: 0.0,
       max: 100.0,
       activeColor: DuckDuckColors.duckyYellow,
       thumbColor: DuckDuckColors.frostWhite,
       inactiveColor: DuckDuckStatus.disabled,
       onChanged: (double value) {
-        setState(() {
-          volumeLevel = value;
-        });
+        // setState(() {
+        //   volume = value;
+        // });
+        widget.onChanged(value);
       },
     );
   }

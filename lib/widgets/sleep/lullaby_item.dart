@@ -21,7 +21,7 @@ class LullabyItem extends StatelessWidget {
       onTap: onTap,
       child: SizedBox(
         width: 164,
-        height: 212,
+        height: 222,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

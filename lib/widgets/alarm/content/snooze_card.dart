@@ -4,7 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:duckduck/utils/colors.dart';
 
 class SnoozeCard extends StatefulWidget {
-  const SnoozeCard({super.key});
+  final int initialDuration;
+  final Function(int duration) onDurationChanged;
+  const SnoozeCard(
+      {super.key,
+      required this.initialDuration,
+      required this.onDurationChanged});
 
   @override
   State<SnoozeCard> createState() => _SnoozeCardState();
@@ -44,7 +49,9 @@ class _SnoozeCardState extends State<SnoozeCard> {
                   const SizedBox(
                     height: 16,
                   ),
-                  SnoozeMenu()
+                  SnoozeMenu(
+                      initialDuration: widget.initialDuration,
+                      onDurationChanged: widget.onDurationChanged)
                 ],
               )
             ],

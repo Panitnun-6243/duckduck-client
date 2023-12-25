@@ -35,7 +35,7 @@ class Light {
             json['hsl_color']['s'].toDouble() / 100,
             json['hsl_color']['l'].toDouble() / 100)
         .toColor();
-    double brightness = json['brightness'];
+    double brightness = json['brightness'].toDouble();
     LightMode mode =
         json['color_mode'] == 'hsl' ? LightMode.rgb : LightMode.temperature;
     int temperature = json['temp'];

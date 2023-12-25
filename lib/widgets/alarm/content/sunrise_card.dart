@@ -33,7 +33,7 @@ class _SunriseCardState extends State<SunriseCard> {
   Widget build(BuildContext context) {
     return Container(
       width: 310.00,
-      height: widget.isEnabled ? 121.00 : 66,
+      height: widget.isEnabled ? 128.00 : 66,
       decoration: BoxDecoration(
         color: DuckDuckColors.whippedCream,
         borderRadius: BorderRadiusDirectional.circular(10.0),

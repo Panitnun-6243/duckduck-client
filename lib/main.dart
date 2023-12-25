@@ -3,6 +3,7 @@ import 'package:duckduck/controller/http_handler.dart';
 import 'package:duckduck/controller/mqtt_handler.dart';
 import 'package:duckduck/models/light.dart';
 import 'package:duckduck/pages/pages.dart';
+import 'package:duckduck/providers/alarm_provider.dart';
 import 'package:duckduck/providers/authentication_provider.dart';
 import 'package:duckduck/providers/light_provider.dart';
 import 'package:duckduck/providers/sleep_provider.dart';
@@ -33,6 +34,7 @@ class AppRoot extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (context) => LightProvider()),
         ChangeNotifierProvider(create: (context) => SleepProvider()),
+        ChangeNotifierProvider(create: (context) => AlarmProvider()),
       ],
       child: const MyApp(),
     );
@@ -53,10 +55,12 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     mqttHandler.connect();
-    () async {
-      await Future.delayed(Duration.zero);
-      context.read<AuthenticationProvider>().login("nongtanny@gmail.com", "123456789");    
-    }();
+    // () async {
+    //   await Future.delayed(Duration.zero);
+    //   context
+    //       .read<AuthenticationProvider>()
+    //       .login("nongtanny@gmail.com", "123456789");
+    // }();
   }
 
   Future<Light> fetchLight(token) async {
@@ -137,10 +141,10 @@ class _MyAppState extends State<MyApp> {
       print(light.temperature);
       print(light.brightness);
       final data = {
-            'temp': light.temperature,
-            'brightness': double.parse(light.brightness!.toStringAsFixed(2))
-          };
-          print(data);
+        'temp': light.temperature,
+        'brightness': double.parse(light.brightness!.toStringAsFixed(2))
+      };
+      print(data);
       await Caller.dio.patch('/cct-light/${light.id!}',
           options: Options(
             headers: {
@@ -158,7 +162,7 @@ class _MyAppState extends State<MyApp> {
     final authProvider = context.read<AuthenticationProvider>();
     final lightProvider = context.watch<LightProvider>();
     final user = authProvider.currentUser;
-    final initialRoute = user == null ? '/profile' : '/home';
+    final initialRoute = user == null ? '/login' : '/home';
 
     return MaterialApp(
       title: 'DuckDuck',

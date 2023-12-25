@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 
+import '../models/alarm.dart';
+import '../models/alarm_sound.dart';
 import '../models/lullaby_song.dart';
 
 class Caller {
@@ -18,6 +20,80 @@ class Caller {
     dio.options.headers["Authorization"] = "Bearer $token";
   }
 
+  // alarm
+  static Future<List<Alarm>> fetchAlarms() async {
+    try {
+      final response = await dio.get(
+        '/alarms',
+      );
+      if (response.data['success'] == true) {
+        print('test: already fetch (${response.data['data']})');
+        if (response.data['data'] == null) return [];
+        return (response.data['data'] as List)
+            .map((json) => Alarm.fromJson(json))
+            .toList();
+      } else {
+        throw Exception('Failed to load alarms');
+      }
+    } on DioException catch (e) {
+      print(e.message);
+      rethrow;
+    }
+  }
+
+  static Future<Response> addAlarm(Map<String, dynamic> alarmData) async {
+    try {
+      return await dio.post(
+        '/alarms',
+        data: alarmData,
+      );
+    } on DioException catch (e) {
+      print('Add Alarm Error: ${e.message}');
+      rethrow;
+    }
+  }
+
+  static Future<Response> updateAlarm(
+      String id, Map<String, dynamic> alarmData) async {
+    try {
+      return await dio.put(
+        '/alarms/$id',
+        data: alarmData,
+      );
+    } on DioException catch (e) {
+      print('Update Alarm Error: ${e.message}');
+      rethrow;
+    }
+  }
+
+  static Future<Response> deleteAlarm(String id) async {
+    try {
+      return await dio.delete(
+        '/alarms/$id',
+      );
+    } on DioException catch (e) {
+      print('Delete Alarm Error: ${e.message}');
+      rethrow;
+    }
+  }
+
+  static Future<List<AlarmSound>> fetchPresetAlarmSounds() async {
+    try {
+      final response = await dio.get('/preset-alarm-sound');
+      if (response.data['success'] == true) {
+        print('test: already fetch alarm sounds');
+        List<dynamic> soundsJson = response.data['data'];
+        return soundsJson.map((json) => AlarmSound.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load preset alarm sounds');
+      }
+    } on DioException catch (e) {
+      print(e.message);
+      rethrow;
+    }
+  }
+
+  // sleep clinic
   static Future<List<LullabySong>> fetchLullabySongs() async {
     try {
       final response = await dio.get('/preset-lullaby-song');
@@ -28,10 +104,38 @@ class Caller {
         throw Exception('Failed to load songs');
       }
     } on DioException catch (e) {
+      print(e.message);
       rethrow;
     }
   }
 
+  static Future<Map<String, dynamic>> fetchSleepClinicData() async {
+    try {
+      final response = await dio.get(
+        '/sleep-clinic',
+      );
+      if (response.statusCode == 200) {
+        print("test: already fetch");
+        print(response.data["data"]);
+        return response.data["data"];
+      } else {
+        throw Exception('Failed to fetch sleep clinic data');
+      }
+    } on DioException catch (e) {
+      print(e.message);
+      rethrow;
+    }
+  }
+
+  static Future<Response> updateSleepClinicData(
+      String sleepClinicId, Map<String, dynamic> data) async {
+    return await dio.put(
+      '/sleep-clinic/$sleepClinicId',
+      data: data,
+    );
+  }
+
+  // error handling
   static handle(BuildContext context, DioException error) {
     if (error.response == null) {
       FlutterPlatformAlert.showAlert(

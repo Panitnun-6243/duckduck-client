@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/alarm_provider.dart';
 import '../../providers/light_provider.dart';
 import '../../widgets/home/bubble.dart';
 import '../../widgets/home/svg_mini_bulb.dart';
@@ -152,6 +153,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       });
     // start animation
     bubbleTwoController.forward();
+    Provider.of<AlarmProvider>(context, listen: false).initProvider();
   }
 
   @override
@@ -169,6 +171,39 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final lightProvider = context.watch<LightProvider>();
+    final alarmProvider = context.watch<AlarmProvider>();
+
+    String getNearestActiveAlarmTime() {
+      if (alarmProvider.alarms.isEmpty) {
+        return 'No alarms set';
+      }
+
+      // Get the current time
+      final currentTime = DateTime.now();
+
+      // Filter active alarms
+      final activeAlarms =
+          alarmProvider.alarms.where((alarm) => alarm.isActive.status);
+
+      if (activeAlarms.isEmpty) {
+        return 'No active alarms';
+      }
+
+      // Find the nearest active alarm based on time difference
+      final nearestAlarm = activeAlarms.reduce((a, b) {
+        final timeDifferenceA =
+            (currentTime.hour - a.wakeUpTime.hours).abs() * 60 +
+                (currentTime.minute - a.wakeUpTime.minutes).abs();
+        final timeDifferenceB =
+            (currentTime.hour - b.wakeUpTime.hours).abs() * 60 +
+                (currentTime.minute - b.wakeUpTime.minutes).abs();
+
+        return timeDifferenceA < timeDifferenceB ? a : b;
+      });
+
+      return '${nearestAlarm.wakeUpTime.hours.toString().padLeft(2, '0')}:${nearestAlarm.wakeUpTime.minutes.toString().padLeft(2, '0')}';
+    }
+
     Size size = MediaQuery.of(context).size;
 
     // Calculate the average height of the wave at its peak
@@ -230,47 +265,80 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     bottom: avgWaveHeight - 300 + bubbleOneAnimation.value,
                     left: size.width * 0.1, // Adjust as per need
                     child: BubbleWidget(
-                        width: 125.81219,
-                        height: 130,
-                        onTap: () => Navigator.pushNamed(context, '/alarm'),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Next Alarm',
-                              style: GoogleFonts.rubik(fontSize: 14),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        )),
+                      width: 125.81219,
+                      height: 130,
+                      onTap: () => Navigator.pushNamed(context, '/alarm'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Next Alarm',
+                            style: GoogleFonts.rubik(fontSize: 13),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            getNearestActiveAlarmTime(),
+                            style: GoogleFonts.rubik(
+                                fontSize: 24, fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   Positioned(
                     bottom: avgWaveHeight - 256 + bubbleTwoAnimation.value,
                     left: size.width * 0.5, // Adjust as per need
                     child: BubbleWidget(
-                        width: 155.05077,
-                        height: 160,
-                        onTap: () =>
-                            Navigator.pushNamed(context, '/light-control'),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Light',
-                              style: GoogleFonts.rubik(fontSize: 14),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            SvgMiniBulb(
-                              color: lightProvider.activeColor,
-                              brightness: lightProvider.brightness,
-                              assetName: 'assets/images/light-bulb-mini.svg',
-                            )
-                          ],
-                        )),
+                      width: 155.05077,
+                      height: 160,
+                      onTap: () =>
+                          Navigator.pushNamed(context, '/light-control'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Light',
+                            style: GoogleFonts.rubik(fontSize: 14),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          SvgMiniBulb(
+                            color: lightProvider.activeColor,
+                            brightness: lightProvider.brightness,
+                            assetName: 'assets/images/light-bulb-mini.svg',
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: avgWaveHeight - 405 + bubbleOneAnimation.value,
+                    left: size.width * 0.44, // Adjust as per need
+                    child: BubbleWidget(
+                      width: 115.05077,
+                      height: 120,
+                      onTap: () =>
+                          Navigator.pushNamed(context, '/sleep-clinic'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Sleep',
+                            style: GoogleFonts.rubik(fontSize: 13),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Image.asset(
+                            'assets/images/sleeping.png',
+                            height: 50,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -1,6 +1,6 @@
 class DimLight {
-  bool isActive;
-  int duration;
+  final bool isActive;
+  final int duration;
 
   DimLight({required this.isActive, required this.duration});
 

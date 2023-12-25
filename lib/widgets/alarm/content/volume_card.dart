@@ -5,7 +5,9 @@ import 'package:duckduck/utils/colors.dart';
 import 'package:duckduck/widgets/alarm/content/volume_slider.dart';
 
 class VoulmeCard extends StatefulWidget {
-  const VoulmeCard({super.key});
+  final double volume;
+  final void Function(double) onChanged;
+  const VoulmeCard({super.key, required this.volume, required this.onChanged});
 
   @override
   State<VoulmeCard> createState() => _VoulmeCardState();
@@ -44,7 +46,12 @@ class _VoulmeCardState extends State<VoulmeCard> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Container(width: 200, child: const VolumeSlider())
+                    Container(
+                        width: 200,
+                        child: VolumeSlider(
+                          startValue: widget.volume,
+                          onChanged: widget.onChanged,
+                        ))
                   ],
                 ),
               ],

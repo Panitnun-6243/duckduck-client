@@ -10,6 +10,7 @@ class AlarmButton extends StatelessWidget {
   final FontWeight fontWeight;
 
   const AlarmButton({
+    super.key,
     required this.label,
     this.icon,
     required this.backgroundColor,
@@ -23,7 +24,7 @@ class AlarmButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size(120, 45),
+        minimumSize: const Size(128, 45),
         elevation: 0,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(67.0)),
@@ -34,7 +35,7 @@ class AlarmButton extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (icon != null) ...[
-            Icon(icon, color: textColor, size: 24),
+            Icon(icon, color: textColor, size: 22),
             const SizedBox(width: 6),
           ],
           Text(
