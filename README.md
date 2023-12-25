@@ -1,18 +1,58 @@
-# duckduck
+# DuckDuck
 
-Smart Sunrise Alarm Clock Application (Mobile + IoT)
+DuckDuck is a comprehensive Smart Sunrise Alarm Clock Application that seamlessly integrates both mobile and IoT functionalities. This capstone project aims to deliver an enhanced wake-up experience through innovative features and technologies.
 
-## Getting Started
+## Installation
 
-This project is a starting point for a Flutter application.
+Download Flutter SDK by following this link: https://flutter.dev/docs/get-started/install
 
-A few resources to get you started if this is your first Flutter project:
+Medical check-up for your Flutter setup
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```
+  flutter doctor
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Dependencies
 
-fhfhjgjgj
+Clone the project
+
+```bash
+  git clone https://github.com/Panitnun-6243/duckduck-client.git
+```
+
+Install the required dependencies
+
+```bash
+  flutter pub get
+```
+
+## Running the App
+
+Start the application
+
+```bash
+  flutter run
+```
+
+## Authors
+
+### Chutirat Suasombatpattana
+
+- Student ID: 63130500205
+- Email: chutirat.earth12@gmail.com
+- Phone: 094-197-4851
+- Github profile: [@Chutirat](https://github.com/chutirat)
+
+### Anakin Thanainantha
+
+- Student ID: 63130500231
+- Email: thanainantha.anakin@gmail.com
+- Phone: 084-400-1100
+- Github profile: [@Black3800](https://github.com/Black3800)
+
+### Panitnun Suvannabun
+
+- Student ID: 63130500235
+- Email: panitnun.6243@gmail.com
+- Phone: 084-079-7769
+- Github profile: [@Panitnun-6243](https://github.com/Panitnun-6243)

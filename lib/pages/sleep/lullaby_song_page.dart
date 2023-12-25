@@ -1,6 +1,5 @@
 import 'package:duckduck/providers/sleep_provider.dart';
 import 'package:duckduck/widgets/sleep/lullaby_item.dart';
-import 'package:duckduck/widgets/sleep/upload_mp3_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +18,28 @@ class _LullabySongPageState extends State<LullabySongPage> {
   Widget build(BuildContext context) {
     Provider.of<SleepProvider>(context, listen: false).fetchAllSongs();
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        titleSpacing: 0,
+        title: Text(
+          'Lullaby',
+          style: GoogleFonts.rubik(
+              fontSize: 28,
+              fontWeight: FontWeight.w600,
+              color: DuckDuckColors.steelBlack),
+        ),
+        backgroundColor: DuckDuckColors.frostWhite,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: DuckDuckColors.steelBlack,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
@@ -26,19 +47,6 @@ class _LullabySongPageState extends State<LullabySongPage> {
             builder: (context, provider, child) {
               return Column(
                 children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      'Lullaby',
-                      style: GoogleFonts.rubik(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w600,
-                          color: DuckDuckColors.steelBlack),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
@@ -100,7 +108,6 @@ class _LullabySongPageState extends State<LullabySongPage> {
                           const SizedBox(
                             height: 30,
                           ),
-                          UploadMp3Button()
                         ],
                       ),
                     ),
