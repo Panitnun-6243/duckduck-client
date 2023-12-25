@@ -9,7 +9,7 @@ Download Flutter SDK by following this link: https://flutter.dev/docs/get-starte
 Medical check-up for your Flutter setup
 
 ```
-  flutter doctor
+flutter doctor
 ```
 
 ## Dependencies
@@ -17,13 +17,13 @@ Medical check-up for your Flutter setup
 Clone the project
 
 ```bash
-  git clone https://github.com/Panitnun-6243/duckduck-client.git
+git clone https://github.com/Panitnun-6243/duckduck-client.git
 ```
 
 Install the required dependencies
 
 ```bash
-  flutter pub get
+flutter pub get
 ```
 
 ## Running the App
@@ -31,7 +31,7 @@ Install the required dependencies
 Start the application
 
 ```bash
-  flutter run
+flutter run
 ```
 
 ## Authors
