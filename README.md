@@ -34,6 +34,11 @@ Start the application
 flutter run
 ```
 
+## Note
+
+- **Backend connection configuration:**
+  - When integrating the frontend, ensure that you modify the URL connection code to match your local environment, IP address, or domain. The current code is set to connect to the backend on a specific domain.
+
 ## Authors
 
 ### Chutirat Suasombatpattana
